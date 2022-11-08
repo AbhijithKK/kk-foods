@@ -459,6 +459,17 @@ let admincontrol = {
         db.proImageDelete(req.body).then(()=>{
             res.json('success')
         })
+    },
+    postSingleImageAdd:(req,res)=>{
+        try{
+            console.log(req.body,req.files);
+            db.profuctImageAdd(req.body,req.files).then(()=>{
+                res.json('success')
+            })
+           
+        }catch(err){
+
+        }
     }
 }
 

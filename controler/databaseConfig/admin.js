@@ -449,8 +449,21 @@ module.exports = {
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(data.proId)},{
                 $unset:{[`image2.${way}`]: 1}
             }).then((b)=>{
+                resolve()
                 console.log(b);
-            })
+            }).catch((err)=>reject(err))
+        })
+    },
+    profuctImageAdd:(data,image)=>{
+        return new Promise((resolve,reject)=>{
+            console.log(image.image2[0]);
+            let way=data.arrpos
+            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(data.proId)},{
+                $set:{[`image2.${way}`]:image.image2[0]}
+            }).then((b)=>{
+                console.log(b);
+                resolve()
+            }).catch((err)=>reject(err))
         })
     }
 

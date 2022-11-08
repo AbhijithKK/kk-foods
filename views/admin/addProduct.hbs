@@ -1,40 +1,42 @@
-<nav class="navbar navbar-expand-lg  bg-light"
+<section class=" ">  
+
+<nav class="navbar navbar-expand-lg  bg-light fixed-top"
   style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
   <div class="container">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">kk foods</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
-      <li class="nav-item active ">
-        <a class="nav-link " href="/admin/home">Dash bord</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/orderDetails">Order details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/userDetails">User Details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link"  href="/admin/coopen">Coopen Manage</a>
-      </li>
-       <li class="nav-item">
+    <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span></button>
+      <a class="navbar-brand" href="#">kk foods</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
+        <li class="nav-item active ">
+          <a class="nav-link " href="/admin/home">Dash bord</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/orderDetails">Order details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/userDetails">User Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
         </li>
-    </ul>
+      </ul>
 
-    <a href="/admin/logout" class="btn btn-outline-success btn-lg  ms-auto" >log out</a>
-  </div>
+      <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
+    </div>
   </div>
 </nav>
+</section>
 
 <div class="container">
     <div class="card mx-4 mx-md-5 shadow-5-strong" style="
@@ -54,14 +56,13 @@
                                 <label id="proName0" for="validationDefault01">product Name</label>
                                 <label id="proName" style="color: #ff3300;" for="validationDefault01"></label>
                                 <input type="text" class="form-control" id="validationDefault01" name="productName"
-                                    placeholder="product name" style="width: 160%;border-color: black;" required>
+                                    placeholder="product name" style="width: 16rem;border-color: black;" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="validationDefault02">catogery</label>
 
                                 <div class="dropdown">
-                                    <select class="btn btn-white dropdown-toggle" name="productCatogary" id="" style="
-                                width: 251px; border-color: black;" required>
+                                    <select class="btn btn-white dropdown-toggle" name="productCatogary" id="" style="width: 16rem; border-color: black;" required>
                                         <option class="dropdown-menu dropdown-menu-white" value="" style="width: 160%;">
                                             select catogary</option>
                                         {{#each data}}
@@ -77,7 +78,7 @@
                                 <label for="validationDefault02">discription</label>
 
                                 <textarea class="form-control" placeholder="add description" name="productDiscription"
-                                    aria-label="With textarea" style="width: 160%;border-color: black;"></textarea>
+                                    aria-label="With textarea" style="width: 16rem;border-color: black;"></textarea>
                             </div>
 
                         </div>
@@ -85,18 +86,18 @@
                             <div class="col-md-6 mb-3">
                                 <label for="validationDefault03">₹ price</label>
                                 <input type="number" class="form-control" id="validationDefault03" name="productPrize"
-                                    style="width: 107%;border-color: black;" placeholder="price" value="₹"  required min="0">
+                                    style="width: 16rem;border-color: black;" placeholder="price" value="₹"  required min="0">
                             </div>
 
                             <div class="col-md-3 mb-3">
                                 <label for="validationDefault05">Main Image  </label>
                                 <input type="file" class="form-control" id="validationDefault05" name="image1"
-                                    style="width: 216%;border-color: black;" placeholder="image" required>
+                                    style="width: 16rem;border-color: black;" placeholder="image" required>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="validationDefault05">Sub Image (max 3)</label>
                                 <input type="file" class="form-control" id="validationDefault05" name="image2"
-                                    style="width: 216%;border-color: black;" placeholder="image" multiple >
+                                    style="width: 16rem;border-color: black;" placeholder="image" multiple >
                             </div>
                         </div>
 
@@ -108,6 +109,7 @@
     </div>
 
 </div>
+
 <script>
   let name=document.addForm.productName;
   function validCheck(){
