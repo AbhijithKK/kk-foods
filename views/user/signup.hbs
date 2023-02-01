@@ -1,0 +1,68 @@
+  <!-- Sign up form -->
+        <section class="signup">
+            <div class="container" style="margin-top: 170px;">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <h5 style="color: red;">{{msg}}</h5>
+                        <form method="POST" class="register-form" action="/" id="register-form" name="form" onsubmit="return valid()">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name1" id="name" placeholder="Your Name" required/>
+                                <p id="namep" style="color: red;"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="pass" placeholder="Password"/>
+                                 <p id="pass1" style="color: red;"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password"/>
+                                 <p id="pass2" style="color: red;"></p>
+                            </div>
+                            
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="/stylesheets/logintemp/images/f7.png" alt="sing up image"></figure>
+                        <a href="/login" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            var names=document.form.name1;
+            var pass=document.form.password;
+            var re_pass=document.form.re_password;
+            function valid(){
+                if(names.value.charCodeAt()==32|| name.value==''){
+                    document.getElementById('namep').innerHTML="enter your full name"
+                    return false;
+                }
+                document.getElementById('namep').innerHTML=""
+                if(pass.value.length < 5){
+                    document.getElementById('pass1').innerHTML="password must 6 letter or above"
+                    return false;
+                }
+                document.getElementById('pass1').innerHTML=""
+                if(re_pass.value.length < 5){
+                    document.getElementById('pass2').innerHTML="password must 6 letter or above"
+                    return false;
+                }
+                 document.getElementById('pass2').innerHTML=""
+                 if(re_pass.value!==pass.value){
+                    document.getElementById('pass2').innerHTML="password not matched"
+                    return false;
+                }
+                 document.getElementById('pass2').innerHTML=""
+            }
+        </script>
