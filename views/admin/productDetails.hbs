@@ -19,7 +19,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/admin/userDetails">User Details</a>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/catogaryManage">catogary Manage</a>
+      </li>
     </ul>
 
     <button class="btn btn-outline-success btn-lg  ms-auto" type="submit">Login</button>
@@ -63,11 +65,11 @@
            
           <td>{{@index}}</td>
           {{!-- {{/with}} --}}
-          <td><img src="/images/{{this.imgid.[0]}}.jpg" alt="" style="width: 40px;height: 50px;"></td>
-          <td>{{this.data.productName}}</td>
-          <td>{{this.data.productCatogary}}</td>
-          <td>{{this.data.productDiscription}}</td>
-          <td>{{this.data.productPrize}}</td>
+          <td><img src="/images/{{this.image1.[0].filename}}" alt="" style="width: 40px;height: 50px;"></td>
+          <td>{{this.productName}}</td>
+          <td>{{this.productCatogary}}</td>
+          <td>{{this.productDiscription}}</td>
+          <td>{{this.productPrize}}</td>
           <td>{{this.del}}</td>
           <td>
             <a href="/admin/editproduct/{{this._id}}" class="btn btn-primary btn-block mb-4">edit</a>

@@ -38,19 +38,30 @@
                             <div class="col-md-4 mb-3">
                                 <label for="validationDefault01">product Name</label>
                                 <input type="text" class="form-control" id="validationDefault01" name="productName"
-                                    style="width: 160%;" value="{{data.data.productName}}" required>
+                                    style="width: 160%;" value="{{data.productName}}" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="validationDefault02">catogery</label>
-                                <input type="text" class="form-control" id="validationDefault02" name="productCatogary"
-                                    style="width: 160%;" value="{{data.data.productCatogary}}" required>
+
+                                 <div class="dropdown">
+                   <select class="btn btn-white dropdown-toggle"  name="productCatogary" id="" style="
+                                width: 290px; border-color: black;">
+                    <option class="dropdown-menu dropdown-menu-white" value="{{data.productCatogary}}"  style="width: 160%;">{{data.productCatogary}}</option>
+                    {{#each datas}}
+                    <option value="{{this.catogary}}">{{this.catogary}}</option>
+                     {{/each}}
+                   </select>
+                   </div>
+
+                                {{!-- <input type="text" class="form-control" id="validationDefault02" name="productCatogary" --}}
+                                    {{!-- style="width: 160%;" value="{{data.productCatogary}}" required> --}}
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="validationDefault02">discription</label>
 
                                 <textarea class="form-control" aria-valuetext="" name="productDiscription"
                                     aria-label="With textarea"
-                                    style="width: 160%;">{{data.data.productDiscription}}</textarea>
+                                    style="width: 160%;">{{data.productDiscription}}</textarea>
                             </div>
 
                         </div>
@@ -58,21 +69,21 @@
                             <div class="col-md-6 mb-3">
                                 <label for="validationDefault03">₹ price</label>
                                 <input type="number" class="form-control" id="validationDefault03" name="productPrize"
-                                    style="width: 107%;" value="{{data.data.productPrize}}" required>
+                                    style="width: 107%;" value="{{data.productPrize}}" required>
                             </div>
 
                             <div class="col-md-3 mb-3">
                                 <label for="validationDefault05">upload image 1 </label>
-                                <img src="/images/{{data.imgid.[0]}}.jpg" alt="" style="height: 50px;width: 40px;"
+                                <img src="/images/{{data.image1.[0].filename}}" alt="" style="height: 50px;width: 40px;"
                                     id="viewimage">
                                 <input type="file" class="form-control" id="validationDefault05" name="image1"
                                     style="width: 216%;" placeholder="image" onchange="viewimg(event)" required>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="validationDefault05">upload image 2</label>
-                                <img src="/images/{{data.imgid.[1]}}.jpg" alt="" style="height: 50px;width: 40px;">
+                                <img src="/images/{{data.image2.[0].filename}}" alt="" style="height: 50px;width: 40px;">
                                 <input type="file" class="form-control" id="validationDefault05" name="image2"
-                                    style="width: 216%;" placeholder="image" required>
+                                    style="width: 216%;" placeholder="image" multiple required>
                             </div>
                         </div>
 

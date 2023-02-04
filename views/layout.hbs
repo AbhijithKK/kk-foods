@@ -10,7 +10,11 @@
    
   </head>
   <body>
+
     {{{body}}}
+    {{#each projs}}
+    <script src="/javascripts/profilejs/{{this}}"></script>
+    {{/each}}
     {{#each js}}
     <script src="/stylesheets/logintemp/js/{{this}}"></script>
     {{/each}}

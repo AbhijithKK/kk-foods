@@ -46,7 +46,7 @@ module.exports={
     },
     addProduct:(data,imgid)=>{
         return new Promise((resolve,reject)=>{
-            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).insertOne({data,imgid:imgid}).then((rs)=>{
+            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).insertOne({...data,...imgid}).then((rs)=>{
                
                 resolve(rs.insertedId)
             })
@@ -72,6 +72,7 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
           let data=await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({_id:objectid(id)})
           resolve(data)
+         
         })
     },
     updateProduct:(id,datas,imgid)=>{
@@ -81,9 +82,53 @@ module.exports={
                 productCatogary:datas.productCatogary,
                 productDiscription:datas.productDiscription,
                 productPrize:datas.productPrize,
-                imgid:imgid
+                ...imgid
             }}).then((result)=>{
                 resolve(result)
+            })
+        })
+    },
+    catogatyAdd:(catogary)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('catogary').insertOne({catogary,block:"unBlock"}).then((resp)=>{
+                resolve(resp)
+            })
+        })
+    },
+    showCatogary:()=>{
+        return new Promise(async(resolve,reject)=>{
+           let cat=await db.get().collection('catogary').find().toArray()
+          
+          
+           resolve(cat)
+        })
+    },
+    blockCatogary:(id,data)=>{
+        return new Promise(async(resolve,reject)=>{
+         let a=await db.get().collection('catogary').updateOne({_id:objectid(id)},{$set:{block:data}})
+           resolve(a)
+        })
+    },
+    updateCatogary:(id,data)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('catogary').updateOne({_id:objectid(id)},{$set:{
+                catogary:data
+            }}).then((resp)=>{
+                resolve(resp)
+            })
+        })
+    },
+    findCatogary:(id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('catogary').findOne({_id:objectid(id)}).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
+    deleteCatogary:(id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('catogary').deleteOne({_id:objectid(id)}).then((data)=>{
+                resolve(data)
             })
         })
     }
