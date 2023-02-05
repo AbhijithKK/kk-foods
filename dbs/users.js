@@ -13,7 +13,7 @@ module.exports = {
     userAdd: (data) => {
         return new Promise(async (resolve, reject) => {
             data.password = await bcript.hash(data.password, 10)
-            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock",productId:[] }).then((result) => {
+            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock",productId:[],address:[]}).then((result) => {
                 resolve(result)
             })
         })
@@ -148,7 +148,7 @@ module.exports = {
             image.proImage=mailcheck.image.proImage;
           }
             
-            console.log('.......',data);
+            
             db.get().collection(collectionname.USER_COLLECTION).updateOne({_id:objectid(id)},{$set:{
                 name1:data.proName,
                 email:data.proEmail,
@@ -160,5 +160,14 @@ module.exports = {
                 resolve(ress)
             })
         })
+    },
+    address:(id,address)=>{
+        return new Promise(async(resolve,reject)=>{
+            if(address!=null ||address!=undefined || address!=''){
+         await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, { $addToSet: { address } })
+            }
+          let data=await db.get().collection(collectionname.USER_COLLECTION).findOne({_id:objectid(id)})
+           resolve(data.address)
+        })
     }
-}            
+}              

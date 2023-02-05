@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const db=require('./dbs/connection')
 var session=require('express-session')
-
+let cors=require('cors')
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 const { head } = require('./routes/user');
@@ -23,7 +23,7 @@ app.use((req,res,next)=>{
   next()
   })
   app.use(session({secret:"thisismysecrect",saveUninitialized:true,cookie:{maxAge:1000000},resave:false}))
-
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -3,33 +3,36 @@ var express = require('express');
 var db = require('../dbs/users')
 const mailer = require('../helpers/nodeMailer')
 
-let emailNotMarchc=null;
+let emailNotMarchc = null;
 let tempmail;
 var mailCheck = null;
 var emailNotMarch = null;
 let tempData;
 let otpMsg = null;
-let userId=null;
+let userId = null;
+
 const generateOTP = () => {
     return Math.floor(Math.random() * 100000);
 };
 let otp = generateOTP();
-
+//######### user contol start##########
 let usercotrol = {
     guestUserHome: (req, res) => {
         if (req.session.loginId != undefined) {
             res.redirect('/home')
         } else {
-        db.getProducts().then((products) => {
-            res.render('user/guestHome', {
-                css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css", "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                    "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css", "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'],
-                 products
+            db.getProducts().then((products) => {
+                res.render('user/guestHome', {
+                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'],
+                    products
+                })
+
             })
-        
-        })
-      }
+        }
     },
     login: function (req, res, next) {
         if (req.session.loginId != undefined) {
@@ -40,7 +43,11 @@ let usercotrol = {
             } else {
                 msg = emailNotMarch;
             }
-            res.render('user/login', { css: ['/stylesheets/login.css', "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css"], msg });
+            res.render('user/login', {
+                css: ['/stylesheets/login.css',
+                    "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css", 
+                     "/stylesheets/logintemp/css/style.css",], msg
+            });
             emailNotMarch = null;
         }
     },
@@ -50,36 +57,42 @@ let usercotrol = {
         } else {
             msg = mailCheck;
         }
-        res.render('user/signup', { css: ['/stylesheets/login.css', "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css"], msg })
+        res.render('user/signup', {
+            css: ['/stylesheets/login.css',
+                "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css",
+                "/stylesheets/logintemp/css/style.css"], msg
+        })
         mailCheck = null;
     },
     mainHome: (req, res) => {
         db.doblock(req.session.loginId).then((resp) => {
-        if(resp!=null){
-            if (resp.block!='unBlock' || !res.block) {
+            if (resp != null) {
+                if (resp.block != 'unBlock' || !res.block) {
 
-                if (req.session.loginId == undefined) {
-                    res.redirect('/login')
-                } else {
-                    db.getProducts().then((products) => {
-                        userId=resp._id;
-                        res.render('user/home', {
-                            css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css", "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                                "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css", "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                             js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products
+                    if (req.session.loginId == undefined) {
+                        res.redirect('/login')
+                    } else {
+                        db.getProducts().then((products) => {
+                            userId = resp._id;
+                            res.render('user/home', {
+                                css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                                    "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                                    "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products
+                            })
                         })
-                    })
 
-   
+
+                    }
+                } else {
+
+                    req.session.loginId = undefined;
+                    res.redirect('/login')
                 }
             } else {
-
-                req.session.loginId = undefined;
                 res.redirect('/login')
             }
-        }else{
-            res.redirect('/login')
-        }
         })
     },
     otpPage: (req, res) => {
@@ -168,104 +181,159 @@ let usercotrol = {
             res.redirect('/login')
         })
     },
-    singleProductView:(req,res)=>{
+    singleProductView: (req, res) => {
         if (req.session.loginId != undefined) {
-          
-        db. getCatogaryProducts(req.query.catogery).then((data)=>{
-          let brg;
-          let piz;
-          let chk;
-          console.log(data[0].productCatogary);
-          if(data[0].productCatogary=='burger'){
-            brg="active"
-            piz=null;
-            chk=null;
-      
-          }else if(data[0].productCatogary=='pizza'){
-            piz="active"
-            brg=null;
-            chk=null;
-          }else if(data[0].productCatogary=='chiken'){
-            chk="active"
-            piz=null;
-            brg=null;
-          }
-        res.render('user/singleProductview',{css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css", "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css", "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'],data,brg,piz,chk})
-      })
-        }else{
-          res.redirect('/login')
-        }
-      },
-      cartProductadd:(req,res)=>{
-        if (req.session.loginId != undefined) {
-        db.cartProductAdd(req.query.productId,userId).then((product)=>{
-           
-       
-        res.render('user/cart',{css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css", "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css", "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'],product})
-      }).catch((err)=>{
-        res.redirect('/cart')
-      })
-    }else{
-        res.redirect('/login')
-      }
 
-      },
+            db.getCatogaryProducts(req.query.catogery).then((data) => {
+                let brg;
+                let piz;
+                let chk;
+                console.log(data[0].productCatogary);
+                if (data[0].productCatogary == 'burger') {
+                    brg = "active"
+                    piz = null;
+                    chk = null;
+
+                } else if (data[0].productCatogary == 'pizza') {
+                    piz = "active"
+                    brg = null;
+                    chk = null;
+                } else if (data[0].productCatogary == 'chiken') {
+                    chk = "active"
+                    piz = null;
+                    brg = null;
+                }
+                res.render('user/singleProductview', {
+                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk
+                })
+            })
+        } else {
+            res.redirect('/login')
+        }
+    },
+    cartProductadd: (req, res) => {
+        if (req.session.loginId != undefined) {
+            db.cartProductAdd(req.query.productId, userId).then((product) => {
+
+
+                res.render('user/cart', {
+                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product
+                })
+            }).catch((err) => {
+                res.redirect('/cart')
+            })
+        } else {
+            res.redirect('/login')
+        }
+
+    },
     userLogout: (req, res) => {
-       
+
         req.session.loginId = undefined;
         res.redirect('/')
-    } ,
-    cartDelet:(req,res)=>{
+    },
+    cartDelet: (req, res) => {
         if (req.session.loginId != undefined) {
-        db.delCartitem(userId,req.query.id).then((ress=>{
-          res.redirect('/cart')
-        }))
-    }else{
-        res.redirect('/login')
-      }
-      },
-     
-      profilEdit:(req,res)=>{
-        if (req.session.loginId != undefined) {
-        db.profile(userId).then((userData)=>{
-            let proImag=null;
-            if(userData.image!=null){
-                
-            proImag=userData.image.proImage[0].filename;
-            }
-            
+            db.delCartitem(userId, req.query.id).then((ress => {
+                res.redirect('/cart')
+            }))
+        } else {
+            res.redirect('/login')
+        }
+    },
 
-            
-      if(emailNotMarchc!=null){
-        emailNotMarchc=emailNotMarch
-      }
-        res.render('user/profilePage',{css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css", "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css", "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css",'/stylesheets/profile.css'],
-        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'],userData,emailNotMarch,proImag})
-    })
-    emailNotMarchc=null
-}else{
-    res.redirect('/login')
-  }
-    },post_profileUpdate:(req,res)=>{
-        db.emailverify(req.body.proEmail).then((resp)=>{
-            console.log('//////',resp);
-            if(resp.email==null || resp.email==''){
-                
-                db.profileUpdate(userId,req.body,req.files).then((resp)=>{
-                    res.redirect('/profile')
-                   })
-                }else{
-                    emailNotMarchc="already exist";
-                    res.redirect('/profile')
+    profilEdit: (req, res) => {
+        if (req.session.loginId != undefined) {
+            db.profile(userId).then((userData) => {
+                let addrs = userData.address
+                let proImag = null;
+                if (userData.image != null) {
+
+                    proImag = userData.image.proImage[0].filename;
                 }
+
+
+
+                if (emailNotMarchc != null) {
+                    emailNotMarchc = emailNotMarch
+                }
+                res.render('user/profilePage', {
+                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css",
+                        '/stylesheets/profile.css'],
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], userData, emailNotMarch, proImag, addrs
+                })
+            })
+            emailNotMarchc = null
+        } else {
+            res.redirect('/login')
+        }
+    }, post_profileUpdate: (req, res) => {
+        db.emailverify(req.body.proEmail).then((resp) => {
+
+            if (resp.email == null || resp.email == '') {
+
+                db.profileUpdate(userId, req.body, req.files).then((resp) => {
+                    res.redirect('/profile')
+                })
+            } else {
+                emailNotMarchc = "already exist";
+                res.redirect('/profile')
+            }
         })
-       
-        
-     }
+
+
+    },
+    Post_profileAddess: (req, res) => {
+        if (req.session.loginId != undefined) {
+            db.address(userId, req.body.address).then((resp) => {
+                res.json(resp)
+            })
+        } else {
+            emailNotMarchc = "already exist";
+            res.redirect('/profile')
+        }
+    },
+    paymentAddressGet: (req, res) => {
+        if (req.session.loginId != undefined) {
+            db.address(userId).then((addr) => {
+                res.render('user/payment', {
+                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr
+                })
+            })
+        } else {
+            emailNotMarchc = "already exist";
+            res.redirect('/profile')
+        }
+    },
+    successpage: (req, res) => {
+        if (req.session.loginId != undefined) {
+            res.render('user/success', {
+                css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                    "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
+                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js']
+            })
+
+        } else {
+            emailNotMarchc = "already exist";
+            res.redirect('/profile')
+        }
+    }
 }
 module.exports = usercotrol
