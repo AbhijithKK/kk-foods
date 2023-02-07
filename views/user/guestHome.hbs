@@ -29,8 +29,8 @@
                   <input
                     style=" width: 100%;height: 2.8rem;background: #f5f5f5;
                                  outline: none;border: none;border-radius: 1.625rem;padding: 0 3.5rem 0 1.5rem; font-size: 1rem;"
-                    type="text" name="searchQueryInput" placeholder="Search" value="" />
-                  <button style=" width: 3.5rem;height: 2.8rem;
+                    type="text" name="searchQueryInput" placeholder="Search" value="" id="searchFood" />
+                  <button id="submitSearch" style=" width: 3.5rem;height: 2.8rem;
                                    margin-left: -3.5rem;background: none;border: none; outline: none;" type="submit"
                     name="searchQuerySubmit">
                     <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -43,67 +43,7 @@
             </li>
           </ul>
           <div class="user_option">
-            {{!-- user icon --}}
-            {{!-- <a href="" class="user_link">
-              <i class="fa fa-user" aria-hidden="true"></i>
-            </a> --}}
-            {{!-- cart --}}
-            {{!-- <a class="cart_link" href="#">
-              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
-                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                <g>
-                  <g>
-                    <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                  </g>
-                </g>
-                <g>
-                  <g>
-                    <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                  </g>
-                </g>
-                <g>
-                  <g>
-                    <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                  </g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-              </svg>
-            </a> --}}
+
             <form class="form-inline">
               <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
                 {{!-- <i class="fa fa-search" aria-hidden="true"></i> --}}
@@ -122,6 +62,7 @@
   <section class="slider_section ">
     <div id="customCarousel1" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
+        {{!-- hide1 --}}
         <div class="carousel-item active">
           <div class="container ">
             <div class="row">
@@ -147,13 +88,7 @@
 
       </div>
     </div>
-    {{!-- <div class="container">
-      <ol class="carousel-indicators">
-        <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-        <li data-target="#customCarousel1" data-slide-to="1"></li>
-        <li data-target="#customCarousel1" data-slide-to="2"></li>
-      </ol>
-    </div> --}}
+
 </div>
 
 </section>
@@ -327,19 +262,25 @@
 
     <ul class="filters_menu">
       <li class="active" data-filter="*">All</li>
-     <a href="/singleProductview?catogery=burger" style="color: black;"> <li data-filter=".burger">Burger</li></a>
-    <a href="/singleProductview?catogery=pizza" style="color: black;">  <li data-filter=".pizza">Pizza</li></a>
-     <a href="/singleProductview?catogery=chiken" style="color: black;"><li data-filter=".pasta">chikken items</li></a>
+      <a href="/singleProductview?catogery=burger" style="color: black;">
+        <li data-filter=".burger">Burger</li>
+      </a>
+      <a href="/singleProductview?catogery=pizza" style="color: black;">
+        <li data-filter=".pizza">Pizza</li>
+      </a>
+      <a href="/singleProductview?catogery=chiken" style="color: black;">
+        <li data-filter=".pasta">chikken items</li>
+      </a>
 
     </ul>
 
-    <div class="filters-content">
+    <div class="filters-content" id="frond_endProduct">
       <div class="row grid">
-       
+
         {{!-- start --}}
-        
+
         {{#each products}}
-      
+
         <div class="col-sm-6 col-lg-4 all pizza">
           <div class="box">
             <div>
@@ -348,14 +289,14 @@
               </div>
               <div class="detail-box">
                 <h5>
-                 {{this.productName}}
+                  {{this.productName}}
                 </h5>
                 <p>
                   {{this.productDiscription}}
                 </p>
                 <div class="options">
                   <h6>
-                   ₹ {{this.productPrize}}
+                    ₹ {{this.productPrize}}
                   </h6>
                   <a href="/cart?productId={{this._id}}">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -382,36 +323,21 @@
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                         </g>
                       </g>
+                      <g></g>
+                      <g></g>
+                      <g> </g>
+                      <g> </g>
                       <g>
                       </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
+                      <g></g>
+                      <g> </g>
+                      <g></g>
+                      <g> </g>
+                      <g></g>
+                      <g> </g>
+                      <g> </g>
+                      <g></g>
+                      <g> </g>
                     </svg>
                   </a>
                 </div>
@@ -419,13 +345,25 @@
             </div>
           </div>
         </div>
-        
+
         {{/each}}
-      {{!-- end --}}
-        
-   
+
       </div>
     </div>
+    {{!-- end --}}
+
+    <div class="filters-content" >
+      <div class="row grid"  >
+        <div id="frond_endProductSearch">
+     
+      
+        {{!-- start --}}
+
+        
+        </div>
+      </div>
+    </div>
+    {{!-- end --}}
     <div class="btn-box">
       <a href="">
         View More
@@ -471,66 +409,7 @@
 
 <!-- end about section -->
 
-<!-- book section -->
-{{!-- <section class="book_section layout_padding">
-  <div class="container">
-    <div class="heading_container">
-      <h2>
-        Book A Table
-      </h2>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form_container">
-          <form action="">
-            <div>
-              <input type="text" class="form-control" placeholder="Your Name" />
-            </div>
-            <div>
-              <input type="text" class="form-control" placeholder="Phone Number" />
-            </div>
-            <div>
-              <input type="email" class="form-control" placeholder="Your Email" />
-            </div>
-            <div>
-              <select class="form-control nice-select wide">
-                <option value="" disabled selected>
-                  How many persons?
-                </option>
-                <option value="">
-                  2
-                </option>
-                <option value="">
-                  3
-                </option>
-                <option value="">
-                  4
-                </option>
-                <option value="">
-                  5
-                </option>
-              </select>
-            </div>
-            <div>
-              <input type="date" class="form-control">
-            </div>
-            <div class="btn_box">
-              <button>
-                Book Now
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="map_container ">
-          <div id="googleMap"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- end book section --> --}}
+
 
 <!-- client section -->
 
@@ -682,4 +561,102 @@
 </script>
 <!-- owl slider -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+</script>
+<script>
+  let searchVal = '';
+  let val='';
+ 
+   let serchResp= document.getElementById('frond_endProductSearch')
+  let mainshowItem = document.getElementById('frond_endProduct')
+  let bodyHeiight = document.querySelector('.hero_area')
+  let offerSection = document.querySelector('.offer_section')
+  let sliderSection = document.querySelector('.slider_section')
+  let sea = document.getElementById('searchFood')
+  let btn = document.getElementById('submitSearch')
+  sea.addEventListener('input', itemSearch)
+  function itemSearch() {
+    console.log(sea.value)
+    if (sea.value == '' || sea.value.charCodeAt() == 32) {
+      serchResp.style.display='none';
+      mainshowItem.style.display = "block"
+      bodyHeiight.style.minHeight = "100vh"
+      offerSection.style.display = "block"
+      sliderSection.style.display = "block"
+    } else {
+      mainshowItem.style.display = "none"
+      bodyHeiight.style.minHeight = "90px"
+      offerSection.style.display = "none"
+      sliderSection.style.display = "none"
+       serchResp.style.display= "contents"
+      fetch('http://localhost:3000/search', {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: sea.value })
+      }).then((data) => data.json())
+        .then((data) => {
+         data.forEach((dd) => {
+          val=dd
+           if(val._id==val._id){
+             serchResp.innerHTML +=`
+<div class="col-sm-6 col-lg-4 all pizza">
+          <div class="box">
+            <div>
+              <div class="img-box">
+                <img src="/images/${val.image1[0].filename}" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  ${val.productName}
+                </h5>
+                <p>
+                  ${val.productDiscription}
+                </p>
+                <div class="options">
+                  <h6>
+                    ₹ ${val.productPrize}
+                  </h6>
+                  <a href="/cart?productId=${data._id}">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
+                      style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                      <g>
+                        <g>
+                          <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                         c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                         C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                         c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                         C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                         c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                        </g></g> <g></g> <g></g> <g> </g><g> </g><g> </g> <g></g> <g> </g> <g></g> <g> </g> <g></g><g> </g><g> </g> <g></g> <g> </g>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         `
+           }
+           
+          })
+          
+        })
+        serchResp.innerHTML =''
+    }
+   
+  }
+
 </script>

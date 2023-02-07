@@ -5,7 +5,7 @@ const { adminHome, productDetails, orderdetails, userDetails, addproducts, editP
             adminlogin, post_catogaryAdd, catogaryManage, editCatogary, post_updatecatogary,
              catogaryBlock, catogaryDelete } = require('../controler/admincontrol');
 const { multiUpload } = require('../helpers/multer');
-var db = require('../dbs/admin')
+var db = require('../controler/databaseConfig/admin')
 
 /* GET users listing. */
 router.get('/', adminlogin);

@@ -473,7 +473,7 @@ let addShow=document.getElementById('addressDisplay')
       body:JSON.stringify({address:text.value})
     }).then((data)=>data.json()).then((resp)=>{
       action=resp.slice(-1)
-       alert('address added')
+      
     })
     addShow.innerHTML+=`<p>${action}</p>`
    
