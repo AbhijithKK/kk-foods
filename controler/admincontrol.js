@@ -15,13 +15,15 @@ let admincontrol = {
                 res.redirect('/admin/Home')
             }
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/admin/',{css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
         }
     },
     adminHome: (req, res) => {
         try {
             if (req.session.adminLogin != undefined) {
-                res.render('admin/adminHome')
+                res.render('admin/adminHome',{css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
 
             } else {
                 res.redirect('/admin/')
@@ -35,7 +37,8 @@ let admincontrol = {
             if (req.session.adminLogin != undefined) {
                 db.showProducts().then((product) => {
 
-                    res.render('admin/productDetails', { product })
+                    res.render('admin/productDetails', { product ,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
                 }).catch((err) => {
                     res.redirect('/admin/')
                 })
@@ -63,7 +66,8 @@ let admincontrol = {
             if (req.session.adminLogin != undefined) {
                 db.userData().then((result) => {
 
-                    res.render('admin/userDetails', { result })
+                    res.render('admin/userDetails', { result,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
                 }).catch((err) => {
                     res.redirect('/admin/')
                 })
@@ -85,7 +89,8 @@ let admincontrol = {
                         }
                     }
 
-                    res.render('admin/addProduct', { data })
+                    res.render('admin/addProduct', { data,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
                 }).catch((err) => {
                     res.redirect('/admin/')
                 })
@@ -108,7 +113,8 @@ let admincontrol = {
                                 datas.push(cat[i])
                             }
                         }
-                        res.render('admin/editProduct', { data, datas })
+                        res.render('admin/editProduct', { data, datas,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
                     }).catch((err) => {
                         res.redirect('/admin/')
                     })
@@ -226,7 +232,8 @@ let admincontrol = {
                     } else {
                         data = catogarydetails
                     }
-                    res.render('admin/catogaryManage', { catogary, data })
+                    res.render('admin/catogaryManage', { catogary, data ,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
                     catogarydetails = null;
                 }).catch((err) => {
                     res.redirect('/admin/')
@@ -241,9 +248,11 @@ let admincontrol = {
     editCatogary: (req, res) => {
         try {
             if (req.session.adminLogin != undefined) {
-                db.findCatogary(req.params.id).then((data) => {
+                console.log(req.body.id);
+                db.findCatogary(req.body.id).then((data) => {
+                    console.log(data);
                     catogarydetails = data
-                    res.redirect('/admin/catogaryManage')
+                    res.json(data)
                 }).catch((err) => {
                     res.redirect('/admin/')
                 })

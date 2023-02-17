@@ -52,7 +52,7 @@ module.exports = {
     },
     addProduct: (data, imgid) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).insertOne({ ...data, ...imgid }).then((rs) => {
+            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).insertOne({ ...data, ...imgid,del:"unflage" }).then((rs) => {
 
                 resolve(rs.insertedId)
             }).catch((err) => {
@@ -165,7 +165,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection('catogary').findOne({ _id: objectid(id) }).then((data) => {
                 resolve(data)
-            }).then((err) => {
+            }).catch((err) => {
                 reject(err)
             })
         })
@@ -174,9 +174,53 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection('catogary').deleteOne({ _id: objectid(id) }).then((data) => {
                 resolve(data)
-            }).then((err) => {
+            }).catch((err) => {
                 reject(err)
             })
+        })
+    },
+    coopenAdd:(data)=>{
+        return new Promise(async(resolve,reject)=>{
+            try{
+            db.get().collection('coopen').insertOne({...data,cpList:"Unlist"})
+            let res=await db.get().collection('coopen').find().toArray()
+            
+            resolve(res)
+            }catch(e){
+                reject(e)
+            }
+            
+        })
+    },
+    coopenFind:()=>{
+       
+        return new Promise(async(resolve,reject)=>{
+            try{
+            let res=await db.get().collection('coopen').find().toArray()
+            
+                resolve(res)
+            }catch(e){
+                reject(e)
+            }
+        })
+    },
+    cpList:(id,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            try{
+                let val=''
+                if(data=='Unlist'){
+                    val='List';
+                }else{
+                    val='Unlist';
+                }
+            await db.get().collection('coopen').updateOne({_id:objectid(id)},{$set:{
+                cpList:val
+            }})
+            let res=await db.get().collection('coopen').findOne({_id:objectid(id)})
+                resolve(res.cpList)
+            }catch(e){
+                reject(e)
+            }
         })
     }
 }

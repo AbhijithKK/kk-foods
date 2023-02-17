@@ -6,7 +6,12 @@ const { guestUserHome, login, signup, mainHome, otpPage, post_Otp, resendOtp, po
         Post_profileAddess,
         paymentAddressGet,
         successpage, 
-        productSearch} = require('../controler/userControl');
+        productSearch,
+        post_count,
+        addressDelete,
+        updateAdd,
+        addget,
+        post_coopenAppply} = require('../controler/userControl');
 const proImageupload = require('../helpers/profileMulter')
 
 
@@ -34,5 +39,10 @@ router.get('/logout', userLogout)
 
 router.post('/search',productSearch )
 
+router.post("/count",post_count)
+router.post('/addDelete',addressDelete)
+router.post('/updateAddress',updateAdd)
 
+router.get('/getAddress',addget)
+router.post('/coopenapply',post_coopenAppply)
 module.exports = router; 

@@ -19,14 +19,42 @@ router.get('/block/:id', blockuser)
 router.get('/unblock/:id', unblockUsers)
 router.get('/catogaryManage', catogaryManage)
 router.get('/productDelete', post_admin_deleteProduct)
-router.get('/editCatogary/:id', editCatogary)
+
 router.get('/catogaryBlock', catogaryBlock)
 router.get('/catogaryDelete', catogaryDelete)
+
+router.get('/coopen',(req,res)=>{
+   db.coopenFind().then((result)=>{
+      console.log(result);
+   res.render('admin/coopenManagement',{css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
+                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",],result})
+                           }).catch((e)=>{
+                              res.redirect('admin/')
+                           })
+})
+
+
 // post
+router.post('/editCatogary', editCatogary)
 router.post("/Home", post_adminhome)
 router.post('/catogaryAdd', post_catogaryAdd)
 router.post('/addProduct', multiUpload, post_admin_addproduct)
 router.post('/editProduct/:id', multiUpload, post_admin_editproduct)
 router.post('/updateCatogary/:id', post_updatecatogary)
+router.post('/addCoopen',(req,res)=>{
+   db.coopenAdd(req.body).then((data)=>{
+      res.json(data)
+   }).catch((e)=>{
+      res.redirect('admin/')
+   })
+})
+router.post('/coopelist',(req,res)=>{
+   db.cpList(req.body.id,req.body.data).then((data)=>{
+      res.json(data)
+   }).catch((e)=>{
+      res.redirect('admin/')
+   })
+   
+})
 
 module.exports = router;  

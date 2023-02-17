@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg  bg-light"
   style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
+  <div class="container">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
     aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">Logo</a>
+    <a class="navbar-brand" href="#">kk foods</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
       <li class="nav-item active ">
         <a class="nav-link " href="/admin/home">Dash bord</a>
@@ -20,11 +21,16 @@
         <a class="nav-link" href="/admin/userDetails">User Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="font-weight: bold;" href="/admin/catogaryManage">catogary Manage</a>
+        <a class="nav-link" style="font-weight: bold;" href="/admin/catogaryManage">Catogary Manage</a>
+      </li>
+      
+       <li class="nav-item">
+        <a class="nav-link"  href="/admin/coopen">Coopen Manage</a>
       </li>
     </ul>
 
     <button class="btn btn-outline-success btn-lg  ms-auto" type="submit">Logout</button>
+  </div>
   </div>
 </nav>
 
@@ -43,15 +49,17 @@
         <div class="ms-auto" id="addCatogary">
           <form class=" form-inline my-2 my-lg-0 ms-auto" method="post" action="/admin/catogaryAdd">
             <input class="form-control mr-sm-2" type="text" name="catogaryAdd" style="width: 200px;"
-              placeholder="add new catogary">
+              placeholder="add new catogary" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">Add</button>
           </form>
         </div>
 
         <div class="ms-auto" id="editCatogary">
+          <button class="btn" onclick="closeedit()">x</button>
           <form class=" form-inline my-2 my-lg-0 ms-auto" method="post" action="/admin/updateCatogary/{{data._id}}">
-            <input class="form-control mr-sm-2" type="text" value="{{data.catogary}}" name="catogaryAdd"
-              style="width: 200px;" placeholder="click edit btn then change">
+          
+            <input id="editCatogatyName" class="form-control mr-sm-2" type="text" value="" name="catogaryAdd"
+              style="width: 200px;" placeholder="click edit btn then change" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">submit</button>
           </form>
         </div>
@@ -81,7 +89,7 @@
           <td>{{this.catogary}}</td>
 
           <td>
-            <a onclick="edit()" href="/admin/editCatogary/{{this._id}}" class="btn btn-primary btn-block mb-4">edit</a>
+            <a onclick="edit('{{this._id}}')" class="btn btn-primary btn-block mb-4">edit</a>
             <a href="/admin/catogaryBlock?id={{this._id}}&delet={{this.block}}" class="btn btn-danger btn-block mb-4"
               onclick="return confirm('Are you sure ?')">{{this.block}}</a>
           </td>
@@ -98,26 +106,27 @@
 </section>
 <script>
   
-  let blk = document.getElementById("addCatogary").style.display = "block";
+ document.getElementById("addCatogary").style.display = "block";
   document.getElementById("editCatogary").style.display = "none";
-  let ab;
-  function edit() {
-    let a = 30000
-    localStorage.setItem(time: a)
-    let c = localStorage.getItem(time: a)
-    c = ab;
+ 
+  function edit(id) {
+    document.getElementById("addCatogary").style.display = "none";
+  document.getElementById("editCatogary").style.display = "block";
+  fetch('http://localhost:3000/admin/editCatogary',{
+    method:"post",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({id:id})
+  }).then((data)=>data.json()).then((data)=>{
+    console.log(data)
+    document.getElementById('editCatogatyName').value=data.catogary
+  })
+ 
   }
-
-  var countDownTime = a;
-  var x = setInterval(function () {
-    countDownTime -= 1000;
-    var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
-
-    if (countDownTime < 0) {
-      clearInterval(x);
-      document.getElementById("addCatogary").style.display = "none";
-      document.getElementById("editCatogary").style.display = "block";
-    }
-  }, 1000);
-
+function closeedit(){
+  document.getElementById("addCatogary").style.display = "block";
+  document.getElementById("editCatogary").style.display = "none";
+ 
+}
 </script>

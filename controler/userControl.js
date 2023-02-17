@@ -1,7 +1,8 @@
 
 
 const db = require('./databaseConfig/users')
-const mailer = require('../helpers/nodeMailer')
+const mailer = require('../helpers/nodeMailer');
+const { json } = require('express');
 
 let emailNotMarchc = null;
 let tempmail;
@@ -10,6 +11,9 @@ var emailNotMarch = null;
 let tempData;
 let otpMsg = null;
 let userId = null;
+let total = 0;
+let cartProducts;
+
 
 const generateOTP = () => {
     return Math.floor(Math.random() * 100000);
@@ -80,7 +84,7 @@ let usercotrol = {
     },
     mainHome: (req, res) => {
         try {
-            let  proImag;
+            let proImag;
             db.doblock(req.session.loginId).then((resp) => {
                 if (resp != null) {
                     if (resp.block != 'unBlock' || !res.block) {
@@ -90,23 +94,30 @@ let usercotrol = {
                         } else {
                             db.getProducts().then((products) => {
                                 userId = resp._id;
-                                db.profile(userId).then(async(userData)=>{
-                                    
-                                    if (userData.image != null) {
+                                db.profile(userId).then(async (userData) => {
+                                    console.log('imageeeee', userData);
 
-                                        proImag =await userData.image.proImage[0].filename;
-                                        
+                                    if (userData.image != null) {
+                                        if (userData.image.proImage != null) {
+
+                                            proImag = await userData.image.proImage[0].filename;
+                                        } else {
+                                            proImag = null
+                                        }
+
+                                    } else {
+                                        proImag = null
                                     }
-                
-                               
-                                res.render('user/home', {
-                                    css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                                        "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                                        "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag,userData
+
+
+                                    res.render('user/home', {
+                                        css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                                            "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag, userData
+                                    })
                                 })
-                            })
                             })
 
 
@@ -193,7 +204,7 @@ let usercotrol = {
     },
     post_userData: (req, res) => {
         try {
-            db.emailverify(req.body.email).then((resp) => {
+            db.emailverify(req.body.Emailverify).then((resp) => {
                 if (resp == null) {
                     tempmail = req.body.email
                     mailer(req.body.email, otp)
@@ -203,8 +214,8 @@ let usercotrol = {
 
                     res.redirect('/otp')
                 } else {
-                    mailCheck = "Already have an account"
-                    res.redirect('/signup')
+
+                    res.json('This Email Already Exists')
                 }
             }).catch((err) => {
                 res.redirect('/')
@@ -257,12 +268,28 @@ let usercotrol = {
                         piz = null;
                         brg = null;
                     }
-                    res.render('user/singleProductview', {
-                        css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                            "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk
+                    db.profile(userId).then(async (userData) => {
+                        console.log('imageeeee', userData);
+
+                        if (userData.image != null) {
+                            if (userData.image.proImage != null) {
+
+                                proImag = await userData.image.proImage[0].filename;
+                            } else {
+                                proImag = null
+                            }
+
+                        } else {
+                            proImag = null
+                        }
+
+                        res.render('user/singleProductview', {
+                            css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                                "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                                "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk, proImag, userData
+                        })
                     })
                 }).catch((err) => {
                     res.redirect('/')
@@ -277,15 +304,52 @@ let usercotrol = {
     cartProductadd: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
+
                 db.cartProductAdd(req.query.productId, userId).then((product) => {
+                    let totalcartCount = product.length;
+                    db.profile(userId).then(async (userData) => {
+                        req.session.userDetails = userData
+                        for (let i = 0; i < product.length; i++) {
+                            for (let j = 0; j < userData.cart.length; j++) {
+                                if (product[i]._id == userData.cart[j].productId) {
+                                    product[i].count = userData.cart[j].quantity
+                                }
+                            }
+                        }
+                        if (total != 0) {
+                            total = 0
+                        }
+                        for (let i = 0; i < product.length; i++) {
+                            for (let j = 0; j < userData.cart.length; j++) {
+                                if (product[i]._id == userData.cart[j].productId) {
+                                    total += product[i].productPrize * product[i].count
+                                }
+                            }
+                        }
 
+                        if (userData.image != null) {
+                            if (userData.image.proImage != null) {
 
-                    res.render('user/cart', {
-                        css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                            "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product
+                                proImag = await userData.image.proImage[0].filename;
+                            } else {
+                                proImag = null
+                            }
+
+                        } else {
+                            proImag = null
+                        }
+
+                        console.log('countssss', product);
+
+                        res.render('user/cart', {
+                            css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                                "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                                "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product, proImag, userData, total, totalcartCount
+                        })
+
+                        cartProducts = product;
                     })
                 }).catch((err) => {
                     res.redirect('/cart')
@@ -299,7 +363,7 @@ let usercotrol = {
 
     },
     userLogout: (req, res) => {
-
+        total = 0;
         req.session.loginId = undefined;
         res.redirect('/')
     },
@@ -325,9 +389,15 @@ let usercotrol = {
                 db.profile(userId).then((userData) => {
                     let addrs = userData.address
                     let proImag = null;
-                    if (userData.image != null) {
 
-                        proImag = userData.image.proImage[0].filename;
+                    if (userData.image != null) {
+                        if (userData.image.proImage != null) {
+                            proImag = userData.image.proImage[0].filename;
+                        } else {
+                            proImag = null
+                        }
+                    } else {
+                        proImag = null
                     }
 
 
@@ -353,23 +423,29 @@ let usercotrol = {
         } catch (e) {
             res.redirect('/')
         }
-    }, post_profileUpdate: (req, res) => {
+    },
+    post_profileUpdate: (req, res) => {
         try {
+
             db.emailverify(req.body.proEmail).then((resp) => {
 
-                if (resp.email == null || resp.email == '') {
+                if (resp == null || resp.email == null) {
+                    console.log(' in post profile update', resp);
 
                     db.profileUpdate(userId, req.body, req.files).then((resp) => {
+                        console.log('done');
                         res.redirect('/profile')
                     })
                 } else {
                     emailNotMarchc = "already exist";
+                    console.log('post profile update');
                     res.redirect('/profile')
                 }
             }).catch((err) => {
                 res.redirect('/')
             })
         } catch (e) {
+            console.log('post profile update');
             res.redirect('/')
         }
 
@@ -378,7 +454,7 @@ let usercotrol = {
     Post_profileAddess: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
-                db.address(userId, req.body.address).then((resp) => {
+                db.address(userId, req.body).then((resp) => {
                     res.json(resp)
                 }).catch((err) => {
                     res.redirect('/')
@@ -394,13 +470,26 @@ let usercotrol = {
     paymentAddressGet: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
+                let user = req.session.userDetails;
+                let proImag = null;
+
+                if (user.image != null) {
+                    if (user.image.proImage != null) {
+                        proImag = user.image.proImage[0].filename;
+                    } else {
+                        proImag = null
+                    }
+                } else {
+                    proImag = null
+                }
                 db.address(userId).then((addr) => {
+
                     res.render('user/payment', {
                         css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total, cartProducts, user, proImag
                     })
                 }).catch((err) => {
                     res.redirect('/')
@@ -417,12 +506,24 @@ let usercotrol = {
     successpage: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
+                let user = req.session.userDetails;
+                let proImag = null;
+
+                if (user.image != null) {
+                    if (user.image.proImage != null) {
+                        proImag = user.image.proImage[0].filename;
+                    } else {
+                        proImag = null
+                    }
+                } else {
+                    proImag = null
+                }
                 res.render('user/success', {
                     css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
                         "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js']
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], user, proImag
                 })
 
             } else {
@@ -433,19 +534,88 @@ let usercotrol = {
             res.redirect('/')
         }
     },
-    productSearch:(req, res) => {
+    productSearch: (req, res) => {
         try {
-                db.searchproduct(req.body.data).then((data) => {
-                        res.json(data)
-                        
-                }).catch(() => {
-                        res.redirect('/')
-                })
-        } catch (e) {
+            db.searchproduct(req.body.data).then((data) => {
+                res.json(data)
+
+            }).catch(() => {
                 res.redirect('/')
+            })
+        } catch (e) {
+            res.redirect('/')
         }
 
-}
+    },
+    post_count: (req, res) => {
+        try {
+            db.cartCount(userId, req.body.countValue, req.body.proId).then((result) => {
+                res.json(result)
+            })
+
+        } catch (e) {
+            res.redirect('/')
+        }
+    },
+    addressDelete: (req, res) => {
+        try {
+            db.adddelete(userId, req.body).then((resp) => {
+                console.log(req.body);
+                res.json(resp)
+            }).catch((e) => {
+                res.redirect('/')
+            })
+        } catch (e) {
+            res.redirect('/')
+        }
+    },
+    updateAdd: (req, res) => {
+        try {
+
+            db.updateaddress(userId, req.body).then((data) => {
+                res.json(data)
+            }).catch((e) => {
+                res.redirect('/')
+            })
+        } catch (e) {
+            res.redirect('/')
+        }
+    },
+    addget: (req, res) => {
+        try {
+            db.getAddress(userId).then((data) => {
+                res.json(data)
+            })
+        } catch (e) {
+            res.redirect('/')
+        }
+    },
+    post_coopenAppply: (req, res) => {
+        db.coopenFind(req.body.cpApply).then((data) => {
+            console.log(data);
+            let results = {}
+            if (data != null) {
+                if (data.cpList == 'Unlist') {
+                    if (total > data.cpPurchaseAmt) {
+                        if (new Date() < new Date(data.cpEndDataTime)) {
+                            let amt = total - data.cpDisamt
+                            results = { disAmt: parseInt(data.cpDisamt), amt: amt }
+                        } else {
+                            results = { msg: 'coopen date expired', oldVal: total }
+                        }
+                    } else {
+                        results = { msg: 'purchase the given amount', oldVal: total }
+                    }
+                } else {
+                    results = { msg: 'coopen blocked', oldVal: total }
+                }
+            } else {
+                results = { msg: 'enter valid coopen', oldVal: total }
+            }
+            res.json(results)
+
+        })
+    }
 
 
 }

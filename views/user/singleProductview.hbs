@@ -44,8 +44,12 @@
           </ul>
           <div class="user_option">
             {{!-- user icon --}}
-            <a href="" class="user_link">
-              <i class="fa fa-user" aria-hidden="true"></i>
+             <a href="/profile" class="user_link">
+            <div style="display: block ruby;">
+            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+            <p>{{userData.name1}}</p>
+              {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+              </div>
             </a>
             {{!-- cart --}}
             <a class="cart_link" href="#">

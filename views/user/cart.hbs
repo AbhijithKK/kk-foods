@@ -61,8 +61,12 @@
           </ul>
           <div class="user_option">
             {{!-- user icon --}}
-            <a href="" class="user_link">
-              <i class="fa fa-user" aria-hidden="true"></i>
+            <a href="/profile" class="user_link">
+            <div style="display: block ruby;">
+            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+            <p>{{userData.name1}}</p>
+              {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+              </div>
             </a>
             {{!-- cart --}}
             <a class="cart_link" href="#">
@@ -143,7 +147,7 @@
                 <div class="col-lg-12 col-md-12 col-12">
                     <h3 class="display-5 mb-2">Shopping Cart</h3>
                     <p class="mb-5">
-                        <i class="text-info font-weight-bold">3</i> items in your cart
+                        <i class="text-info font-weight-bold">{{totalcartCount}}</i> items in your cart
                     </p>
                     <table id="shoppingCart" class="table table-condensed table-responsive">
                         <thead>
@@ -171,8 +175,11 @@
                                 </td>
                                 <td data-th="Price">{{this.productPrize}}</td>
                                 <td data-th="Quantity">
-                                    <input type="number" min="1" max="10"
-                                        class="form-control form-control-lg text-center" value="1">
+                                  <button  class="btn" onclick="counter('{{this._id}}','-1','{{@index}}')">-</button>
+                                 
+                                  <span  id="{{@index}}">{{{this.count}}}</span> 
+                                  <button class="btn" onclick="counter('{{this._id}}','1','{{@index}}')">+</button>
+                                    {{!-- <input type="number" id="" min="1" max="10" class="cartQuantityss form-control form-control-lg text-center" value="1"> --}}
                                 </td>
                                 <td class="actions" data-th="">
                                     <div class="text-right">
@@ -184,11 +191,12 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            
                         </tbody>
                     </table>
                     <div class="float-right text-right">
                         <h4>Subtotal:</h4>
-                        <h1>24000.00</h1>
+                        <h1>{{total}}</h1>
                     </div>
                 </div>
             </div>
@@ -301,8 +309,24 @@
 </script>
 <!-- owl slider -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+
+</script>
+<script >
+  let count=document.querySelectorAll('.cartQuantityss')
+//count.addEventListener('input' ,countAdd)
+
+function counter(proid,counter,index){
+    console.log(counter+'-'+proid);
+    fetch('http://localhost:3000/count',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({countValue:counter,proId:proid})
+    }).then((data)=>data.json()).then((data)=>{
+      document.getElementById(index).innerHTML=data
+      
+    })
+}
 </script>
    
-</body>
-
-</html>

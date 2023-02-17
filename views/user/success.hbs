@@ -1,4 +1,4 @@
-<html>
+
   <head>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
   </head>
@@ -83,11 +83,15 @@
           </ul>
           <div class="user_option">
             {{!-- user icon --}}
-            <a href="" class="user_link">
-              <i class="fa fa-user" aria-hidden="true"></i>
+            <a href="/profile" class="user_link">
+            <div style="display: block ruby;">
+            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+            <p>{{user.name1}}</p>
+              {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+              </div>
             </a>
             {{!-- cart --}}
-            <a class="cart_link" href="#">
+            <a class="cart_link" href="/cart">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
                 style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
@@ -162,6 +166,7 @@
       </div>
         <h1>Success</h1> 
         <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
+         <a href="/">click to continue shopping</a>
       </div>
-    </body>
-</html>
+     
+    

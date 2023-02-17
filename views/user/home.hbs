@@ -29,7 +29,7 @@
                   <input
                     style=" width: 100%;height: 2.8rem;background: #f5f5f5;
                                  outline: none;border: none;border-radius: 1.625rem;padding: 0 3.5rem 0 1.5rem; font-size: 1rem;"
-                    type="text" name="searchQueryInput" placeholder="Search your food" value="" />
+                    type="text" name="searchQueryInput" placeholder="Search your food" value="" id="searchFood" />
                   <button style=" width: 3.5rem;height: 2.8rem;
                                    margin-left: -3.5rem;background: none;border: none; outline: none;" type="submit"
                     name="searchQuerySubmit">
@@ -44,11 +44,15 @@
           </ul>
           <div class="user_option">
             {{!-- user icon --}}
+           
             <a href="/profile" class="user_link">
+            <div style="display: block ruby;">
             <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
             <p>{{userData.name1}}</p>
               {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+              </div>
             </a>
+           
             {{!-- cart --}}
             <a class="cart_link" href="/cart">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -336,7 +340,7 @@
 
     </ul>
 
-    <div class="filters-content">
+    <div class="filters-content" id="frond_endProduct">
       <div class="row grid">
 
         {{!-- start --}}
@@ -424,6 +428,17 @@
       {{!-- end --}}
       </div>
     </div>
+     {{!-- start --}}
+    <div class="filters-content" >
+      <div class="row grid"  >
+        <div id="frond_endProductSearch">
+       
+
+        
+        </div>
+      </div>
+    </div>
+    {{!-- end --}}
     <div class="btn-box">
       <a href="">
         View More
@@ -681,3 +696,4 @@
 <!-- owl slider -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </script>
+<script src="/javascripts/api.js"></script>

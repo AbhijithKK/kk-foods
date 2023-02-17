@@ -9,9 +9,9 @@ const storage = multer.diskStorage({
         cb(null, 'public/images/')
     },
     filename: function (req, file, cb) {
-        // const uniqueSuffix = Date.now()
+        const uniqueSuffix = Date.now()
         //ids.push(file.fieldname + '-' + uniqueSuffix)
-        cb(null, file.fieldname + '-' + '.jpg')
+        cb(null, file.fieldname + '-' +uniqueSuffix+ '.jpg')
     }
 })
 const upload = multer({ storage: storage })
