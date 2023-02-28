@@ -116,12 +116,25 @@ module.exports = {
         })
     },
     catogatyAdd: (catogary) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection('catogary').insertOne({ catogary, block: "unBlock" }).then((resp) => {
-                resolve(resp)
-            }).catch((err) => {
-                reject(err)
-            })
+        return new Promise(async (resolve, reject) => {
+            let cat = await db.get().collection('catogary').find().toArray()
+
+            let resp = false
+
+            for (let i = 0; i < cat.length; i++) {
+                if (cat[i].catogary == catogary) {
+                    resp = true
+
+                }
+            }
+            if (resp != true) {
+                db.get().collection('catogary').insertOne({ catogary, block: "unBlock" }).then(() => {
+                    resolve(resp = true)
+                }).catch((err) => {
+                    reject(err)
+                })
+            }
+            resolve(resp)
         })
     },
     showCatogary: () => {
@@ -251,7 +264,7 @@ module.exports = {
 
 
                 {
-                 _id:objectid(userid),   "orderhistory.productDetails._id": objectid(productId)
+                    _id: objectid(userid), "orderhistory.productDetails._id": objectid(productId)
                 },
                 {
                     $set: { "orderhistory.$[].productDetails.$[elem].orderStatus": newStatus }
@@ -274,135 +287,135 @@ module.exports = {
             })
         })
     },
-     
+
     monthlyRevanue: () => {
-  return new Promise(async (resolve, reject) => {
-    const allUsers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray();
-    
-    const orders = allUsers.flatMap(user => user.orderhistory);
-    let revanue=[]
-    for(let i=0;i<12;i++){
-    // Filter orders for the desired month
-    const filterMonth = i; // replace with the desired month (0-based)
-    const filteredOrders = orders.filter((order,i )=> {
-     if(order.productDetails[i].orderStatus=='Delivered'){
-      const orderDate = new Date(order.OrderDate);
-      
-      return orderDate.getMonth() === filterMonth;
-     }
-    });
-    
-    // Calculate the total revenue for the month
-    
-    const totalRevenue = filteredOrders.reduce((total, order) => {
-        
-          
-       total=  total + order.productDetails[0].proTotal*order.productDetails[0].count
-       
-        return total 
-    }, 0);
-    revanue.push(totalRevenue)
-    
-    
-}
+        return new Promise(async (resolve, reject) => {
+            const allUsers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray();
 
-resolve(revanue);
-  });
+            const orders = allUsers.flatMap(user => user.orderhistory);
+            let revanue = []
+            for (let i = 0; i < 12; i++) {
+                // Filter orders for the desired month
+                const filterMonth = i; // replace with the desired month (0-based)
+                const filteredOrders = orders.filter((order, i) => {
+                    if (order.productDetails[i].orderStatus == 'Delivered') {
+                        const orderDate = new Date(order.OrderDate);
 
-},
-addOffer:(data)=>{
-    return new Promise((resolve,reject)=>{
-        db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({_id:objectid(data.productId)}).then((responce)=>{
-            responce.oldRate=responce.productPrize
-            responce.ofpesantage=data.ofpesantage
-            responce.ofstartDateTime=data.ofstartDateTime
-            responce.ofexpDate=data.ofexpDate
-            responce.ofList='unList'
-            responce.ofId=Date.now()+ Math.floor(Math.random() * 100000)*200
-           
-            responce.productPrize= parseInt(responce.productPrize) - (parseInt(responce.productPrize) * parseInt(data.ofpesantage)/ 100);
-            db.get().collection(collectionname.OFFER_ADD).insertOne(responce).then(()=>{
-                resolve()
-            }).catch((err)=>{
+                        return orderDate.getMonth() === filterMonth;
+                    }
+                });
+
+                // Calculate the total revenue for the month
+
+                const totalRevenue = filteredOrders.reduce((total, order) => {
+
+
+                    total = total + order.productDetails[0].proTotal * order.productDetails[0].count
+
+                    return total
+                }, 0);
+                revanue.push(totalRevenue)
+
+
+            }
+
+            resolve(revanue);
+        });
+
+    },
+    addOffer: (data) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.productId) }).then((responce) => {
+                responce.oldRate = responce.productPrize
+                responce.ofpesantage = data.ofpesantage
+                responce.ofstartDateTime = data.ofstartDateTime
+                responce.ofexpDate = data.ofexpDate
+                responce.ofList = 'unList'
+                responce.ofId = Date.now() + Math.floor(Math.random() * 100000) * 200
+
+                responce.productPrize = parseInt(responce.productPrize) - (parseInt(responce.productPrize) * parseInt(data.ofpesantage) / 100);
+                db.get().collection(collectionname.OFFER_ADD).insertOne(responce).then(() => {
+                    resolve()
+                }).catch((err) => {
+                    reject(err)
+                })
+
+
+            }).catch((err) => {
                 reject(err)
             })
-
-            
-        }).catch((err)=>{
-            reject(err)
         })
-    })
-},
-show_offers:()=>{
-    return new Promise(async(resolve,reject)=>{
-        try{
-     let offers=await db.get().collection(collectionname.OFFER_ADD).find().toArray()
-     resolve(offers)
-        }
-        catch(err){
-            reject(err)
-        }
-    })
-   
-},
-ofList: (datas) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let val = ''
-            if (datas.data == 'Unlist') {
-                val = 'List';
-            } else {
-                val = 'Unlist';
+    },
+    show_offers: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let offers = await db.get().collection(collectionname.OFFER_ADD).find().toArray()
+                resolve(offers)
             }
-            await db.get().collection(collectionname.OFFER_ADD).updateOne({ _id: objectid(datas.id) }, {
-                $set: {
-                    ofList: val
-                }
-            })
-            let res = await db.get().collection(collectionname.OFFER_ADD).findOne({ _id: objectid(datas.id) })
-            resolve(res.ofList)
-        } catch (e) {
-            reject(e)
-        }
-    })
-},
-totalSales:()=>{
-    return new Promise(async(resolve,reject)=>{
-        try{
-     let allusers=await  db.get().collection(collectionname.USER_COLLECTION).find().toArray()
-        resolve(allusers)
-        }catch(e){
-            reject(e)
-        }
-    })
-   
-},
-totalProducts:()=>{
-    return new Promise(async(resolve,reject)=>{
-        try{
-        let totalpro=await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).find().toArray()
-       let count=0
-        for(let i=0;i<totalpro.length;i++){
-            count++
-        }
-        resolve(count)
-    }catch(e){
-        reject(e)
-    }
-    })
-},
-salesReport:(date)=>{
-    return new Promise(async(resolve,reject)=>{
-        try{
-        let datas=await db.get().collection(collectionname.USER_COLLECTION).find({"orderhistory.OrderDate":{$gte:date.date1,$lt:date.date2}}).toArray()
-        
-         let filter=datas.filter(e=>e.orderhistory[0].productDetails[1].orderStatus=="Delivered")
-         resolve(filter)
-        }catch(e){
-            reject(e)
-        }
+            catch (err) {
+                reject(err)
+            }
+        })
 
-    }) 
-}
+    },
+    ofList: (datas) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let val = ''
+                if (datas.data == 'Unlist') {
+                    val = 'List';
+                } else {
+                    val = 'Unlist';
+                }
+                await db.get().collection(collectionname.OFFER_ADD).updateOne({ _id: objectid(datas.id) }, {
+                    $set: {
+                        ofList: val
+                    }
+                })
+                let res = await db.get().collection(collectionname.OFFER_ADD).findOne({ _id: objectid(datas.id) })
+                resolve(res.ofList)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    },
+    totalSales: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let allusers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray()
+                resolve(allusers)
+            } catch (e) {
+                reject(e)
+            }
+        })
+
+    },
+    totalProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let totalpro = await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).find().toArray()
+                let count = 0
+                for (let i = 0; i < totalpro.length; i++) {
+                    count++
+                }
+                resolve(count)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    },
+    salesReport: (date) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let datas = await db.get().collection(collectionname.USER_COLLECTION).find({ "orderhistory.OrderDate": { $gte: date.date1, $lt: date.date2 } }).toArray()
+
+                let filter = datas.filter(e => e.orderhistory[0].productDetails[1].orderStatus == "Delivered")
+                resolve(filter)
+            } catch (e) {
+                reject(e)
+            }
+
+        })
+    }
 
 } 

@@ -50,7 +50,7 @@
           </form>
         </div>
         <div class="ms-auto" id="addCatogary">
-          <form class=" form-inline my-2 my-lg-0 ms-auto" method="post" action="/admin/catogaryAdd">
+          <form class=" form-inline my-2 my-lg-0 ms-auto" name="addForm" onsubmit="return addCatogary()">
             <input class="form-control mr-sm-2" type="text" name="catogaryAdd" style="width: 200px;"
               placeholder="add new catogary" minlength="3" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">Add</button>
@@ -107,8 +107,57 @@
 
   </div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade  " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" 
+style="opacity: 1.3;background-color: rgba(0, 0, 0, 0.7);" >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Alert Window</h5>
+        <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       Catogery Already exist Add new Catogery Name
+      </div>
+      <div class="modal-footer">
+        {{!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+        {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- modal --}}
 <script>
-  
+  let modalclose=document.getElementById('modalClose')
+  let modal=document.getElementById("staticBackdrop")
+ let  newcatogary=document.addForm.catogaryAdd
+  function addCatogary(){
+    console.log(newcatogary.value)
+    fetch('http://localhost:3000/admin/catogaryAdd',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({catogaryAdd:newcatogary.value})
+    }).then((data)=>data.json()).then((data)=>{
+      console.log(data)
+      if(data==false){
+        location.reload()
+      }else{
+        modal.style.display='block'
+
+      }
+    })
+    return false
+
+  }
+  modalclose.addEventListener('click',closemodal)
+ function closemodal(){
+   modal.style.display='none'
+ }
  document.getElementById("addCatogary").style.display = "block";
   document.getElementById("editCatogary").style.display = "none";
  let updateId;

@@ -235,7 +235,7 @@ let admincontrol = {
     post_catogaryAdd: (req, res) => {
         try {
             db.catogatyAdd(req.body.catogaryAdd).then((resp) => {
-                res.redirect('/admin/catogaryManage')
+                res.json(resp)
             }).catch((err) => {
                 res.redirect('/admin/')
             })
