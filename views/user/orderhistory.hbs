@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/orderHistory.css">
+    <link type="text/css" rel="stylesheet" href="/css/style.css" />
+    {{!--
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/nouislider.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="/css/slick-theme.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet"> --}}
+
+
+
+
+    <title>kk foods</title>
+</head>
+
+<body>
+    <div class="hero_area" style="height: 85px;min-height: 85px;">
+        <div class="bg-box" style="height: 85px;">
+            <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
+        </div>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand" href="/">
+                        <span>
+                            KK foods
+                        </span>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto ">
+
+                        </ul>
+                        <div class="user_option">
+                            {{!-- user icon --}}
+                            <a href="/profile" class="user_link">
+                                <div style="display: block ruby;">
+                                    <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;"
+                                        alt="">
+                                    <p>{{userData.name1}}</p>
+                                    {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+                                </div>
+                            </a>
+                            {{!-- cart --}}
+                            <a class="cart_link" href="#">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <g>
+                                            <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                </svg>
+                            </a>
+                            <form class="form-inline">
+                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                                    {{!-- <i class="fa fa-search" aria-hidden="true"></i> --}}
+                                </button>
+                            </form>
+                            <a href="/logout" class="order_online">
+                                logout
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <section class="h-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="card" style="border-radius: 10px;">
+                            {{!-- <div class="card-header px-4 py-5">
+                                <h5 class="text-muted mb-0 text-center"></h5>
+                            </div> --}}
+                            {{#each datas}}
+                             <div class="card-body p-4" >
+                            {{#each this.productDetails}}
+
+                           
+                                <div class="card shadow-0 border mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="/images/{{this.image1.[0].filename}}" class="img-fluid">
+                                            </div>
+                                            <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0">{{this.productName}}</p>
+                                            </div>
+
+                                            <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small">Price ₹: {{this.productPrize}} /-</p>
+                                            </div>
+                                            <div
+                                                class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small">Quantity:{{this.count}}</p>
+                                            </div>
+
+                                            <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
+
+                                                <p 
+                                                    class="text-muted mb-0 small">Total Amount ₹:{{this.proTotal}}/-</p>
+                                            </div>
+
+                                            <div
+                                            
+                                                class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                {{!-- <a class="btn btn-danger rounded-pill">cancel</a> --}}
+                                           
+          
+          {{#ifEqual this.orderStatus "Delivered"}}
+          <td> <a  id="{{../this.orderid}}" class="text-success mb-4"
+             >Order Deliverd</a>
+             {{else}}
+             {{#ifEqual this.orderStatus "Orderd"}}
+            <a  id="{{this.orderid}}" onclick="orderCancel('{{this._id}}','{{this.proOrderId}}','{{this.productName}}',
+          '{{this.orderStatus}}')" class="btn btn-danger " >Cancel </a>
+          {{else}}
+           <a   class="text-danger " >Order Canceled </a>
+           {{/ifEqual}}
+             {{/ifEqual}}
+             
+                                            </div>
+
+
+                                        </div>
+
+                                        <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-md-2">
+                                                <p class="text-muted mb-0 small">Track Order</p>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                                     {{#ifEqual this.orderStatus "Delivered"}}
+                                                    <div class="progress-bar" role="progressbar" style="width: 100%; border-radius: 16px; background-color: #a8729a;"
+                                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {{else}}
+                                                        <div class="progress-bar" role="progressbar" style="width: 65%; border-radius: 16px; background-color: #a8729a;"
+                                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {{/ifEqual}}
+
+                                                </div>
+                                                <div class="d-flex justify-content-around mb-1">
+                                                    {{#ifEqual this.orderStatus "Delivered"}}
+                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">order deliveried</p>
+                                                     {{else}}
+                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                                                    {{/ifEqual}}
+                                                    {{!-- <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                                    --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+
+                                <div class="d-flex justify-content-between pt-2">
+                                    <p class="fw-bold mb-0">Order Details</p>
+                                    <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span>0.00</p>
+                                </div>
+
+                                <div class="d-flex justify-content-between pt-2">
+                                    <p class="text-muted mb-0">Invoice Number : {{this.orderid}}</p>
+                                    <p class="text-muted mb-0"><span
+                                            class="fw-bold me-4">Discount</span>{{this.coopenstatus.disAmt}}.00</p>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <p class="text-muted mb-0">Invoice Date : {{this.date}}</p>
+
+                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-5">
+                                    <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                                    {{#if this.coopenstatus.amt}}
+                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
+                                        {{this.coopenstatus.amt}}</p>
+                                    {{else}}
+                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> {{this.totalAmt}}
+                                    </p>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <hr style="height: 20px;background-color: #000000;">
+                            {{/each}}
+
+                            <div class="card-footer border-0 px-4 py-5"
+                                style="background-color: #D10024; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                                <h5
+                                    class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                    Total
+                                    paid: <span class="h2 mb-0 ms-2">{{allOrderTotal}}</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+           
+
+
+
+    function orderCancel(userid,orderid,productName,currentsts){
+    let stsbn=document.getElementById(orderid)
+     
+    fetch('http://localhost:3000/ordercancel',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({userid:userid,
+      orderId:orderid,
+      productName:productName,
+      currentStatus:currentsts})
+    }).then((data)=>data.json()).then((data)=>{
+     location.reload()
+    })
+  }
+        </script>

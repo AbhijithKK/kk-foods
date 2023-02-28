@@ -43,7 +43,7 @@
 
                     <div class="signin-form">
                         <h2 class="form-title">Log In</h2>
-                        <h4 style="color: red;">{{msg}}</h4>
+                        <h4 id="errmsg" style="color: red;">{{msg}}</h4>
                         <form method="POST" class="register-form" id="login-form" action="/home" name="form" onsubmit="return valid()">
                             <div class="form-group">
                                <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -69,7 +69,8 @@
         </section>
 
         <script>
-            var pass=document.form.password;
+          let msg=document.getElementById('errmsg')
+            let pass=document.form.password;
                 function valid(){
                     if(pass.value.length<5){
                         document.getElementById('passw').innerHTML="password must 6 letters or above"
@@ -77,4 +78,12 @@
                     }
                      document.getElementById('passw').innerHTML=""
                 }
+               // fetch('http://localhost:3000/login',{
+                 // method:"post",
+                  //headers:{"Content-Type":"application/json"
+                  //}
+                //}).then((data)=>data.json()).then((data)=>{
+                 // msg.innerHTML=data
+                //})
+                // msg.innerHTML=''
         </script>

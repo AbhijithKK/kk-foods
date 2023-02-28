@@ -30,6 +30,7 @@ app.use(session({
    cookie: { maxAge: 1000000 },
     resave: false }))
 app.use(cors())
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,6 +41,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 hbs.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
 });
+hbs.registerHelper('count',(val)=>{
+return  parseInt(val)= parseInt(val)+1
+})
+
+hbs.registerHelper('ifEqual', function(a, b, options) {
+  if (a === b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 // #########//
 
 // database connection

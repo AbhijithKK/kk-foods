@@ -27,9 +27,12 @@
        <li class="nav-item">
         <a class="nav-link"  href="/admin/coopen">Coopen Manage</a>
       </li>
+       <li class="nav-item">
+          <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
+        </li>
     </ul>
 
-    <button class="btn btn-outline-success btn-lg  ms-auto" type="submit">Logout</button>
+     <a href="/admin/logout" class="btn btn-outline-success btn-lg  ms-auto" >log out</a>
   </div>
   </div>
 </nav>
@@ -49,17 +52,17 @@
         <div class="ms-auto" id="addCatogary">
           <form class=" form-inline my-2 my-lg-0 ms-auto" method="post" action="/admin/catogaryAdd">
             <input class="form-control mr-sm-2" type="text" name="catogaryAdd" style="width: 200px;"
-              placeholder="add new catogary" required>
+              placeholder="add new catogary" minlength="3" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">Add</button>
           </form>
         </div>
 
         <div class="ms-auto" id="editCatogary">
           <button class="btn" onclick="closeedit()">x</button>
-          <form class=" form-inline my-2 my-lg-0 ms-auto" method="post" action="/admin/updateCatogary/{{data._id}}">
+          <form  onsubmit="return update()" class=" form-inline my-2 my-lg-0 ms-auto" name="updateform" >
           
-            <input id="editCatogatyName" class="form-control mr-sm-2" type="text" value="" name="catogaryAdd"
-              style="width: 200px;" placeholder="click edit btn then change" required>
+            <input id="editCatogatyName" class="form-control mr-sm-2" type="text" value="" name="changeCatogary"
+              style="width: 200px;" placeholder="click edit btn then change" minlength="3" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">submit</button>
           </form>
         </div>
@@ -108,8 +111,9 @@
   
  document.getElementById("addCatogary").style.display = "block";
   document.getElementById("editCatogary").style.display = "none";
- 
+ let updateId;
   function edit(id) {
+    updateId=id;
     document.getElementById("addCatogary").style.display = "none";
   document.getElementById("editCatogary").style.display = "block";
   fetch('http://localhost:3000/admin/editCatogary',{
@@ -118,15 +122,33 @@
       "Content-Type":"application/json"
     },
     body:JSON.stringify({id:id})
+
   }).then((data)=>data.json()).then((data)=>{
     console.log(data)
     document.getElementById('editCatogatyName').value=data.catogary
   })
  
   }
+   function update(){
+  let updateval=document.updateform.changeCatogary
+  console.log('gggg')
+  fetch('http://localhost:3000/admin/upadeCatogatiess',{
+    method:"post",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({id:updateId,catogaryAdd:updateval.value})
+  }).then((data)=>data.json()).then((data)=>{
+    console.log(data)
+    location.reload()
+  })
+  return false
+}
+
 function closeedit(){
   document.getElementById("addCatogary").style.display = "block";
   document.getElementById("editCatogary").style.display = "none";
  
 }
+
 </script>

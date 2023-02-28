@@ -1,11 +1,15 @@
+let db = require('./databaseConfig/admin')
 
-var express = require('express');
-var router = express.Router();
-var db = require('./databaseConfig/admin')
-let { ids } = require('../helpers/multer')
 let catogarydetails = null;
 
 let admincontrol = {
+    loginCheck: (req, res, next) => {
+        if (req.session.adminLogin != undefined) {
+            next()
+        } else {
+            res.redirect('/admin/')
+        }
+    },
 
     adminlogin: function (req, res, next) {
         try {
@@ -15,113 +19,130 @@ let admincontrol = {
                 res.redirect('/admin/Home')
             }
         } catch (e) {
-            res.redirect('/admin/',{css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
+            res.redirect('/admin/', {
+                css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+            })
         }
     },
     adminHome: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                res.render('admin/adminHome',{css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
-
-            } else {
-                res.redirect('/admin/')
-            }
+            db.totalSales().then((allusers) => {
+                let orederCount = 0;
+                let totalOrder = 0
+                for (i = 0; i < allusers.length; i++) {
+                    for (let j = 0; j < allusers[i].orderhistory.length; j++) {
+                        for (let k = 0; k < allusers[i].orderhistory[j].productDetails.length; k++) {
+                            //total orderd
+                            if (allusers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
+                                orederCount++;
+                                totalOrder = totalOrder + (allusers[i].orderhistory[j].productDetails[k].proTotal * allusers[i].orderhistory[j].productDetails[k].count)
+                            }
+                        }
+                    }
+                }
+                db.totalProducts().then((totalpro) => {
+                    res.render('admin/adminHome', {
+                        css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",], totalOrder, orederCount, totalpro
+                    })
+                })
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     productDetails: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.showProducts().then((product) => {
-
-                    res.render('admin/productDetails', { product ,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
-                }).catch((err) => {
-                    res.redirect('/admin/')
+            db.showProducts().then((product) => {
+                res.render('admin/productDetails', {
+                    product, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
                 })
-
-            } else {
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     orderdetails: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                res.render('admin/orderDetails')
-            } else {
-                res.redirect('/admin/')
-            }
+            db.userOrderHistory().then((order) => {
+                function reverseArray(arr) {
+                    arr.reverse();
+                    for (let i = 0; i < arr.length; i++) {
+                        if (Array.isArray(arr[i])) {
+                            reverseArray(arr[i]);
+                        }
+                    }
+                    return arr;
+                }
+                let orders = reverseArray(order);
+
+                res.render('admin/orderDetails', {
+                    orders, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+                })
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     userDetails: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.userData().then((result) => {
+            db.userData().then((result) => {
 
-                    res.render('admin/userDetails', { result,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
-                }).catch((err) => {
-                    res.redirect('/admin/')
+                res.render('admin/userDetails', {
+                    result, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
                 })
-
-            } else {
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     }, addproducts: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.showCatogary().then((cat) => {
-                    let data = [];
-                    for (let i = 0; i < cat.length; i++) {
-                        if (cat[i].block == 'unBlock') {
-                            data.push(cat[i])
-                        }
+            db.showCatogary().then((cat) => {
+                let data = [];
+                for (let i = 0; i < cat.length; i++) {
+                    if (cat[i].block == 'unBlock') {
+                        data.push(cat[i])
                     }
-
-                    res.render('admin/addProduct', { data,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
-                }).catch((err) => {
-                    res.redirect('/admin/')
+                }
+                res.render('admin/addProduct', {
+                    data, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
                 })
-
-            } else {
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     editProduct: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.editProduct(req.params.id).then((data) => {
-                    db.showCatogary().then((cat) => {
-                        let datas = [];
-                        for (let i = 0; i < cat.length; i++) {
-                            if (cat[i].block == 'unBlock') {
-                                datas.push(cat[i])
-                            }
+
+            db.editProduct(req.params.id).then((data) => {
+                db.showCatogary().then((cat) => {
+                    let datas = [];
+                    for (let i = 0; i < cat.length; i++) {
+                        if (cat[i].block == 'unBlock') {
+                            datas.push(cat[i])
                         }
-                        res.render('admin/editProduct', { data, datas,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",] })
-                    }).catch((err) => {
-                        res.redirect('/admin/')
+                    }
+                    res.render('admin/editProduct', {
+                        data, datas, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
                     })
+                }).catch((err) => {
+                    res.redirect('/admin/')
                 })
-            } else {
-                res.redirect('/admin/')
-            }
+            })
+
         } catch (e) {
             res.redirect('/admin/')
         }
@@ -224,50 +245,46 @@ let admincontrol = {
     },
     catogaryManage: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.showCatogary().then((catogary) => {
-                    let data;
-                    if (catogarydetails == null) {
-                        data = null
-                    } else {
-                        data = catogarydetails
-                    }
-                    res.render('admin/catogaryManage', { catogary, data ,css: [ "/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]})
-                    catogarydetails = null;
-                }).catch((err) => {
-                    res.redirect('/admin/')
+            db.showCatogary().then((catogary) => {
+                let data;
+                if (catogarydetails == null) {
+                    data = null
+                } else {
+                    data = catogarydetails
+                }
+                res.render('admin/catogaryManage', {
+                    catogary, data, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
                 })
-            } else {
+                catogarydetails = null;
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
+
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     editCatogary: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                console.log(req.body.id);
-                db.findCatogary(req.body.id).then((data) => {
-                    console.log(data);
-                    catogarydetails = data
-                    res.json(data)
-                }).catch((err) => {
-                    res.redirect('/admin/')
-                })
-            } else {
+            db.findCatogary(req.body.id).then((data) => {
+
+                catogarydetails = data
+                res.json(data)
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
+
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     post_updatecatogary: (req, res) => {
+
         try {
-            console.log("update", req.body.catogaryAdd);
-            db.updateCatogary(req.params.id, req.body.catogaryAdd).then((resp) => {
-                res.redirect("/admin/catogaryManage")
+
+            db.updateCatogary(req.body.id, req.body.catogaryAdd).then((resp) => {
+                res.json(resp)
             }).catch((err) => {
                 res.redirect('/admin/')
             })
@@ -277,15 +294,52 @@ let admincontrol = {
     },
     catogaryBlock: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
+            let val = "unBlock";
+            if (req.query.delet == "unBlock") {
+                val = "block"
+            }
+            db.blockCatogary(req.query.id, val).then((ress) => {
+                res.redirect("/admin/catogaryManage")
+            }).catch((err) => {
+                res.redirect('/admin/')
+            })
 
-                let val = "unBlock";
-                if (req.query.delet == "unBlock") {
-                    val = "block"
-                }
-                db.blockCatogary(req.query.id, val).then((ress) => {
-                    res.redirect("/admin/catogaryManage")
-                }).catch((err) => {
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    catogaryDelete: (req, res) => {
+        try {
+
+            db.deleteCatogary(req.query.id).then(() => {
+                res.redirect("/admin/catogaryManage")
+            }).catch((err) => {
+                res.redirect('/admin/')
+            })
+
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    addcoopens: (req, res) => {
+        try {
+
+            db.coopenAdd(req.body).then((data) => {
+                res.json(data)
+            }).catch((e) => {
+                res.redirect('/admin/')
+            })
+
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    coopenlist: (req, res) => {
+        try {
+            if (req.session.adminLogin != undefined) {
+                db.cpList(req.body.id, req.body.data).then((data) => {
+                    res.json(data)
+                }).catch((e) => {
                     res.redirect('/admin/')
                 })
             } else {
@@ -295,22 +349,112 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    catogaryDelete: (req, res) => {
+    coopenPage: (req, res) => {
         try {
-            if (req.session.adminLogin != undefined) {
-                db.deleteCatogary(req.query.id).then(() => {
-                    res.redirect("/admin/catogaryManage")
+
+            db.coopenFind().then((result) => {
+
+                res.render('admin/coopenManagement', {
+                    css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"], result
+                })
+            }).catch((e) => {
+                res.redirect('admin/')
+            })
+
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    logout: (req, res) => {
+        try {
+            req.session.adminLogin = undefined
+            res.redirect("/admin/")
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    orederCancel: (req, res) => {
+        try {
+            db.cancelOrder(req.body.userid, req.body.orderId, req.body.productName, req.body.currentStatus).then((data) => {
+                res.json(data)
+            }).catch((e) => {
+                res.redirect('/admin/')
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    offerlistAndunlist: (req, res) => {
+        try {
+            db.ofList(req.body).then((data) => {
+                res.json(data)
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+
+    }, addeOffers: (req, res) => {
+        db.addOffer(req.body).then((data) => {
+
+            res.json(data)
+        })
+    },
+    offergetpage: (req, res) => {
+        try {
+            db.showProducts().then((product) => {
+                db.show_offers().then((offersPro) => {
+                    res.render('admin/offer', {
+                        css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"], product, offersPro
+                    })
                 }).catch((err) => {
                     res.redirect('/admin/')
                 })
-            } else {
+            }).catch((err) => {
                 res.redirect('/admin/')
-            }
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    monthlyRevannue: (req, res) => {
+        try {
+            db.monthlyRevanue().then((data) => {
+                res.json(data)
+            }).catch((err) => {
+                res.redirect('/admin/')
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    updateCatogariess: (req, res) => {
+        try {
+            db.updateCatogary(req.body.id, req.body.catogaryAdd).then((resp) => {
+                res.json(resp)
+            }).catch((err) => {
+                res.redirect('/admin/')
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    post_salesReport: (req, res) => {
+        try {
+            db.salesReport(req.body).then((result) => {
+            })
+        } catch (e) {
+            res.redirect('/admin/')
+        }
+    },
+    get_salesReport: (req, res) => {
+        try {
+            res.render('admin/salesReport')
         } catch (e) {
             res.redirect('/admin/')
         }
     }
-
 }
 
 module.exports = admincontrol;

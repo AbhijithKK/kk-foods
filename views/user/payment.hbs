@@ -27,11 +27,11 @@
           </ul>
           <div class="user_option">
             {{!-- user icon --}}
-             <a href="/profile" class="user_link">
-            <div style="display: block ruby;">
-            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
-            <p>{{user.name1}}</p>
-              {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+            <a href="/profile" class="user_link">
+              <div style="display: block ruby;">
+                <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+                <p>{{user.name1}}</p>
+                {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
               </div>
             </a>
             {{!-- cart --}}
@@ -136,15 +136,15 @@
 
                     <div style="text-align: left;" class="col-sm-8">
 
-                      <textarea id="textShow" style="border-color: #f5f7f62e;" name="address" rows="5" cols="50"
-                        readonly required>
-                         
+                      <textarea id="textShow" style="border-color: #f5f7f62e;" name="address" placeholder="Add address"
+                        rows="5" cols="50" readonly required>
+
                            </textarea>
 
                     </div>
                     {{!-- popwindow --}}
                     <div id="popWindow" class="card mb-2"
-                      style="background-color: yellowgreen; margin-top: -115px;z-index: 1;display: none;width: 400px;">
+                      style="background-color: rgb(189, 212, 141); margin-top: -115px;z-index: 1;display: none;width: 400px;">
 
 
                     </div>
@@ -154,7 +154,7 @@
 
                   </div>
 
-                  <button id="addAddorChange" class="btn btn-primary">Add/Change</button>
+                  <button id="addAddorChange" class="btn btn-primary">Add Address</button>
 
 
 
@@ -166,11 +166,12 @@
                 <p><strong>Payment method</strong></p>
 
                 <div style="    font-size: 17px;text-align: left;">
-
-                  <input type="radio" name="payment" value="cod" checked>
-                  <label for="html">Pay on Delivery</label><br>
-                  <input type="radio" id="css" name="payment" value="online">
-                  <label for="css">Online payment</label>
+                  <form name="radiobtns">
+                    <input id="cashOnDelivery" type="radio" name="payment" value="cod" checked>
+                    <label for="html">Pay on Delivery</label><br>
+                    <input type="radio" id="onlinePayment" name="payment" value="online">
+                    <label for="css">Online payment</label>
+                  </form>
                 </div>
               </div>
 
@@ -202,15 +203,16 @@
                   <strong>products</strong>
 
                 </div>
-                <span><strong>Qty &emsp; Price</strong></span>
+                <span><strong>Qty &emsp; Price&emsp;&emsp;Total</strong></span>
               </li>
               {{#each cartProducts}}
               <input type="hidden" name="products" value="">
 
               <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-               {{this.productName}}
+                {{this.productName}}
                 <span>
-                  <p style="height: 0px;">{{this.count}}&emsp;&emsp;{{this.productPrize}}</p>
+                  <p style="height: 0px;">
+                    {{this.count}}&emsp;&emsp;{{this.productPrize}}&emsp;&emsp;{{this.proTotal}}.00</p>
                 </span>
               </li>
               {{/each}}
@@ -232,12 +234,17 @@
               </li>
             </ul>
 
-            <a onclick="orderPlace()"  class="btn btn-warning btn-lg btn-block"> Place Order</a>
-             
-           
-          </div>
-        </div>
+            <a onclick="orderPlace()" class="btn btn-warning btn-lg btn-block"> Place Order</a>
 
+      
+        </div>
+        {{!-- onlineeeeeeeeee --}}
+<div id="alertWindow" style="z-index: 1;margin-top: -15rem;">
+  
+</div>
+
+</div>
+        
       </div>
       {{!-- formss################################################### --}}
       {{!-- <div style="background-color: yellowgreen;margin-top: -26rem;z-index: 1;"> --}}
@@ -250,33 +257,36 @@
           <div class="form-group">
             <label class="col-md-12">Name</label>
             <div class="col-md-12">
-              <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line">
+              <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line"
+                required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Home Address/building Number</label>
             <div class="col-md-12">
-              <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"></textarea>
+              <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"
+                required></textarea>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-md-12">pincode</label>
             <div class="col-md-12">
-              <input name="addPin" type="number" value="" class="form-control form-control-line">
+              <input name="addPin" type="number" value="" class="form-control form-control-line" maxlength="6"
+                minlength="10" required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Mobile Number</label>
             <div class="col-md-12">
               <input type="number" name="addMob" value="" placeholder="123 456 7890"
-                class="form-control form-control-line">
+                class="form-control form-control-line" maxlength="10" minlength="10" required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Place</label>
             <div class="col-md-12">
-              <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line">
+              <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line" required>
             </div>
           </div>
 
@@ -286,6 +296,7 @@
             </div>
           </div>
         </form>
+      
         {{!--add new address formmmmmm enddd --}}
         {{!-- edit address --}}
         <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform"
@@ -295,33 +306,36 @@
           <div class="form-group">
             <label class="col-md-12">Name</label>
             <div class="col-md-12">
-              <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line">
+              <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line"
+                required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Home Address/building Number</label>
             <div class="col-md-12">
-              <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"></textarea>
+              <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"
+                required></textarea>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-md-12">pincode</label>
             <div class="col-md-12">
-              <input name="addPin" type="number" value="" class="form-control form-control-line">
+              <input name="addPin" type="number" value="" class="form-control form-control-line" minlength="6"
+                maxlength="6" required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Mobile Number</label>
             <div class="col-md-12">
               <input type="number" name="addMob" value="" placeholder="123 456 7890"
-                class="form-control form-control-line">
+                class="form-control form-control-line" minlength="10" maxlength="10" required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-12">Place</label>
             <div class="col-md-12">
-              <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line">
+              <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line" required>
             </div>
           </div>
 
@@ -349,7 +363,7 @@ margin-left: 388px;
 margin-top: 10px;">
 
   <form name="coopenForm" onsubmit="return coopenApply()">
-    
+
     <div class="card-body p-4 d-flex flex-row" style="    margin-top: -12px;">
       <h6> &nbsp; Coupon<img style="width: 50px; height: 50px;" src="\images\voucher.png" alt=""> </h6>
 
@@ -357,9 +371,10 @@ margin-top: 10px;">
         <label id="cpMsg" for="" style="color: red;"></label>
         <input type="text" id="form1" name="couponCode" class="form-control form-control-lg" required />
       </div>
-       <label  for="" style="color: red;"></label>
-      <button  style="width: 127px; height: 47px;margin-top: 1.5rem;" type="submit" class="btn btn-dark  ms-3">Apply</button>
-    </div> 
+      <label for="" style="color: red;"></label>
+      <button style="width: 127px; height: 47px;margin-top: 1.5rem;" type="submit"
+        class="btn btn-dark  ms-3">Apply</button>
+    </div>
   </form>
 </div>
 
@@ -372,243 +387,5 @@ margin-top: 10px;">
   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script>
-
-let coopencode=document.coopenForm.couponCode;
-  let editform = document.getElementById('hiddeneditform')
-  let proForm = document.getElementById('profileforms')
-  let Aname = document.addform.addName
-  let Aadd = document.addform.addAddress
-  let Apin = document.addform.addPin
-  let Amob = document.addform.addMob
-  let Aplace = document.addform.addPlace
-  let hideFM = document.getElementById("hiddenform")
-  let section = '';
-  let addShow = document.getElementById('addshow')
-  let addText = document.getElementById('addressText')
-  let addBtn = document.getElementById('addressButton')
-
-  let Editname = document.editform.addName;
-  let EditAddress = document.editform.addAddress;
-  let EditPin = document.editform.addPin;
-  let EditMob = document.editform.addMob;
-  let EditPlace = document.editform.addPlace;
-
-  let nme, adr, pn, mbl, plc;
-  function editForm(name, address, pin, mob, place) {
-    nme = name;
-    adr = address;
-    pn = pin;
-    mbl = mob;
-    plc = place;
-    Editname.value = name;
-    EditAddress.value = address;
-    EditPin.value = pin;
-    EditMob.value = mob;
-    EditPlace.value = place;
-    editform.style.display = 'block'
-    document.getElementById('closeBtn').style.display = 'block'
-    popwindow.style.display = 'none'
-    hideFM.style.display = 'none'
-
-  }
-  function updateAddr() {
-    fetch('http://localhost:3000/updateAddress', {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        fname: nme,
-        faddr: adr,
-        fpin: pn,
-        fmob: mbl,
-        fplace: plc,
-        uname: Editname.value,
-        uaddr: EditAddress.value,
-        upin: EditPin.value,
-        umob: EditMob.value,
-        uplace: EditPlace.value,
-      })
-    }).then((data) => data.json()).then((data) => location.reload())
-    return false
-  }
-
-
-  function viewform() {
-    popwindow.style.display = 'none'
-    editform.style.display = 'none'
-    hideFM.style.display = 'block'
-
-    document.getElementById('closeBtn').style.display = 'block'
-  }
-  function closeForm() {
-    hideFM.style.display = 'none'
-
-    editform.style.display = 'none'
-    document.getElementById('closeBtn').style.display = 'none'
-
-
-  }
-
-  function addSubmit() {
-
-    fetch("http://localhost:3000/addAddress", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        addName: Aname.value,
-        addAddress: Aadd.value,
-        addPin: Apin.value,
-        addMob: Amob.value,
-        addPlace: Aplace.value
-
-      })
-    }).then((res) => res.json()).then((data) => {
-      console.log(data)
-
-      section = data[data.length - 1]
-      console.log('gd', section)
-
-      addShow.innerHTML += `<h6>${section.addName}</h6>
-      <h6>${section.addAddress}</h6>
-      <h6>${section.addPin}</h6>
-      <h6>${section.addMob}</h6>
-      <h6>${section.addPlace}</h6>
-      <div class="col-sm-12">
-                <button type="submit" onclick="editForm('${section.addName}','${section.addAddress}','${section.addPin}','${section.addMob}','${section.addPlace}')"
-                 class="btn btn-primary text-white">edit</button>
-                <button type="submit"
-                  onclick="addDelete('${section.addName}','${section.addAddress}','${section.addPin}','${section.addMob}','${section.addPlace}')"
-                  class="btn btn-danger text-white">delete</button>
-              </div>
-      <hr>`
-
-    })
-    alert('address added')
-    return false
-    addShow.innerHTML = ''
-    
-  }
-
-
-  //####################################################
-  let text = document.getElementById('textShow')
-  let addChange = document.getElementById('addAddorChange')
-  let popwindow = document.getElementById('popWindow')
-  addChange.addEventListener('click', addraddChange)
-  function addraddChange() {
-    console.log('hii')
-    popwindow.style.display = 'block'
-    fetch('http://localhost:3000/getAddress', {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json"
-      }
-
-    }).then((result) => result.json())
-      .then((data) => {
-        popwindow.innerHTML = ` <div>
-                <button style="margin-top: 5px;" class="btn btn-primary" onclick="viewform()">add new address</button>
-                 <button style="margin-top: 5px; margin-left:150px" class="btn btn-danger " onclick="closepop()">close</button>
-              </div>`
-        data.forEach((val) => {
-          console.log('huuuu', val)
-          if (val != null) {
-            popwindow.innerHTML += `
-      <div class="card-body"> 
-             
-              <h6>${val.addName}</h6>
-              <h6>${val.addAddress}</h6>
-              <h6>${val.addPin}</h6>
-              <h6>${val.addMob}</h6>
-              <h6>${val.addPlace}</h6>
-              <div class="col-sm-12">
-                <button type="submit" onclick="selectForm('${val.addName}','${val.addAddress}','${val.addPin}','${val.addMob}',
-                '${val.addPlace}')" class="btn btn-success text-white">select</button>
-                <button type="submit" onclick="editForm('${val.addName}','${val.addAddress}','${val.addPin}','${val.addMob}',
-                '${val.addPlace}')" class="btn btn-primary text-white">edit</button>
-                <button type="submit"
-                  onclick="addDelete('${val.addName}','${val.addAddress}','${val.addPin}','${val.addMob}','${val.addPlace}')"
-                  class="btn btn-danger text-white">delete</button>
-              </div>
-              <hr>
-
-            </div>`
-          }
-
-        })
-
-      })
-
-    popwindow.innerHTML = ''
-
-  }
-  function closepop() {
-    popwindow.style.display = 'none'
-  }
-  function selectForm(name, addr, pin, mob, place) {
-    text.innerHTML = `${name},
-${addr},
-${pin},
-${mob},
-${place}`
-    popwindow.style.display = 'none'
-  }
-  function addDelete(name, addr, pin, mob, place) {
-    console.log(name, addr, pin, mob, place)
-    fetch('http://localhost:3000/addDelete', {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name: name, addr: addr, pin: pin, mob: mob, place: place })
-    }).then((data) => data.json()).then((data) => {
-
-      location.reload()
-    })
-  }
-  
-  function coopenApply(){
-    fetch('http://localhost:3000/coopenapply',{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        cpApply:coopencode.value
-      })
-    }).then((data)=>data.json()).then((data)=>{
-      
-      if(data.msg){
-        document.getElementById('cpMsg').innerHTML=data.msg
-         document.getElementById('cpDisAmt').innerHTML='0.00'
-        
-         document.getElementById('cpmainAmt').innerHTML=data.oldVal+'.00'
-      }else{
-         document.getElementById('cpDisAmt').innerHTML=data.disAmt+'.00'
-         document.getElementById('cpmainAmt').innerHTML=data.amt+'.00'
-         document.getElementById('cpMsg').innerHTML=''
-      }
-      console.log(data)
-    })
-     document.getElementById('cpMsg').innerHTML=''
-         document.getElementById('cpDisAmt').innerHTML=''
-         document.getElementById('cpmainAmt').innerHTML=''
-   
-   return false
-  }
-  function orderPlace(){
-    if(text.value!=null && text.value!=undefined && text.value!='' && text.value.charCodeAt() != 32 ){
-     
-    
-      location.href='http://localhost:3000/success'
-    }else{
-      
-      alert('please add address')
-      return false
-    }
-  }
-</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="javascripts/payment.js"></script>

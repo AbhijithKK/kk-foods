@@ -156,6 +156,7 @@
                                 <th style="width:30%">name</th>
                                 <th style="width:12%">Price</th>
                                 <th style="width:10%">Quantity</th>
+                                <th style="width:10%">Total</th>
                                 <th style="width:16%"></th>
                             </tr>
                         </thead>
@@ -175,16 +176,17 @@
                                 </td>
                                 <td data-th="Price">{{this.productPrize}}</td>
                                 <td data-th="Quantity">
-                                  <button  class="btn" onclick="counter('{{this._id}}','-1','{{@index}}')">-</button>
+                                  <button id="minusbtn" class="btn" onclick="counter('{{this._id}}','-1','{{@index}}','{{this.ofId}}')">-</button>
                                  
                                   <span  id="{{@index}}">{{{this.count}}}</span> 
-                                  <button class="btn" onclick="counter('{{this._id}}','1','{{@index}}')">+</button>
+                                  <button class="btn" onclick="counter('{{this._id}}','1','{{@index}}','{{this.ofId}}')">+</button>
                                     {{!-- <input type="number" id="" min="1" max="10" class="cartQuantityss form-control form-control-lg text-center" value="1"> --}}
                                 </td>
+                                <td data-th="Price" id="{{@index}}pro">{{this.proTotal}}</td>
                                 <td class="actions" data-th="">
                                     <div class="text-right">
 
-                                        <a href="/deleteCartitem?id={{this._id}}" style="text-decoration: none;"><button onclick="return confirm('Are you sure ?')" class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                        <a href="/deleteCartitem?id={{this._id}}&&ofId={{this.ofId}}" style="text-decoration: none;"><button onclick="return confirm('Are you sure ?')" class="btn btn-white border-secondary bg-white btn-md mb-2">
                                             <i class="fa fa-remove"></i>
                                         </button></a>
                                     </div>
@@ -196,7 +198,7 @@
                     </table>
                     <div class="float-right text-right">
                         <h4>Subtotal:</h4>
-                        <h1>{{total}}</h1>
+                        <h1 id="newtotal">{{total}}</h1>
                     </div>
                 </div>
             </div>
@@ -315,17 +317,20 @@
   let count=document.querySelectorAll('.cartQuantityss')
 //count.addEventListener('input' ,countAdd)
 
-function counter(proid,counter,index){
-    console.log(counter+'-'+proid);
+function counter(proid,counter,index,ofId){
+    console.log(counter+'-'+proid+'-'+ofId);
     fetch('http://localhost:3000/count',{
       method:"post",
       headers:{
         "Content-Type":"application/json"
       },
-      body:JSON.stringify({countValue:counter,proId:proid})
+      body:JSON.stringify({countValue:counter,proId:proid,ofId:ofId})
     }).then((data)=>data.json()).then((data)=>{
-      document.getElementById(index).innerHTML=data
-      
+      console.log(data)
+      document.getElementById(index).innerHTML=data.result
+       document.getElementById('newtotal').innerHTML=data.newTotal
+       document.getElementById(index+'pro').innerHTML=data. prototal
+     
     })
 }
 </script>
