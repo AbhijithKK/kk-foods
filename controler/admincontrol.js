@@ -171,7 +171,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_adminhome: (req, res) => {
+    postAdminhome: (req, res) => {
         try {
             db.adminLogin(req.body).then((result) => {
                 if (result != true) {
@@ -189,7 +189,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_admin_addproduct: (req, res) => {
+    postAdminAddproduct: (req, res) => {
         try {
             db.addProduct(req.body, req.files).then((id) => {
 
@@ -201,7 +201,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_admin_editproduct: (req, res) => {
+    postAdminEditproduct: (req, res) => {
         try {
             db.updateProduct(req.params.id, req.body, req.files).then((resp) => {
 
@@ -213,7 +213,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_admin_deleteProduct: (req, res) => {
+    postAdminDeleteProduct: (req, res) => {
         try {
             let flaged = req.query.delet;
             let flg;
@@ -232,7 +232,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_catogaryAdd: (req, res) => {
+    postCatogaryAdd: (req, res) => {
         try {
             db.catogatyAdd(req.body.catogaryAdd).then((resp) => {
                 res.json(resp)
@@ -279,7 +279,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_updatecatogary: (req, res) => {
+    postUpdatecatogary: (req, res) => {
 
         try {
 
@@ -387,8 +387,8 @@ let admincontrol = {
     },
     offerlistAndunlist: (req, res) => {
         try {
-            db.ofList(req.body).then((data) => {
-                res.json(data)
+            db.ofList(req.body).then(() => {
+                res.json('success')
             })
         } catch (e) {
             res.redirect('/admin/')
@@ -403,7 +403,7 @@ let admincontrol = {
     offergetpage: (req, res) => {
         try {
             db.showProducts().then((product) => {
-                db.show_offers().then((offersPro) => {
+                db.showOffers().then((offersPro) => {
                     res.render('admin/offer', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"], product, offersPro
@@ -440,7 +440,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    post_salesReport: (req, res) => {
+    postSalesReport: (req, res) => {
         try {
             db.salesReport(req.body).then((result) => {
             })
@@ -448,7 +448,7 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    get_salesReport: (req, res) => {
+    getSalesReport: (req, res) => {
         try {
             res.render('admin/salesReport')
         } catch (e) {

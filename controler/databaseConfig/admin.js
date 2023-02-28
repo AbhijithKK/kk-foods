@@ -330,26 +330,22 @@ module.exports = {
                 responce.ofpesantage = data.ofpesantage
                 responce.ofstartDateTime = data.ofstartDateTime
                 responce.ofexpDate = data.ofexpDate
-                responce.ofList = 'unList'
-                responce.ofId = Date.now() + Math.floor(Math.random() * 100000) * 200
-
+                responce.ofId=Date.now()+Math.floor(Math.random()*1000)
                 responce.productPrize = parseInt(responce.productPrize) - (parseInt(responce.productPrize) * parseInt(data.ofpesantage) / 100);
-                db.get().collection(collectionname.OFFER_ADD).insertOne(responce).then(() => {
+                db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(responce._id)},{$set:{...responce} }).then(() => {
                     resolve()
                 }).catch((err) => {
                     reject(err)
                 })
-
-
             }).catch((err) => {
                 reject(err)
             })
         })
     },
-    show_offers: () => {
+    showOffers: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                let offers = await db.get().collection(collectionname.OFFER_ADD).find().toArray()
+                let offers = await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).find({ofId:{ $exists: true } }).toArray()
                 resolve(offers)
             }
             catch (err) {
@@ -358,22 +354,28 @@ module.exports = {
         })
 
     },
-    ofList: (datas) => {
+    ofList: (data) => {
+        
         return new Promise(async (resolve, reject) => {
             try {
-                let val = ''
-                if (datas.data == 'Unlist') {
-                    val = 'List';
-                } else {
-                    val = 'Unlist';
-                }
-                await db.get().collection(collectionname.OFFER_ADD).updateOne({ _id: objectid(datas.id) }, {
-                    $set: {
-                        ofList: val
-                    }
+                db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id:objectid(data.id) }).then(async(responce) => {
+                    console.log(responce);
+                    let price= await responce.oldRate
+                     responce.productPrize = await price
+                     responce.ofId=''
+                     responce.oldRate=''
+                     responce.ofpesantage=''
+                     responce.ofstartDateTime = ''
+                     responce.ofexpDate = ''
+                    db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(responce._id)},{$set:{...responce} }).then(() => {
+                        db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(responce._id)},{$unset:{ofId:''} })
+                        resolve()
+                    }).catch((err) => {
+                        reject(err)
+                    })
+                }).catch((err) => {
+                    reject(err)
                 })
-                let res = await db.get().collection(collectionname.OFFER_ADD).findOne({ _id: objectid(datas.id) })
-                resolve(res.ofList)
             } catch (e) {
                 reject(e)
             }

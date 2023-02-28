@@ -72,8 +72,8 @@
                         <td style="width: 200px;">{{this.ofstartDateTime}}</td>
                         <td style="width: 200px;">{{this.ofexpDate}}</td>
 
-                        <td><a onclick="listCp('{{this._id}}','{{this.ofList}}')"
-                                class="btn btn-dark">{{this.ofList}}</a></td>
+                        <td><a onclick="listCp('{{this._id}}')"
+                                class="btn btn-dark">Delete offer</a></td>
 
 
 
@@ -204,7 +204,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ id: id, data: data })
+                    body: JSON.stringify({ id: id,  })
                 }).then((data) => data.json()).then((data) => {
                     location.reload()
                 })

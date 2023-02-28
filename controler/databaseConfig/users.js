@@ -112,110 +112,85 @@ module.exports = {
         })
 
     },
-    cartProductAdd: (productId, userId, ofId) => {
-
+    cartProductAdd: (productId, userId) => {
+        
         try {
             return new Promise(async (resolve, reject) => {
-
                 if (productId != undefined && userId != undefined) {
+                   
                     let finduser = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userId) })
 
                     let quantity = 1;
                     if (finduser.cart.length < 0 || finduser.cart != '') {
+                        
                         for (let i = 0; i < finduser.cart.length; i++) {
-                            
-                            if(ofId=='' || ofId==null ||ofId==undefined){
                             if (finduser.cart[i].productId == productId) {
-
+                                
                                 quantity = finduser.cart[i].quantity + 1;
                                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $pull: { cart: { productId: productId } } })
                                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { productId, quantity: quantity } } })
-                            
                             } else {
-
                                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { productId, quantity: quantity } } })
-                            }}
-                            // offffer
-                            let findOfferId = await db.get().collection(collectionname.OFFER_ADD).findOne({ _id: objectid(productId) })
-                               if(ofId!=''&& ofId!=null){
-                            if (findOfferId.ofId == ofId) {
-                                let qty=1
-                                qty = finduser.cart[i].quantity + 1;
-                                console.log('fffffmnjh', findOfferId);
-                                await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $pull: { cart: { ofId: toString(ofId) } } })
-                                await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { ofId, quantity: qty } } })
-                                ofId=null
-                            } }
-
+                            }
                         }
                     } else {
- 
+                       
                         await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { productId, quantity: quantity } } })
-
                     }
-
                 } else {
-
+                    
                     let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userId) })
                     console.log(data.cart);
                     if (data.cart != undefined || data.cart != null) {
                         let arr = [];
 
                         for (let i = 0; i < data.cart.length; i++) {
-                            if (!data.cart[i].productId) {
-
-                                arr.push(await db.get().collection(collectionname.OFFER_ADD).findOne({ ofId: parseInt(data.cart[i].ofId) }))
-                            } else {
-                                arr.push(await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.cart[i].productId) }))
-                            }
+                            arr.push(await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.cart[i].productId) }))
                         }
                         console.log('new', arr);
                         resolve(arr)
                     } else {
+                        
                         resolve()
 
                     }
                 }
+                
+                resolve()
             })
         } catch (e) {
-
+            
         }
-        ofId=null;
+      
     },
-    delCartitem: async (id, cartid,ofId) => {
+    delCartitem: async (id, cartid, ofId) => {
         try {
             return await new Promise((resolve, reject) => {
-                if(ofId!=''){
 
-                
-                db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, { $pull: { cart: { ofId: ofId } } }).then((ree) => {
-                    resolve(ree)
-                })
-            }else{
                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, { $pull: { cart: { productId: cartid } } }).then((ree) => {
                     resolve(ree)
                 })
-            }
+
 
             })
         } catch (err) {
             reject(err)
         }
-        
+
     },
     profile: (id) => {
         try {
             return new Promise(async (resolve, reject) => {
-                if(id!=null && id!=undefined){
-                let res = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
-                resolve(res)
+                if (id != null && id != undefined) {
+                    let res = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
+                    resolve(res)
                 }
 
             })
         } catch (e) {
             reject(e)
         }
-    }, 
+    },
     profileUpdate: (id, data, image) => {
         try {
 
@@ -312,7 +287,7 @@ module.exports = {
                                 c = parseInt(result.cart[i].quantity) + parseInt(count)
                             }
                         }
-                        if (ofid == '') {
+                       
                             db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id), "cart.productId": proId }, { $set: { "cart.$.quantity": c } }).then((result) => {
                                 db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) }).then((data) => {
 
@@ -336,32 +311,8 @@ module.exports = {
                                 })
 
                             })
-                        }
-                        if (ofid != '') {
-                            db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id), "cart.ofId": ofid }, { $set: { "cart.$.quantity": c } }).then((result) => {
-                                db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) }).then((data) => {
-
-                                    for (let i = 0; i < data.cart.length; i++) {
-
-
-                                        if (data.cart[i].ofId == ofid) {
-
-
-                                            db.get().collection(collectionname.OFFER_ADD).findOne({ ofId: parseInt(data.cart[i].ofId) }).then((datas) => {
-                                                let result = parseInt(data.cart[i].quantity) * parseInt(datas.productPrize)
-
-                                                let values = { quantity: data.cart[i].quantity, prototal: result }
-                                                resolve(values)
-                                            })
-
-                                        }
-                                    }
-
-
-                                })
-
-                            })
-                        }
+                        
+                        
                     }
 
                 }

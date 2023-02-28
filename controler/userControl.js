@@ -298,13 +298,13 @@ let usercotrol = {
             res.redirect('/')
         }
     },
-    cartProductadd: (req, res) => {
+    getCartProductadd: (req, res) => {
         try {
 
 
-            db.cartProductAdd(req.query.productId, userId, req.query.ofId).then((product) => {
+            db.cartProductAdd(req.query.productId, userId).then((product) => {
 
-
+                console.log('hii');
                 let totalcartCount = product.length;
                 db.profile(userId).then(async (userData) => {
                     req.session.userDetails = userData
@@ -317,12 +317,7 @@ let usercotrol = {
                                 product[i].proOrderId = Date.now()
                                 product[i].proTotal = parseInt(product[i].productPrize) * parseInt(product[i].count)
                             }
-                            if (product[i].ofId == parseInt(userData.cart[j].ofId)) {
-                                product[i].count = userData.cart[j].quantity
-                                product[i].orderStatus = "Orderd"
-                                product[i].proOrderId = Date.now()
-                                product[i].proTotal = parseInt(product[i].productPrize) * parseInt(product[i].count)
-                            }
+                           
                         }
                     }
                     console.log('haiii', product);
@@ -334,9 +329,7 @@ let usercotrol = {
                             if (product[i]._id == userData.cart[j].productId) {
                                 total += product[i].productPrize * product[i].count
                             }
-                            if (product[i].ofId == parseInt(userData.cart[j].ofId)) {
-                                total += product[i].productPrize * product[i].count
-                            }
+                            
 
                         }
                     }
@@ -566,12 +559,6 @@ let usercotrol = {
                                     product[i].count = userData.cart[j].quantity
 
                                 }
-                                if (cartProducts[i].ofId == parseInt(userData.cart[j].ofId)) {
-                                    console.log(cartProducts[i]);
-                                    cartProducts[i].count = userData.cart[j].quantity
-
-                                }
-
                             }
                         }
 
@@ -582,12 +569,6 @@ let usercotrol = {
                             for (let j = 0; j < userData.cart.length; j++) {
                                 if (product[i]._id == userData.cart[j].productId) {
                                     total += parseInt(product[i].productPrize) * product[i].count
-
-                                }
-
-                                if (product[i].ofId == parseInt(userData.cart[j].ofId)) {
-                                    total += parseInt(product[i].productPrize) * cartProducts[i].count
-                                    console.log(cartProducts[i].count);
 
                                 }
                             }
@@ -731,53 +712,7 @@ let usercotrol = {
         })
 
     },
-    offerpage: (req, res) => {
-
-        db.showOffers(req.query.catogery).then((data) => {
-            console.log(data);
-            let brg;
-            let piz;
-            let chk;
-            if (data[0] != undefined) {
-                if (data[0].productCatogary == 'burger') {
-                    brg = "active"
-                    piz = null;
-                    chk = null;
-
-                }
-            } else {
-                return false
-            }
-            if (data[0] != undefined) {
-                if (data[0].productCatogary == 'pizza') {
-
-
-                    piz = "active"
-                    brg = null;
-                    chk = null;
-
-                }
-            } else {
-                return false
-            }
-            if (data[0] != undefined) {
-                if (data[0].productCatogary == 'chiken') {
-                    chk = "active"
-                    piz = null;
-                    brg = null;
-                }
-            } else {
-                return false
-            }
-            res.render('user/offfers', {
-                css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                    "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                    "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk
-            })
-        })
-    }
+    
 
 
 }
