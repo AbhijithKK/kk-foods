@@ -16,9 +16,11 @@ let otpMsg = null;
 let userId = null;
 let total = 0;
 let cartProducts;
+let forgotPassMail = ''
+let countDownTime = 60000;
 
 
-const generateOTP = () => {
+let generateOTP = () => {
     return otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
 };
 let otp = generateOTP();
@@ -111,14 +113,19 @@ let usercotrol = {
                                     } else {
                                         proImag = null
                                     }
+                                    db.cartProductAdd(req.query.productId, userId).then((product) => {
+
+                                        console.log('hii');
+                                        let totalcartCount = product.length;
 
 
-                                    res.render('user/home', {
-                                        css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
-                                            "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag, userData
+                                        res.render('user/home', {
+                                            css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
+                                                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                                                "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                                                "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                                            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag, userData, totalcartCount
+                                        })
                                     })
                                 })
                             })
@@ -317,7 +324,7 @@ let usercotrol = {
                                 product[i].proOrderId = Date.now()
                                 product[i].proTotal = parseInt(product[i].productPrize) * parseInt(product[i].count)
                             }
-                           
+
                         }
                     }
                     console.log('haiii', product);
@@ -329,7 +336,7 @@ let usercotrol = {
                             if (product[i]._id == userData.cart[j].productId) {
                                 total += product[i].productPrize * product[i].count
                             }
-                            
+
 
                         }
                     }
@@ -712,8 +719,103 @@ let usercotrol = {
         })
 
     },
-    
+    getForgotPassword: (req, res) => {
+
+        otp = null
+        res.render('user/forgotPassword', {
+            css: [, "/stylesheets/logintemp/css/font-awesome.min.css",
+                "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js']
+        })
+        countDownTime = 0;
+    },
+
+    forgotMailCheck: (req, res) => {
+        db.forgotPassMailCheck(req.body.email).then((data) => {
+            req.session.resetPassword = req.body.email
 
 
+            if (data != null) {
+                let generateOTP = () => {
+                    return otpGenerator.generate(6, {
+                        digits: true,
+                        lowerCaseAlphabets: false,
+                        upperCaseAlphabets: false,
+                        specialChars: false
+                    });
+                };
+                req.session.otp = generateOTP();
+                mailer(req.session.resetPassword, req.session.otp)
+                console.log('forgot', req.session.otp + req.session.resetPassword);
+                res.json(data = true)
+                // ##############
+                //countdown
+
+                countDownTime = 60000;
+                let x = setInterval(function () {
+                    countDownTime -= 1000;
+
+                    if (countDownTime < 0) {
+                        clearInterval(x);
+                        req.session.otp = null
+                        console.log('otp null', req.session.otp);
+                    }
+                }, 1000);
+                //countdown
+                // ##############
+
+
+            } else {
+                res.json(data = false)
+            }
+        }).catch((err) => {
+            res.redirect('/')
+        })
+    },
+    passOtpverify: (req, res) => {
+        if (req.body.otp == req.session.otp) {
+            res.json({ data: true })
+        } else {
+            res.json({ data: false })
+        }
+    },
+    passResendOtp: (req, res) => {
+        let generateOTP = () => {
+            return otpGenerator.generate(6, {
+                digits: true,
+                lowerCaseAlphabets: false,
+                upperCaseAlphabets: false,
+                specialChars: false
+            });
+        };
+        req.session.otp = generateOTP();
+
+        mailer(req.session.resetPassword, req.session.otp)
+        console.log('re', req.session.otp);
+        res.json('success')
+        countDownTime = 60000;
+        let x = setInterval(function () {
+            countDownTime -= 1000;
+
+            if (countDownTime < 0) {
+                clearInterval(x);
+                req.session.otp = null
+                console.log('reotp null', req.session.otp);
+            }
+        }, 1000);
+        //countdown
+
+    },
+    passwordReset: (req, res) => {
+        console.log('fff');
+        db.resetpass(req.session.resetPassword, req.body.pass1).then(() => {
+            res.json('success')
+        })
+    }
+
+ 
 }
+
 module.exports = usercotrol

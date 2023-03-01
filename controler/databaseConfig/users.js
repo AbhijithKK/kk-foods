@@ -532,5 +532,24 @@ module.exports = {
                 reject(err)
             }
         })
+    },
+    forgotPassMailCheck:(mail)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collectionname.USER_COLLECTION).findOne({email:mail}).then((data)=>{
+                resolve(data)
+            }).catch((err)=>{
+                reject(err)
+            })
+        })
+    },
+    resetpass:(email,newpass)=>{
+        return new Promise(async(resolve,reject)=>{
+        let data=await db.get().collection(collectionname.USER_COLLECTION).findOne({email:email})
+        console.log(data.password+newpass);
+                data.password=await bcript.hash(newpass,10)
+                await db.get().collection(collectionname.USER_COLLECTION).updateOne({email:email},{$set:{...data}})
+                    resolve()
+            
+        })
     }
 }             

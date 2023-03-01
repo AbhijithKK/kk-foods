@@ -20,7 +20,12 @@ const { guestUserHome, login, signup, mainHome, otpPage, post_Otp, resendOtp, po
     postOtp,
     postUserData,
     postHomelogin,
-    getCartProductadd} = require('../controler/userControl');
+    getCartProductadd,
+    getForgotPassword,
+    forgotMailCheck,
+    passOtpverify,
+    passResendOtp,
+    passwordReset} = require('../controler/userControl');
 const proImageupload = require('../helpers/profileMulter')
 
 function loginCheck(req, res, next) {
@@ -46,6 +51,7 @@ router.get('/cart', loginCheck, getCartProductadd)
 router.get('/deleteCartitem', loginCheck, cartDelet)
 router.get('/orderhistory', loginCheck, orderhistoryPage)
 router.get('/getAddress', loginCheck, addget)
+router.get('/forgotPassword',getForgotPassword)
 // router.get('/offer_page', loginCheck, offerpage)
 // post
 router.post('/otp', postOtp)
@@ -64,5 +70,8 @@ router.post('/coopenapply', loginCheck, postCoopenAppply)
 router.post('/orderHistory', loginCheck, orderhistoryyy)
 router.post('/ordercancel', loginCheck, orderCanceled)
 router.post('/onlinePayDetails', loginCheck, onlinepayDetails)
-
+router.post('/forgotPasswordMailCheck',forgotMailCheck)
+router.post('/passResetOtpVerify',passOtpverify)
+router.post('/resendOtpPassReset',passResendOtp)
+router.post('/resetPassword',passwordReset)
 module.exports = router; 

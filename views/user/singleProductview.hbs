@@ -204,9 +204,10 @@
                  
                 </p>
                 <div class="options">
-                  <h6>
-                   ₹ {{this.productPrize}}
-                  
+                  {{#if this.oldRate}}
+                   <h6><del>₹ {{this.oldRate}}</del>
+                   offer Rate{{/if}} ₹ {{this.productPrize}}
+
                   </h6>
                   <a href="">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
