@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const { adminHome, productDetails, orderdetails, userDetails, addproducts, editProduct, blockuser,
-    unblockUsers, post_adminhome, post_admin_addproduct, post_admin_editproduct, post_admin_deleteProduct,
-    adminlogin, post_catogaryAdd, catogaryManage, editCatogary, post_updatecatogary,
-    catogaryBlock, catogaryDelete, addcoopens, coopenlist, coopenPage, orederCancel, logout, offerlistAndunlist, createOffer, addeOffers, offergetpage, monthlyRevannue, updateCatogariess, post_salesReport, get_salesReport, loginCheck, getSalesReport, postSalesReport, postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct, postAdminAddproduct } = require('../controler/admincontrol');
+    unblockUsers,  adminlogin, catogaryManage, editCatogary,
+    catogaryBlock, catogaryDelete, addcoopens, coopenlist, coopenPage, orederCancel, logout, offerlistAndunlist,
+     addeOffers, offergetpage, monthlyRevannue, updateCatogariess, loginCheck, getSalesReport, postSalesReport,
+      postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct, 
+      postAdminAddproduct } = require('../controler/admincontrol');
 const { multiUpload } = require('../helpers/multer');
 var db = require('../controler/databaseConfig/admin')
 

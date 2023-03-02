@@ -113,19 +113,19 @@ module.exports = {
 
     },
     cartProductAdd: (productId, userId) => {
-        
+
         try {
             return new Promise(async (resolve, reject) => {
                 if (productId != undefined && userId != undefined) {
-                   
+
                     let finduser = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userId) })
 
                     let quantity = 1;
                     if (finduser.cart.length < 0 || finduser.cart != '') {
-                        
+
                         for (let i = 0; i < finduser.cart.length; i++) {
                             if (finduser.cart[i].productId == productId) {
-                                
+
                                 quantity = finduser.cart[i].quantity + 1;
                                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $pull: { cart: { productId: productId } } })
                                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { productId, quantity: quantity } } })
@@ -134,11 +134,11 @@ module.exports = {
                             }
                         }
                     } else {
-                       
+
                         await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userId) }, { $addToSet: { cart: { productId, quantity: quantity } } })
                     }
                 } else {
-                    
+
                     let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userId) })
                     console.log(data.cart);
                     if (data.cart != undefined || data.cart != null) {
@@ -150,18 +150,18 @@ module.exports = {
                         console.log('new', arr);
                         resolve(arr)
                     } else {
-                        
+
                         resolve()
 
                     }
                 }
-                
+
                 resolve()
             })
         } catch (e) {
-            
+
         }
-      
+
     },
     delCartitem: async (id, cartid, ofId) => {
         try {
@@ -287,32 +287,32 @@ module.exports = {
                                 c = parseInt(result.cart[i].quantity) + parseInt(count)
                             }
                         }
-                       
-                            db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id), "cart.productId": proId }, { $set: { "cart.$.quantity": c } }).then((result) => {
-                                db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) }).then((data) => {
 
-                                    for (let i = 0; i < data.cart.length; i++) {
+                        db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id), "cart.productId": proId }, { $set: { "cart.$.quantity": c } }).then((result) => {
+                            db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) }).then((data) => {
 
-
-                                        if (data.cart[i].productId == proId) {
+                                for (let i = 0; i < data.cart.length; i++) {
 
 
-                                            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.cart[i].productId) }).then((datas) => {
-                                                let result = parseInt(data.cart[i].quantity) * parseInt(datas.productPrize)
+                                    if (data.cart[i].productId == proId) {
 
-                                                let values = { quantity: data.cart[i].quantity, prototal: result }
-                                                resolve(values)
-                                            })
 
-                                        }
+                                        db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.cart[i].productId) }).then((datas) => {
+                                            let result = parseInt(data.cart[i].quantity) * parseInt(datas.productPrize)
+
+                                            let values = { quantity: data.cart[i].quantity, prototal: result }
+                                            resolve(values)
+                                        })
+
                                     }
+                                }
 
-
-                                })
 
                             })
-                        
-                        
+
+                        })
+
+
                     }
 
                 }
@@ -432,6 +432,38 @@ module.exports = {
             }
         })
     },
+    OnlineorderHistoryAdd: (id, cartProducts, address, coopenStatus, tatalAmt, date, method) => {
+
+        return new Promise((resolve, reject) => {
+            try {
+                let orderid = Date.now()
+                db.get().collection(collectionname.ONLINE_HISTORY).insertOne({
+
+                    userid: id,
+                    orderid: orderid,
+                    totalAmt: tatalAmt,
+                    address: address,
+                    coopenstatus: coopenStatus,
+
+                    OrderDate: date,
+                    payMethod: method,
+                    productDetails: cartProducts,
+                    onlinePay: "processError",
+
+                }).then(() => {
+                    db.get().collection(collectionname.ONLINE_HISTORY).find().toArray().then((result) => {
+
+                        console.log(result.slice(-1));
+                        resolve(result.slice(-1))
+                    })
+
+
+                })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    },
     ordercancel: (id, datas) => {
 
         return new Promise((resolve, reject) => {
@@ -501,16 +533,41 @@ module.exports = {
 
     },
     verifyPayment: (data) => {
-        return new Promise((resolve, reject) => {
+        console.log(data);
+        return new Promise(async (resolve, reject) => {
             const crypto = require('crypto')
             let hmac = crypto.createHmac('sha256', 'Dr92MosMlHUqZMP1kfmRlbze')
             hmac.update(data.responce.razorpay_order_id + '|' + data.responce.razorpay_payment_id)
             hmac = hmac.digest('hex')
             if (hmac == data.responce.razorpay_signature) {
+                let useridd
+                await db.get().collection(collectionname.ONLINE_HISTORY).findOne({ orderid: parseInt(data.orderDetails.receipt) }).then(async (result) => {
+                    console.log('result', result);
+                    useridd = result.userid
+                    await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(result.userid) }, {
+                        $push: {
+                            orderhistory: {
+                                orderid: result.orderid,
+                                totalAmt: result.tatalAmt,
+                                address: result.address,
+                                coopenstatus: result.coopenStatus,
+
+                                OrderDate: result.OrderDate,
+                                payMethod: result.method,
+                                productDetails: result.productDetails,
+                                onlinePay: "success",
+                            }
+                        }
+                    })
+
+                })
                 resolve()
+                await db.get().collection(collectionname.ONLINE_HISTORY).deleteMany({ userid: objectid(useridd) }).then((a) => {
+                    console.log(a);
+                })
                 console.log('success pay');
             } else {
-                console.log('faild');
+                console.log('faild pay');
                 reject()
             }
         })
@@ -533,23 +590,23 @@ module.exports = {
             }
         })
     },
-    forgotPassMailCheck:(mail)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collectionname.USER_COLLECTION).findOne({email:mail}).then((data)=>{
+    forgotPassMailCheck: (mail) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collectionname.USER_COLLECTION).findOne({ email: mail }).then((data) => {
                 resolve(data)
-            }).catch((err)=>{
+            }).catch((err) => {
                 reject(err)
             })
         })
     },
-    resetpass:(email,newpass)=>{
-        return new Promise(async(resolve,reject)=>{
-        let data=await db.get().collection(collectionname.USER_COLLECTION).findOne({email:email})
-        console.log(data.password+newpass);
-                data.password=await bcript.hash(newpass,10)
-                await db.get().collection(collectionname.USER_COLLECTION).updateOne({email:email},{$set:{...data}})
-                    resolve()
-            
+    resetpass: (email, newpass) => {
+        return new Promise(async (resolve, reject) => {
+            let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ email: email })
+            console.log(data.password + newpass);
+            data.password = await bcript.hash(newpass, 10)
+            await db.get().collection(collectionname.USER_COLLECTION).updateOne({ email: email }, { $set: { ...data } })
+            resolve()
+
         })
     }
 }             

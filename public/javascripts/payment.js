@@ -200,6 +200,7 @@ function addDelete(name, addr, pin, mob, place) {
     })
 }
 let coopenstatus = ''
+let coopenDisTotalamt=0
 function coopenApply() {
     fetch('http://localhost:3000/coopenapply', {
         method: "post",
@@ -219,6 +220,8 @@ function coopenApply() {
         } else {
             document.getElementById('cpDisAmt').innerHTML = data.disAmt + '.00'
             document.getElementById('cpmainAmt').innerHTML = data.amt + '.00'
+            coopenDisTotalamt=data.amt
+            
             document.getElementById('cpMsg').innerHTML = ''
         }
         coopenstatus = data
@@ -243,10 +246,18 @@ function orderPlace() {
             if (data.status == true) {
                 location.href = 'http://localhost:3000/success'
             } else {
+                let price=0
+                console.log(coopenDisTotalamt)
+                if(coopenDisTotalamt==0){
+                   
+                    price=data.amount
+                }else{
+                    price=coopenDisTotalamt
+                }
                 if (text.value != null && text.value != undefined && text.value != '' && text.value.charCodeAt() != 32) {
                     let options = {
                         "key": 'rzp_test_tkUZeWI1OfAb4R', // Enter the Key ID generated from the Dashboard
-                        "amount": data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "amount":price , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         "currency": "INR",
                         "name": "KK FOODS", //your business name
                         "description": "Test Transaction",
@@ -270,7 +281,7 @@ function orderPlace() {
                             "color": "#3399cc"
                         }
                     };
-                    var rzp1 = new Razorpay(options);
+                    let rzp1 = new Razorpay(options);
                     rzp1.open();
 
                 } else {

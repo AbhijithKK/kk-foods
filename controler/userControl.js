@@ -26,6 +26,14 @@ let generateOTP = () => {
 let otp = generateOTP();
 //######### user contol start##########
 let usercotrol = {
+
+    loginCheck:(req, res, next)=> {
+        if (req.session.loginId != undefined) {
+            next()
+        } else {
+            res.redirect('/')
+        }
+    },
     guestUserHome: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
@@ -651,18 +659,28 @@ let usercotrol = {
         })
     },
     orderhistoryyy: (req, res) => {
-
-        db.orderHistoryAdd(userId, cartProducts, req.body.address, req.body.coopenStatus, total, req.body.date, req.body.payMethod).then(async (responce) => {
-            if (req.body.payMethod == 'cod') {
+        if (req.body.payMethod == 'cod') {
+        db.orderHistoryAdd(userId, cartProducts, req.body.address, req.body.coopenStatus, total, req.body.date, req.body.payMethod).then( () => {
+            console.log('voopen',req.body.coopenStatus);
+            
                 res.json({ status: true })
+            })
             } else {
-
-                db.razorpay(responce[0].orderid, responce[0].totalAmt).then((resp) => {
+                db.OnlineorderHistoryAdd(userId, cartProducts, req.body.address, req.body.coopenStatus, total, req.body.date, req.body.payMethod).then( (responce) => {
+                let total=0
+                if(req.body.coopenStatus.amt){
+                    
+                    total=req.body.coopenStatus.amt
+                }else{
+                    total=responce[0].totalAmt
+                }
+                db.razorpay(responce[0].orderid,total ).then((resp) => {
                     res.json(resp)
                 })
+            })
             }
 
-        })
+       
 
     },
     orderhistoryPage: async (req, res) => {

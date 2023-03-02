@@ -1,40 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../controler/databaseConfig/users')
-const { guestUserHome, login, signup, mainHome, otpPage, post_Otp, resendOtp, post_userData, post_homelogin,
-    userLogout, singleProductView, cartProductadd, cartDelet, profilEdit, post_profileUpdate,
-    Post_profileAddess, paymentAddressGet, successpage, productSearch, post_count,
-    addressDelete, updateAdd, addget,
-    post_coopenAppply,
-
-    orderhistoryyy,
-    orderhistoryPage,
-    orderCanceled,
-    onlinepayDetails,
-    offerpage,
-    loginMailErr, 
-    postProfileUpdate,
-    PostProfileAddess,
-    postCount,
-    postCoopenAppply,
-    postOtp,
-    postUserData,
-    postHomelogin,
-    getCartProductadd,
-    getForgotPassword,
-    forgotMailCheck,
-    passOtpverify,
-    passResendOtp,
-    passwordReset} = require('../controler/userControl');
+const { guestUserHome, login, signup, mainHome, otpPage, resendOtp,  userLogout, singleProductView,  cartDelet, profilEdit, 
+    paymentAddressGet, successpage, productSearch,  addressDelete, updateAdd, addget, orderhistoryyy, orderhistoryPage, orderCanceled, onlinepayDetails,postProfileUpdate,
+    PostProfileAddess, postCount, postCoopenAppply, postOtp, postUserData, postHomelogin, getCartProductadd,getForgotPassword,forgotMailCheck,
+    passOtpverify, passResendOtp, passwordReset,
+    loginCheck} = require('../controler/userControl');
 const proImageupload = require('../helpers/profileMulter')
 
-function loginCheck(req, res, next) {
-    if (req.session.loginId != undefined) {
-        next()
-    } else {
-        res.redirect('/')
-    }
-}
+
 /* GET home page. */
 router.get('/', guestUserHome)
 router.get('/login', login);
