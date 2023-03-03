@@ -1,5 +1,8 @@
+
+
 let alet = document.getElementById('alertWindow')
 let paymentMethod = document.radiobtns.payment
+let wallet=document.radiobtns.walletAmt
 let onlinePay = document.getElementById('onlinePayment')
 let cod = document.getElementById('cashOnDelivery')
 let coopencode = document.coopenForm.couponCode;
@@ -233,7 +236,8 @@ function coopenApply() {
     return false
 }
 function orderPlace() {
-    console.log(text.value)
+   
+    
 
     if (text.value && text.value.trim() !== '') {
         fetch('http://localhost:3000/orderHistory', {
@@ -359,3 +363,41 @@ function colseAlet() {
     alet.style.display = 'none'
     return false
 }
+
+
+function getCheckboxValue() {
+    var checkbox = document.getElementById("myCheckbox");
+    var showWalltAmt = document.getElementById("wallAmt");
+    if (checkbox.checked) {
+        
+        showWalltAmt.innerHTML=checkbox.value+'.00'
+      fetch('http://localhost:3000/walletAmtAdd',{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({walletamt:checkbox.value})
+      }).then((data)=>data.json()).then((data)=>{
+        document.getElementById('cpmainAmt').innerHTML =data.total+'.00'
+        showWalltAmt.innerHTML=data.wallet
+        console.log(data)
+      })
+    }
+    if(!checkbox.checked){
+        showWalltAmt.innerHTML='0.00'
+        fetch('http://localhost:3000/walletAmtAdd',{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({walletamt:0})
+      }).then((data)=>data.json()).then((data)=>{
+        document.getElementById('cpmainAmt').innerHTML =data.total+'.00'
+        showWalltAmt.innerHTML=data.wallet
+        console.log(data)
+      })
+    }
+   
+    return false
+  }
+  

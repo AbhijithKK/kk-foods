@@ -60,6 +60,7 @@
           
           <th scope="col">Product Quantity</th>
           <th scope="col">price</th>
+          <th scope="col">Pay method</th>
           <th scope="col">Coupen status</th>
           <th scope="col">Order Status</th>
           <th scope="col">Action</th>
@@ -80,6 +81,7 @@
           
           <td>{{this.count}}</td>
           <td>{{this.productPrize}}</td>
+         <td> {{../this.payMethod}}</td>
           <td>{{../this.coopenstatus.disAmt}}</td>
           {{#ifEqual this.orderStatus "Orderd"}}
           <td> <a id="{{../this.orderid}}" class="btn btn-primary btn-block mb-4">processing</a>
@@ -125,7 +127,10 @@
   function orderCancel(userid, orderid, productName, currentsts) {
     console.log(orderid, productName,)
     let stsbn = document.getElementById(orderid)
-    confirm('are you sure')
+    if(!confirm('Are you Sure')){
+      confirm('Click ok')
+      
+    
     fetch('http://localhost:3000/admin/ordercancel', {
       method: "post",
       headers: {
@@ -140,5 +145,12 @@
       stsbn.innerHTML = 'cancell'
 
     })
+
+      return false
+    }else{
+      confirm('click Ok')
+      console.log('noo')
+      return false
+    }
   }
 </script>

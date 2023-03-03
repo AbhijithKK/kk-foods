@@ -27,7 +27,7 @@ let otp = generateOTP();
 //######### user contol start##########
 let usercotrol = {
 
-    loginCheck:(req, res, next)=> {
+    loginCheck: (req, res, next) => {
         if (req.session.loginId != undefined) {
             next()
         } else {
@@ -103,11 +103,12 @@ let usercotrol = {
                     if (resp.block != 'unBlock' || !res.block) {
 
                         if (req.session.loginId == undefined) {
+                            req.session.total = 0
                             res.redirect('/login')
                         } else {
                             db.getProducts().then((products) => {
-                                userId = resp._id;
-                                db.profile(userId).then(async (userData) => {
+                                req.session.userId = resp._id;
+                                db.profile(req.session.userId).then(async (userData) => {
 
 
                                     if (userData.image != null) {
@@ -121,7 +122,7 @@ let usercotrol = {
                                     } else {
                                         proImag = null
                                     }
-                                    db.cartProductAdd(req.query.productId, userId).then((product) => {
+                                    db.cartProductAdd(req.query.productId, req.session.userId).then((product) => {
 
                                         console.log('hii');
                                         let totalcartCount = product.length;
@@ -282,7 +283,7 @@ let usercotrol = {
                     piz = null;
                     brg = null;
                 }
-                db.profile(userId).then(async (userData) => {
+                db.profile(req.session.userId).then(async (userData) => {
 
 
                     if (userData.image != null) {
@@ -317,11 +318,11 @@ let usercotrol = {
         try {
 
 
-            db.cartProductAdd(req.query.productId, userId).then((product) => {
+            db.cartProductAdd(req.query.productId, req.session.userId).then((product) => {
 
                 console.log('hii');
                 let totalcartCount = product.length;
-                db.profile(userId).then(async (userData) => {
+                db.profile(req.session.userId).then(async (userData) => {
                     req.session.userDetails = userData
                     for (let i = 0; i < product.length; i++) {
                         for (let j = 0; j < userData.cart.length; j++) {
@@ -336,13 +337,13 @@ let usercotrol = {
                         }
                     }
                     console.log('haiii', product);
-                    if (total != 0) {
-                        total = 0
+                    if (req.session.total != 0) {
+                        req.session.total = 0
                     }
                     for (let i = 0; i < product.length; i++) {
                         for (let j = 0; j < userData.cart.length; j++) {
                             if (product[i]._id == userData.cart[j].productId) {
-                                total += product[i].productPrize * product[i].count
+                                req.session.total += product[i].productPrize * product[i].count
                             }
 
 
@@ -361,7 +362,7 @@ let usercotrol = {
                         proImag = null
                     }
 
-
+                    let total = req.session.total
 
                     res.render('user/cart', {
                         css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
@@ -383,14 +384,14 @@ let usercotrol = {
 
     },
     userLogout: (req, res) => {
-        total = 0;
+        req.session.total = 0;
         req.session.loginId = undefined;
         res.redirect('/')
     },
     cartDelet: (req, res) => {
         try {
 
-            db.delCartitem(userId, req.query.id, req.query.ofId).then((ress => {
+            db.delCartitem(req.session.userId, req.query.id, req.query.ofId).then((ress => {
                 res.redirect('/cart')
             })).catch((err) => {
                 res.redirect('/')
@@ -404,7 +405,7 @@ let usercotrol = {
     profilEdit: (req, res) => {
         try {
 
-            db.profile(userId).then((userData) => {
+            db.profile(req.session.userId).then((userData) => {
                 let addrs = userData.address
                 let proImag = null;
 
@@ -447,7 +448,7 @@ let usercotrol = {
 
                 if (resp == null || resp.email == null) {
 
-                    db.profileUpdate(userId, req.body, req.files).then((resp) => {
+                    db.profileUpdate(req.session.userId, req.body, req.files).then((resp) => {
                         console.log('done');
                         res.redirect('/profile')
                     })
@@ -469,7 +470,7 @@ let usercotrol = {
     PostProfileAddess: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
-                db.address(userId, req.body).then((resp) => {
+                db.address(req.session.userId, req.body).then((resp) => {
                     res.json(resp)
                 }).catch((err) => {
                     res.redirect('/')
@@ -497,8 +498,8 @@ let usercotrol = {
                 } else {
                     proImag = null
                 }
-                db.address(userId).then((addr) => {
-
+                db.address(req.session.userId).then((addr) => {
+                    let total = req.session.total
                     res.render('user/payment', {
                         css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
@@ -564,10 +565,10 @@ let usercotrol = {
     },
     postCount: (req, res) => {
         try {
-            db.cartCount(userId, req.body.countValue, req.body.proId, req.body.ofId).then((result) => {
-                db.cartProductAdd(req.query.productId, userId, req.body.ofId).then((product) => {
+            db.cartCount(req.session.userId, req.body.countValue, req.body.proId, req.body.ofId).then((result) => {
+                db.cartProductAdd(req.query.productId, req.session.userId, req.body.ofId).then((product) => {
                     console.log(product);
-                    db.profile(userId).then((userData) => {
+                    db.profile(req.session.userId).then((userData) => {
                         for (let i = 0; i < product.length; i++) {
                             for (let j = 0; j < userData.cart.length; j++) {
                                 if (product[i]._id == userData.cart[j].productId) {
@@ -577,20 +578,20 @@ let usercotrol = {
                             }
                         }
 
-                        if (total != 0) {
-                            total = 0
+                        if (req.session.total != 0) {
+                            req.session.total = 0
                         }
                         for (let i = 0; i < product.length; i++) {
                             for (let j = 0; j < userData.cart.length; j++) {
                                 if (product[i]._id == userData.cart[j].productId) {
-                                    total += parseInt(product[i].productPrize) * product[i].count
+                                    req.session.total += parseInt(product[i].productPrize) * product[i].count
 
                                 }
                             }
                         }
-                        console.log(total);
+                        console.log(req.session.total);
 
-                        res.json({ result: result.quantity, newTotal: total, prototal: result.prototal })
+                        res.json({ result: result.quantity, newTotal: req.session.total, prototal: result.prototal })
                     })
                 })
             })
@@ -601,7 +602,7 @@ let usercotrol = {
     },
     addressDelete: (req, res) => {
         try {
-            db.adddelete(userId, req.body).then((resp) => {
+            db.adddelete(req.session.userId, req.body).then((resp) => {
                 console.log(req.body);
                 res.json(resp)
             }).catch((e) => {
@@ -614,7 +615,7 @@ let usercotrol = {
     updateAdd: (req, res) => {
         try {
 
-            db.updateaddress(userId, req.body).then((data) => {
+            db.updateaddress(req.session.userId, req.body).then((data) => {
                 res.json(data)
             }).catch((e) => {
                 res.redirect('/')
@@ -625,7 +626,7 @@ let usercotrol = {
     },
     addget: (req, res) => {
         try {
-            db.getAddress(userId).then((data) => {
+            db.getAddress(req.session.userId).then((data) => {
                 res.json(data)
             })
         } catch (e) {
@@ -638,21 +639,21 @@ let usercotrol = {
             let results = {}
             if (data != null) {
                 if (data.cpList == 'Unlist') {
-                    if (total > data.cpPurchaseAmt) {
+                    if (req.session.total > data.cpPurchaseAmt) {
                         if (new Date() < new Date(data.cpEndDataTime)) {
-                            let amt = total - data.cpDisamt
+                            let amt = req.session.total - data.cpDisamt
                             results = { disAmt: parseInt(data.cpDisamt), amt: amt }
                         } else {
-                            results = { msg: 'coopen date expired', oldVal: total }
+                            results = { msg: 'coopen date expired', oldVal: req.session.total }
                         }
                     } else {
-                        results = { msg: 'purchase the given amount', oldVal: total }
+                        results = { msg: 'purchase the given amount', oldVal: req.session.total }
                     }
                 } else {
-                    results = { msg: 'coopen blocked', oldVal: total }
+                    results = { msg: 'coopen blocked', oldVal: req.session.total }
                 }
             } else {
-                results = { msg: 'enter valid coopen', oldVal: total }
+                results = { msg: 'enter valid coopen', oldVal: req.session.total }
             }
             res.json(results)
 
@@ -660,49 +661,51 @@ let usercotrol = {
     },
     orderhistoryyy: (req, res) => {
         if (req.body.payMethod == 'cod') {
-        db.orderHistoryAdd(userId, cartProducts, req.body.address, req.body.coopenStatus, total, req.body.date, req.body.payMethod).then( () => {
-            console.log('voopen',req.body.coopenStatus);
-            
+            db.orderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod,req.session.newwallAmt).then(() => {
+                console.log('voopen', req.body.coopenStatus);
+
                 res.json({ status: true })
             })
-            } else {
-                db.OnlineorderHistoryAdd(userId, cartProducts, req.body.address, req.body.coopenStatus, total, req.body.date, req.body.payMethod).then( (responce) => {
-                let total=0
-                if(req.body.coopenStatus.amt){
-                    
-                    total=req.body.coopenStatus.amt
-                }else{
-                    total=responce[0].totalAmt
+            db.getWalletamt(req.session.userId, req.session.newwallAmt)
+        } else {
+            db.OnlineorderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod,req.session.newwallAmt).then((responce) => {
+                console.log('online',req.session.walletTemp);
+                req.session.cpsts = 0
+                if (req.body.coopenStatus.amt) {
+
+                    req.session.cpsts = req.body.coopenStatus.amt
+                } else {
+                    req.session.cpsts = responce[0].totalAmt
                 }
-                db.razorpay(responce[0].orderid,total ).then((resp) => {
+                db.razorpay(responce[0].orderid, req.session.cpsts).then((resp) => {
                     res.json(resp)
                 })
             })
-            }
+        }
+        db.getWalletamt(req.session.userId, req.session.newwallAmt)
 
-       
 
     },
     orderhistoryPage: async (req, res) => {
 
-        db.profile(userId).then((data) => {
+        db.profile(req.session.userId).then((data) => {
             let datas = data.orderhistory
-            let allOrderTotal = 0;
+            req.session.allOrderTotal = 0;
             for (i = 0; i < datas.length; i++) {
                 for (j = 0; j < datas[i].productDetails.length; j++) {
 
 
-                    console.log('ordered', allOrderTotal);
+                    console.log('ordered', req.session.allOrderTotal);
                     if (datas[i].productDetails[j].orderStatus == 'Delivered') {
-                        allOrderTotal = allOrderTotal + parseInt(datas[i].productDetails[j].proTotal)
+                        req.session.allOrderTotal = req.session.allOrderTotal + parseInt(datas[i].productDetails[j].proTotal)
 
                     }
 
                     if (datas[i].coopenstatus != '' && datas[i].coopenstatus != null) {
                         if (datas[i].productDetails[j].orderStatus == 'Delivered') {
-                            allOrderTotal = allOrderTotal - parseInt(datas[i].coopenstatus.disAmt)
+                            req.session.allOrderTotal = req.session.allOrderTotal - parseInt(datas[i].coopenstatus.disAmt)
                         }
-                        console.log('aa', allOrderTotal);
+                        console.log('aa', req.session.allOrderTotal);
 
                     }
 
@@ -716,7 +719,7 @@ let usercotrol = {
                     "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                     "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                     "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], datas, allOrderTotal
+                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], datas, allOrderTotal: req.session.allOrderTotal
             })
         }).catch((e) => {
             res.redirect('/')
@@ -725,7 +728,7 @@ let usercotrol = {
     },
     orderCanceled: (req, res) => {
 
-        db.ordercancel(userId, req.body).then((result) => {
+        db.ordercancel(req.session.userId, req.body).then((result) => {
             res.json(result)
         })
     },
@@ -831,9 +834,36 @@ let usercotrol = {
         db.resetpass(req.session.resetPassword, req.body.pass1).then(() => {
             res.json('success')
         })
+    },
+    walletAmtAdd: (req, res) => {
+        
+        if (req.body.walletamt != 0) {
+            req.session.walletTemp=req.body.walletamt
+            req.session.totaltemp=req.session.total
+           if(req.body.walletamt<=req.session.total){
+            req.session.newwallAmt=0
+            req.session.total=req.session.total-req.body.walletamt
+           }else{
+            req.session.newwallAmt=req.body.walletamt-req.session.total
+            req.session.total=0
+           }
+                 
+                    res.json({total:req.session.total,wallet:req.session.walletTemp})
+               
+             
+        } else {
+            req.session.newwallAmt=1
+                req.session.total = req.session.totaltemp
+                res.json({total:req.session.total,wallet:0})
+                
+            
+            
+            console.log('tttt', req.session.total);
+
+        }
+       
     }
 
- 
 }
 
 module.exports = usercotrol

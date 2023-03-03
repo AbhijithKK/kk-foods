@@ -5,7 +5,8 @@ const { guestUserHome, login, signup, mainHome, otpPage, resendOtp,  userLogout,
     paymentAddressGet, successpage, productSearch,  addressDelete, updateAdd, addget, orderhistoryyy, orderhistoryPage, orderCanceled, onlinepayDetails,postProfileUpdate,
     PostProfileAddess, postCount, postCoopenAppply, postOtp, postUserData, postHomelogin, getCartProductadd,getForgotPassword,forgotMailCheck,
     passOtpverify, passResendOtp, passwordReset,
-    loginCheck} = require('../controler/userControl');
+    loginCheck,
+    walletAmtAdd} = require('../controler/userControl');
 const proImageupload = require('../helpers/profileMulter')
 
 
@@ -48,4 +49,5 @@ router.post('/forgotPasswordMailCheck',forgotMailCheck)
 router.post('/passResetOtpVerify',passOtpverify)
 router.post('/resendOtpPassReset',passResendOtp)
 router.post('/resetPassword',passwordReset)
+router.post('/walletAmtAdd',walletAmtAdd)
 module.exports = router; 

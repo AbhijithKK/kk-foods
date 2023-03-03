@@ -259,9 +259,27 @@ module.exports = {
         //     newStatus = 'Orderd'
         // }
         return new Promise((resolve, reject) => {
+            db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userid) }).then((data) => {
+                
+                
+                for (let i = 0; i < data.orderhistory.length; i++) {
+                    for (let j = 0; j < data.orderhistory[i].productDetails.length; j++) {
+                        if (data.orderhistory[i].productDetails[j].proOrderId == orderId) {
+                            proidss = { [data.orderhistory[i].productDetails[j].proOrderId]: parseInt(orderId) }
+                            let ordrsts = data.orderhistory[i].productDetails[j].orderStatus
+                           
+                            // wallet
+                            if(data.orderhistory[i].payMethod!="cod" && ordrsts == 'Orderd'){
+                                console.log(parseInt(data.wallet));
+                                let walletAmount=0
+                                walletAmount +=data.wallet+data.orderhistory[i].productDetails[j].proTotal
+                                db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userid) },
+                                {$set:{wallet:walletAmount}})
+                                console.log(walletAmount);
+                            }
+                            // end wallet
 
             db.get().collection(collectionname.USER_COLLECTION).updateOne(
-
 
                 {
                     _id: objectid(userid), "orderhistory.productDetails._id": objectid(productId)
@@ -284,7 +302,12 @@ module.exports = {
                 console.log(resp);
             }).catch((err) => {
                 reject(err)
+
             })
+        }
+        }
+    }
+        })
         })
     },
 
@@ -298,11 +321,11 @@ module.exports = {
                 // Filter orders for the desired month
                 const filterMonth = i; // replace with the desired month (0-based)
                 const filteredOrders = orders.filter((order, i) => {
-                    if (order.productDetails[i].orderStatus == 'Delivered') {
+                    // if (order.productDetails[i].orderStatus == 'Delivered') {
                         const orderDate = new Date(order.OrderDate);
 
                         return orderDate.getMonth() === filterMonth;
-                    }
+                    // }
                 });
 
                 // Calculate the total revenue for the month
