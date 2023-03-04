@@ -454,6 +454,11 @@ let admincontrol = {
         } catch (e) {
             res.redirect('/admin/')
         }
+    },
+    singleImageDelete:(req,res)=>{
+        db.proImageDelete(req.body).then(()=>{
+            res.json('success')
+        })
     }
 }
 

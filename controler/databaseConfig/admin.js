@@ -440,6 +440,18 @@ module.exports = {
             }
 
         })
+    },
+    proImageDelete:(data)=>{
+        let way=data.path
+        return new Promise((resolve,reject)=>{
+            console.log(data.path);
+            
+            db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({_id:objectid(data.proId)},{
+                $unset:{[`image2.${way}`]: 1}
+            }).then((b)=>{
+                console.log(b);
+            })
+        })
     }
 
 } 

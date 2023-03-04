@@ -5,7 +5,8 @@ const { adminHome, productDetails, orderdetails, userDetails, addproducts, editP
     catogaryBlock, catogaryDelete, addcoopens, coopenlist, coopenPage, orederCancel, logout, offerlistAndunlist,
      addeOffers, offergetpage, monthlyRevannue, updateCatogariess, loginCheck, getSalesReport, postSalesReport,
       postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct, 
-      postAdminAddproduct } = require('../controler/admincontrol');
+      postAdminAddproduct, 
+      singleImageDelete} = require('../controler/admincontrol');
 const { multiUpload } = require('../helpers/multer');
 var db = require('../controler/databaseConfig/admin')
 
@@ -44,4 +45,5 @@ router.post('/upadeCatogatiess', loginCheck, updateCatogariess)
 router.post('/listOffer', loginCheck, offerlistAndunlist)
 router.post('/addoffer', loginCheck, addeOffers)
 router.post('/postSalesReport', loginCheck, postSalesReport)
+router.post('/proSingleImageDelete',loginCheck,singleImageDelete)
 module.exports = router;  
