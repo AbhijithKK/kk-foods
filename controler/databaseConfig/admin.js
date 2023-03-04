@@ -117,16 +117,15 @@ module.exports = {
     },
     catogatyAdd: (catogary) => {
         return new Promise(async (resolve, reject) => {
-            let cat = await db.get().collection('catogary').find().toArray()
-
+                let cat = await db.get().collection('catogary').find({catogary:RegExp("^"+catogary,'i')}).toArray()
+               console.log(cat);
             let resp = false
 
-            for (let i = 0; i < cat.length; i++) {
-                if (cat[i].catogary == catogary) {
-                    resp = true
+            if (cat.length>0 ) {
+                resp = true
 
-                }
             }
+            console.log(resp);
             if (resp != true) {
                 db.get().collection('catogary').insertOne({ catogary, block: "unBlock" }).then(() => {
                     resolve(resp = true)

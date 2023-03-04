@@ -622,10 +622,10 @@ module.exports = {
     },
     getWalletamt:(id,walletAmount)=>{
 
-        
+        console.log('wallet Amount',walletAmount);
         return new Promise(async(resolve,reject)=>{
         let user=await db.get().collection(collectionname.USER_COLLECTION).findOne({_id:objectid(id)})
-        if(walletAmount==1){
+        if(walletAmount==1 || walletAmount==undefined||walletAmount==null){
           walletAmount=user.wallet
         }
         console.log('amt',walletAmount);

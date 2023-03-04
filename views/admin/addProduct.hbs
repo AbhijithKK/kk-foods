@@ -48,10 +48,11 @@
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-5">Add products</h2>
 
-                    <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                    <form action="/admin/addProduct" method="post" enctype="multipart/form-data" name="addForm" onsubmit="return validCheck()">
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
-                                <label for="validationDefault01">product Name</label>
+                                <label id="proName0" for="validationDefault01">product Name</label>
+                                <label id="proName" style="color: #ff3300;" for="validationDefault01"></label>
                                 <input type="text" class="form-control" id="validationDefault01" name="productName"
                                     placeholder="product name" style="width: 160%;border-color: black;" required>
                             </div>
@@ -60,7 +61,7 @@
 
                                 <div class="dropdown">
                                     <select class="btn btn-white dropdown-toggle" name="productCatogary" id="" style="
-                                width: 251px; border-color: black;">
+                                width: 251px; border-color: black;" required>
                                         <option class="dropdown-menu dropdown-menu-white" value="" style="width: 160%;">
                                             select catogary</option>
                                         {{#each data}}
@@ -84,18 +85,18 @@
                             <div class="col-md-6 mb-3">
                                 <label for="validationDefault03">₹ price</label>
                                 <input type="number" class="form-control" id="validationDefault03" name="productPrize"
-                                    style="width: 107%;border-color: black;" placeholder="price" value="₹" required>
+                                    style="width: 107%;border-color: black;" placeholder="price" value="₹"  required min="0">
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                <label for="validationDefault05">upload image 1 </label>
+                                <label for="validationDefault05">Main Image  </label>
                                 <input type="file" class="form-control" id="validationDefault05" name="image1"
                                     style="width: 216%;border-color: black;" placeholder="image" required>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <label for="validationDefault05">upload image 2</label>
+                                <label for="validationDefault05">Sub Image (max 3)</label>
                                 <input type="file" class="form-control" id="validationDefault05" name="image2"
-                                    style="width: 216%;border-color: black;" placeholder="image" multiple required>
+                                    style="width: 216%;border-color: black;" placeholder="image" multiple >
                             </div>
                         </div>
 
@@ -107,3 +108,15 @@
     </div>
 
 </div>
+<script>
+  let name=document.addForm.productName;
+  function validCheck(){
+    if(name.value.charCodeAt()==32){
+      document.getElementById('proName').innerHTML="Enter Propr Name"
+      document.getElementById('proName0').style.display='none'
+      return false
+    }
+    document.getElementById('proName').innerHTML=""
+      document.getElementById('proName0').style.display='block'
+  }
+</script>
