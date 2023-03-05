@@ -313,20 +313,21 @@ module.exports = {
     monthlyRevanue: () => {
         return new Promise(async (resolve, reject) => {
             const allUsers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray();
-
+            
+            // console.log(product);
             const orders = allUsers.flatMap(user => user.orderhistory);
             let revanue = []
             for (let i = 0; i < 12; i++) {
                 // Filter orders for the desired month
                 const filterMonth = i; // replace with the desired month (0-based)
-                const filteredOrders = orders.filter((order, i) => {
+                const filteredOrders = orders.filter((order) => {
                     // if (order.productDetails[i].orderStatus == 'Delivered') {
                         const orderDate = new Date(order.OrderDate);
 
                         return orderDate.getMonth() === filterMonth;
                     // }
                 });
-
+console.log(filteredOrders);
                 // Calculate the total revenue for the month
 
                 const totalRevenue = filteredOrders.reduce((total, order) => {
@@ -429,17 +430,25 @@ module.exports = {
         })
     },
     salesReport: (date) => {
+        
+       let date1=new Date()
+      let  date2=new Date()
+       
+      if(date!=undefined){
+        date1=date.date1
+        date2=date.date2
+      }
         return new Promise(async (resolve, reject) => {
             try {
-                let datas = await db.get().collection(collectionname.USER_COLLECTION).find({ "orderhistory.OrderDate": { $gte: date.date1, $lt: date.date2 } }).toArray()
-
-                let filter = datas.filter(e => e.orderhistory[0].productDetails[1].orderStatus == "Delivered")
-                resolve(filter)
+                let allUsers = await db.get().collection(collectionname.USER_COLLECTION).find({ "orderhistory.OrderDate": { $gte: date1, $lt: date2 } }).toArray()
+                
+                console.log(allUsers);
+                 resolve(allUsers)
             } catch (e) {
                 reject(e)
             }
 
-        })
+        }) 
     },
     proImageDelete:(data)=>{
         let way=data.path
@@ -454,7 +463,7 @@ module.exports = {
             }).catch((err)=>reject(err))
         })
     },
-    profuctImageAdd:(data,image)=>{
+    productImageAdd:(data,image)=>{
         return new Promise((resolve,reject)=>{
             console.log(image.image2[0]);
             let way=data.arrpos

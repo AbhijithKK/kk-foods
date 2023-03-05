@@ -35,8 +35,12 @@ let admincontrol = {
                         for (let k = 0; k < allusers[i].orderhistory[j].productDetails.length; k++) {
                             //total orderd
                             if (allusers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
-                                orederCount++;
+                               
                                 totalOrder = totalOrder + (allusers[i].orderhistory[j].productDetails[k].proTotal * allusers[i].orderhistory[j].productDetails[k].count)
+                            }
+                            if (allusers[i].orderhistory[j].productDetails[k].orderStatus) {
+                                orederCount++;
+                                
                             }
                         }
                     }
@@ -442,15 +446,76 @@ let admincontrol = {
     },
     postSalesReport: (req, res) => {
         try {
-            db.salesReport(req.body).then((result) => {
+            db.salesReport(req.body).then((allUsers) => {
+                
+                let product=[]
+            for(let i=0;i<allUsers.length;i++){
+                for(let j=0;j<allUsers[i].orderhistory.length;j++){
+                    for(let k=0;k<allUsers[i].orderhistory[j].productDetails.length;k++){
+                        if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
+                            product.push({
+                                orderid:allUsers[i].orderhistory[j].orderid,
+                                name:allUsers[i].name1,
+                                productName:allUsers[i].orderhistory[j].productDetails[k].productName,
+                                productPrice:allUsers[i].orderhistory[j].productDetails[k].productPrize,
+                                productQuantity:allUsers[i].orderhistory[j].productDetails[k].count,
+                                subTotal:allUsers[i].orderhistory[j].productDetails[k].productPrize*allUsers[i].orderhistory[j].productDetails[k].count,
+                                
+                            })
+                           
+                        }
+                                
+                    }
+                }
+            }
+            req.session.salesTotal=0
+            for(let i=0;i<product.length;i++){
+                req.session.salesTotal=req.session.salesTotal+product[i].subTotal   
+            }   
+                req.session.salesData=product
+                req.session.salesRedirect=1
+                res.redirect('/admin/salesReport')
             })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
     getSalesReport: (req, res) => {
+        
         try {
-            res.render('admin/salesReport')
+            if(req.session.salesRedirect!=1){
+            db.salesReport().then((allUsers) => {
+                
+                let product=[]
+            for(let i=0;i<allUsers.length;i++){
+                for(let j=0;j<allUsers[i].orderhistory.length;j++){
+                    for(let k=0;k<allUsers[i].orderhistory[j].productDetails.length;k++){
+                        if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
+                            product.push({
+                                orderid:allUsers[i].orderhistory[j].orderid,
+                                name:allUsers[i].name1,
+                                productName:allUsers[i].orderhistory[j].productDetails[k].productName,
+                                productPrice:allUsers[i].orderhistory[j].productDetails[k].productPrize,
+                                productQuantity:allUsers[i].orderhistory[j].productDetails[k].count,
+                                subTotal:allUsers[i].orderhistory[j].productDetails[k].productPrize*allUsers[i].orderhistory[j].productDetails[k].count,
+                                
+                            })
+                           
+                        }
+                                
+                    }
+                }
+            }
+            req.session.salesTotal=0
+            for(let i=0;i<product.length;i++){    
+                req.session.salesTotal=req.session.salesTotal+product[i].subTotal  
+            }
+                req.session.salesData=product
+            })
+        }
+            res.render('admin/salesReport',{users:req.session.salesData,total:req.session.salesTotal, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]})
+            req.session.salesRedirect=undefined;
         } catch (e) {
             res.redirect('/admin/')
         }
@@ -462,8 +527,8 @@ let admincontrol = {
     },
     postSingleImageAdd:(req,res)=>{
         try{
-            console.log(req.body,req.files);
-            db.profuctImageAdd(req.body,req.files).then(()=>{
+            
+            db.productImageAdd(req.body,req.files).then(()=>{
                 res.json('success')
             })
            
