@@ -1,4 +1,4 @@
-
+const userRoute='http://localhost:3000'
 
 let alet = document.getElementById('alertWindow')
 let paymentMethod = document.radiobtns.payment
@@ -44,7 +44,7 @@ function editForm(name, address, pin, mob, place) {
 
 }
 function updateAddr() {
-    fetch('http://localhost:3000/updateAddress', {
+    fetch(`${userRoute}/updateAddress`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -84,7 +84,7 @@ function closeForm() {
 
 function addSubmit() {
 
-    fetch("http://localhost:3000/addAddress", {
+    fetch(`${userRoute}/addAddress`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -134,7 +134,7 @@ addChange.addEventListener('click', addraddChange)
 function addraddChange() {
     console.log('hii')
     popwindow.style.display = 'block'
-    fetch('http://localhost:3000/getAddress', {
+    fetch(`${userRoute}/getAddress`, {
         method: "get",
         headers: {
             "Content-Type": "application/json"
@@ -191,7 +191,7 @@ ${place}`
 }
 function addDelete(name, addr, pin, mob, place) {
     console.log(name, addr, pin, mob, place)
-    fetch('http://localhost:3000/addDelete', {
+    fetch(`${userRoute}/addDelete`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -205,7 +205,7 @@ function addDelete(name, addr, pin, mob, place) {
 let coopenstatus = ''
 let coopenDisTotalamt=0
 function coopenApply() {
-    fetch('http://localhost:3000/coopenapply', {
+    fetch(`${userRoute}/coopenapply`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -240,7 +240,7 @@ function orderPlace() {
     
 
     if (text.value && text.value.trim() !== '') {
-        fetch('http://localhost:3000/orderHistory', {
+        fetch(`${userRoute}/orderHistory`, {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
@@ -324,7 +324,7 @@ function orderPlace() {
 
 function verifypayment(responce, orderDetails) {
     console.log(responce)
-    fetch('http://localhost:3000/onlinePayDetails', {
+    fetch(`${userRoute}/onlinePayDetails`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -371,7 +371,7 @@ function getCheckboxValue() {
     if (checkbox.checked) {
         
         showWalltAmt.innerHTML=checkbox.value+'.00'
-      fetch('http://localhost:3000/walletAmtAdd',{
+      fetch(`${userRoute}/walletAmtAdd`,{
         method:"post",
         headers:{
             "Content-Type":"application/json"
@@ -385,7 +385,7 @@ function getCheckboxValue() {
     }
     if(!checkbox.checked){
         showWalltAmt.innerHTML='0.00'
-        fetch('http://localhost:3000/walletAmtAdd',{
+        fetch(`${userRoute}/walletAmtAdd`,{
         method:"post",
         headers:{
             "Content-Type":"application/json"

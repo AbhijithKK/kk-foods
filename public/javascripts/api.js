@@ -1,3 +1,5 @@
+const userRoute='http://localhost:3000'
+
 let searchVal = '';
   let val='';
  
@@ -23,7 +25,7 @@ let searchVal = '';
       offerSection.style.display = "none"
       sliderSection.style.display = "none"
        serchResp.style.display= "contents"
-      fetch('http://localhost:3000/search', {
+      fetch(`${userRoute}/search`, {
         method: "post",
         headers: {
           "Content-Type": "application/json"

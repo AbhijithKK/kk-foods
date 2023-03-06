@@ -37,7 +37,7 @@ router.post('/addAddress', PostProfileAddess)
 // logout
 router.get('/logout', userLogout)
 
-router.post('/search', loginCheck, productSearch)
+router.post('/search',productSearch)
 router.post("/count", loginCheck, postCount)
 router.post('/addDelete', loginCheck, addressDelete)
 router.post('/updateAddress', loginCheck, updateAdd)

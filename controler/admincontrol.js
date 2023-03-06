@@ -45,6 +45,7 @@ let admincontrol = {
                         }
                     }
                 }
+                req.session.salesRedirect=0
                 db.totalProducts().then((totalpro) => {
                     res.render('admin/adminHome', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
@@ -480,18 +481,17 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    getSalesReport: (req, res) => {
+    getSalesReport:(req, res) => {
         
         try {
-            if(req.session.salesRedirect!=1){
-            db.salesReport().then((allUsers) => {
-                
+           
                 let product=[]
+            db.salesReport().then((allUsers) => {
             for(let i=0;i<allUsers.length;i++){
                 for(let j=0;j<allUsers[i].orderhistory.length;j++){
                     for(let k=0;k<allUsers[i].orderhistory[j].productDetails.length;k++){
                         if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
-                            product.push({
+                          product.push({
                                 orderid:allUsers[i].orderhistory[j].orderid,
                                 name:allUsers[i].name1,
                                 productName:allUsers[i].orderhistory[j].productDetails[k].productName,
@@ -506,16 +506,31 @@ let admincontrol = {
                     }
                 }
             }
-            req.session.salesTotal=0
+            
+                
+            req.session.salesDatahome=product
+            
+            req.session.salesTotalhome=0
             for(let i=0;i<product.length;i++){    
-                req.session.salesTotal=req.session.salesTotal+product[i].subTotal  
-            }
-                req.session.salesData=product
-            })
+                req.session.salesTotalhome=req.session.salesTotalhome+product[i].subTotal  
+                
         }
-            res.render('admin/salesReport',{users:req.session.salesData,total:req.session.salesTotal, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+        let users
+        let total
+        if(req.session.salesRedirect==0){
+            users=req.session.salesDatahome
+            total=req.session.salesTotalhome
+        }else{
+            users=req.session.salesData
+            total=req.session.salesTotal
+        }
+        
+        console.log('tttttt',req.session.salesTotal);  
+            res.render('admin/salesReport',{users,total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]})
-            req.session.salesRedirect=undefined;
+            
+            req.session.salesRedirect=0
+        })
         } catch (e) {
             res.redirect('/admin/')
         }
