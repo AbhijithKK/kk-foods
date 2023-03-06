@@ -1,115 +1,118 @@
-<section class=" ">  
+<section class=" ">
 
-<nav class="navbar navbar-expand-lg  bg-light fixed-top"
-  style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
-  <div class="container">
-    <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span></button>
+  <nav class="navbar navbar-expand-lg  bg-light fixed-top"
+    style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
+    <div class="container">
+      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span></button>
       <a class="navbar-brand" href="#">kk foods</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
-        <li class="nav-item active ">
-          <a class="nav-link " href="/admin/home">Dash bord</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/orderDetails">Order details</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/userDetails">User Details</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
-        </li>
-      </ul>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
+          <li class="nav-item active ">
+            <a class="nav-link " href="/admin/home">Dash bord</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/orderDetails">Order details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/userDetails">User Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
+          </li>
+        </ul>
+
+        <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </section>
 
 <div class="container">
-    <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+  <div class="card mx-4 mx-md-5 shadow-5-strong" style="
         margin-top: 84px;
         background: hsla(0, 0%, 100%, 0.8);
         backdrop-filter: blur(30px);
         ">
-        <div class="card-body py-5 px-md-5">
+    <div class="card-body py-5 px-md-5">
 
-            <div class="row d-flex justify-content-center" style="padding-left: 25%;">
-                <div class="col-lg-8">
-                    <h2 class="fw-bold mb-5">Add products</h2>
+      <div class="row d-flex justify-content-center" style="padding-left: 25%;">
+        <div class="col-lg-8">
+          <h2 class="fw-bold mb-5">Add products</h2>
 
-                    <form action="/admin/addProduct" method="post" enctype="multipart/form-data" name="addForm" onsubmit="return validCheck()">
-                        <div class="form-row">
-                            <div class="col-md-4 mb-3">
-                                <label id="proName0" for="validationDefault01">product Name</label>
-                                <label id="proName" style="color: #ff3300;" for="validationDefault01"></label>
-                                <input type="text" class="form-control" id="validationDefault01" name="productName"
-                                    placeholder="product name" style="width: 16rem;border-color: black;" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationDefault02">catogery</label>
+          <form action="/admin/addProduct" method="post" enctype="multipart/form-data" name="addForm"
+            onsubmit="return validCheck()">
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label id="proName0" for="validationDefault01">product Name</label>
+                <label id="proName" style="color: #ff3300;" for="validationDefault01"></label>
+                <input type="text" class="form-control" id="validationDefault01" name="productName"
+                  placeholder="product name" style="width: 16rem;border-color: black;" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationDefault02">catogery</label>
 
-                                <div class="dropdown">
-                                    <select class="btn btn-white dropdown-toggle" name="productCatogary" id="" style="width: 16rem; border-color: black;" required>
-                                        <option class="dropdown-menu dropdown-menu-white" value="" style="width: 160%;">
-                                            select catogary</option>
-                                        {{#each data}}
-                                        <option value="{{this.catogary}}">{{this.catogary}}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-
-
-
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationDefault02">discription</label>
-
-                                <textarea class="form-control" placeholder="add description" name="productDiscription"
-                                    aria-label="With textarea" style="width: 16rem;border-color: black;"></textarea>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationDefault03">₹ price</label>
-                                <input type="number" class="form-control" id="validationDefault03" name="productPrize"
-                                    style="width: 16rem;border-color: black;" placeholder="price" value="₹"  required min="0">
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="validationDefault05">Main Image  </label>
-                                <input type="file" class="form-control" id="validationDefault05" name="image1"
-                                    style="width: 16rem;border-color: black;" placeholder="image" required>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="validationDefault05">Sub Image (max 3)</label>
-                                <input type="file" class="form-control" id="validationDefault05" name="image2"
-                                    style="width: 16rem;border-color: black;" placeholder="image" multiple >
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary" type="submit">Submit form</button>
-                    </form>
+                <div class="dropdown">
+                  <select class="btn btn-white dropdown-toggle" name="productCatogary" id=""
+                    style="width: 16rem; border-color: black;" required>
+                    <option class="dropdown-menu dropdown-menu-white" value="" style="width: 160%;">
+                      select catogary</option>
+                    {{#each data}}
+                    <option value="{{this.catogary}}">{{this.catogary}}</option>
+                    {{/each}}
+                  </select>
                 </div>
+
+
+
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationDefault02">discription</label>
+
+                <textarea class="form-control" placeholder="add description" name="productDiscription"
+                  aria-label="With textarea" style="width: 16rem;border-color: black;"></textarea>
+              </div>
+
             </div>
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="validationDefault03">₹ price</label>
+                <input type="number" class="form-control" id="validationDefault03" name="productPrize"
+                  style="width: 16rem;border-color: black;" placeholder="price" value="₹" required min="0">
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="validationDefault05">Main Image </label>
+                <input type="file" class="form-control" id="validationDefault05" name="image1"
+                  style="width: 16rem;border-color: black;" placeholder="image" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationDefault05">Sub Image (max 3)</label>
+                <input type="file" class="form-control" id="validationDefault05" name="image2"
+                  style="width: 16rem;border-color: black;" placeholder="image" multiple>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit form</button>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 
 </div>
 
 <script src="/javascripts/adminAddproduct.js">
- 
+
 </script>

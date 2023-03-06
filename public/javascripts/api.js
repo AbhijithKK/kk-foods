@@ -1,43 +1,43 @@
-const userRoute='http://localhost:3000'
+const userRoute = 'http://localhost:3000'
 
 let searchVal = '';
-  let val='';
- 
-   let serchResp= document.getElementById('frond_endProductSearch')
-  let mainshowItem = document.getElementById('frond_endProduct')
-  let bodyHeiight = document.querySelector('.hero_area')
-  let offerSection = document.querySelector('.offer_section')
-  let sliderSection = document.querySelector('.slider_section')
-  let sea = document.getElementById('searchFood')
-  let btn = document.getElementById('submitSearch')
-  sea.addEventListener('input', itemSearch)
-  function itemSearch() {
-    console.log(sea.value)
-    if (sea.value == '' || sea.value.charCodeAt() == 32) {
-      serchResp.style.display='none';
-      mainshowItem.style.display = "block"
-      bodyHeiight.style.minHeight = "100vh"
-      offerSection.style.display = "block"
-      sliderSection.style.display = "block"
-    } else {
-      mainshowItem.style.display = "none"
-      bodyHeiight.style.minHeight = "90px"
-      offerSection.style.display = "none"
-      sliderSection.style.display = "none"
-       serchResp.style.display= "contents"
-      fetch(`${userRoute}/search`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: sea.value })
-      }).then((data) => data.json())
-        .then((data) => {
-         data.forEach((dd) => {
-          val=dd
-          console.log('hii',val._id);
-           if(val._id==val._id){
-             serchResp.innerHTML +=`
+let val = '';
+
+let serchResp = document.getElementById('frond_endProductSearch')
+let mainshowItem = document.getElementById('frond_endProduct')
+let bodyHeiight = document.querySelector('.hero_area')
+let offerSection = document.querySelector('.offer_section')
+let sliderSection = document.querySelector('.slider_section')
+let sea = document.getElementById('searchFood')
+let btn = document.getElementById('submitSearch')
+sea.addEventListener('input', itemSearch)
+function itemSearch() {
+  console.log(sea.value)
+  if (sea.value == '' || sea.value.charCodeAt() == 32) {
+    serchResp.style.display = 'none';
+    mainshowItem.style.display = "block"
+    bodyHeiight.style.minHeight = "100vh"
+    offerSection.style.display = "block"
+    sliderSection.style.display = "block"
+  } else {
+    mainshowItem.style.display = "none"
+    bodyHeiight.style.minHeight = "90px"
+    offerSection.style.display = "none"
+    sliderSection.style.display = "none"
+    serchResp.style.display = "contents"
+    fetch(`${userRoute}/search`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ data: sea.value })
+    }).then((data) => data.json())
+      .then((data) => {
+        data.forEach((dd) => {
+          val = dd
+          console.log('hii', val._id);
+          if (val._id == val._id) {
+            serchResp.innerHTML += `
 <div class="col-sm-6 col-lg-4 all pizza">
           <div class="box">
             <div>
@@ -87,14 +87,14 @@ let searchVal = '';
           </div>
         </div>
          `
-           }
-           
-          })
-          
+          }
+
         })
-        serchResp.innerHTML =''
-    }
-   
+
+      })
+    serchResp.innerHTML = ''
   }
+
+}
 
 //   @@@@@@@@@@@@@@@@cart section@@@@@@@@@@//

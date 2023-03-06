@@ -1,37 +1,39 @@
-<nav class="navbar navbar-expand-lg  bg-light fixed-top" style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
+<nav class="navbar navbar-expand-lg  bg-light fixed-top"
+  style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
   <div class="container">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">kk foods</a>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">kk foods</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
         <li class="nav-item active ">
-        <a class="nav-link " href="/admin/Home" style="font-weight: bold;">Dash bord</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/productDetails">Product details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/orderDetails">Order details</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="/admin/userDetails">User Details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/catogaryManage">catogary Manage</a>
-      </li>
-       <li class="nav-item">
-          <a class="nav-link"  href="/admin/coopen">Coopen Manage</a>
+          <a class="nav-link " href="/admin/Home" style="font-weight: bold;">Dash bord</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/admin/productDetails">Product details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/orderDetails">Order details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/userDetails">User Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/catogaryManage">catogary Manage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
         </li>
-    </ul>
+      </ul>
 
-    <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto" >log out</a>
-  </div>
+      <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
+    </div>
   </div>
 </nav>
 
@@ -41,25 +43,36 @@
       <div class="col-md-4 pt-4">
         <div style="padding: 10px; box-shadow:0px 0px 10px 0px rgb(123, 123, 123);width:max-content  ">
           <h4 style="font-family: cursive; font-weight: bold;">
-            <img style="width: 80px; height: 80px;" class="img-fluid" src="https://www.shutterstock.com/image-illustration/graph-sales-arrow-3d-illustration-260nw-274638584.jpg" alt=""> 
-            Total Revannue</h4>
-          <h2><i style="font-size: 25px; position: relative; top: -3px;"class="bi bi-currency-rupee" ></i>{{totalOrder}}</h2>
+            <img style="width: 80px; height: 80px;" class="img-fluid"
+              src="https://www.shutterstock.com/image-illustration/graph-sales-arrow-3d-illustration-260nw-274638584.jpg"
+              alt="">
+            Total Revannue
+          </h4>
+          <h2><i style="font-size: 25px; position: relative; top: -3px;" class="bi bi-currency-rupee"></i>{{totalOrder}}
+          </h2>
         </div>
       </div>
       <div class="col-md-4 pt-4">
         <div style="padding: 10px; box-shadow:0px 0px 10px 0px rgb(123, 123, 123);width:max-content  ">
           <h4 style="font-family: cursive; font-weight: bold;">
-            <img style="width: 80px; height: 80px;" class="img-fluid" src="https://woocommerce.com/wp-content/uploads/2020/03/woocommerce-reports-1.png?w=950" alt=""> 
-            Total Orders</h4>
-          <h2><i style="font-size: 25px; position: relative; top: -3px;"class="bi bi-currency-rupee" ></i>{{orederCount}}</h2>
+            <img style="width: 80px; height: 80px;" class="img-fluid"
+              src="https://woocommerce.com/wp-content/uploads/2020/03/woocommerce-reports-1.png?w=950" alt="">
+            Total Orders
+          </h4>
+          <h2><i style="font-size: 25px; position: relative; top: -3px;"
+              class="bi bi-currency-rupee"></i>{{orederCount}}</h2>
         </div>
       </div>
-       <div class="col-md-4 pt-4">
+      <div class="col-md-4 pt-4">
         <div style="padding: 10px; box-shadow:0px 0px 10px 0px rgb(123, 123, 123);width:max-content  ">
           <h4 style="font-family: cursive; font-weight: bold;">
-            <img style="width: 80px; height: 80px;" class="img-fluid" src="https://st2.depositphotos.com/1775462/9174/i/600/depositphotos_91743086-stock-photo-fast-food-plate-with-burger.jpg" alt=""> 
-            Total Products</h4>
-          <h2><i style="font-size: 25px; position: relative; top: -3px;"class="bi bi-currency-rupee" ></i>{{totalpro}}</h2>
+            <img style="width: 80px; height: 80px;" class="img-fluid"
+              src="https://st2.depositphotos.com/1775462/9174/i/600/depositphotos_91743086-stock-photo-fast-food-plate-with-burger.jpg"
+              alt="">
+            Total Products
+          </h4>
+          <h2><i style="font-size: 25px; position: relative; top: -3px;" class="bi bi-currency-rupee"></i>{{totalpro}}
+          </h2>
         </div>
       </div>
     </div>
@@ -74,11 +87,11 @@
 
 <div class="row mt-5">
   <div class="container mt-5">
-  
+
   </div>
 </div>
 <div class="container">
-<div id="chart"></div>
+  <div id="chart"></div>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -90,8 +103,11 @@
   <a href="/admin/salesReport" class="btn btn-primary">get sales report</a>
 </div>
 <!-- continues the page content ... -->
- 
- 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

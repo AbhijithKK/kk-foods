@@ -1,37 +1,38 @@
 <nav class="navbar navbar-expand-lg  bg-light fixed-top"
   style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
   <div class="container">
-  <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
-       <a class="navbar-brand" href="#">kk foods</a>
+    <a class="navbar-brand" href="#">kk foods</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-   
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
-      <li class="nav-item active ">
-        <a class="nav-link " href="/admin/home">Dash bord</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/orderDetails">Order details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/userDetails">User Details</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link"  href="/admin/coopen">Coopen Manage</a>
-      </li>
-       <li class="nav-item">
+
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
+        <li class="nav-item active ">
+          <a class="nav-link " href="/admin/home">Dash bord</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/admin/productDetails" style="font-weight: bold;">Product details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/orderDetails">Order details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/userDetails">User Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
         </li>
-    </ul>
+      </ul>
 
-    <a href="/admin/logout" class="btn btn btn-outline-primary ms-auto" >log out</a>
-  </div>
+      <a href="/admin/logout" class="btn btn btn-outline-primary ms-auto">log out</a>
+    </div>
   </div>
 </nav>
 
@@ -67,9 +68,9 @@
       </thead>
       <tbody>
         {{#each product}}
-        
+
         <tr>
-           
+
           <td>{{inc @index}}</td>
           {{!-- {{/with}} --}}
           <td><img src="/images/{{this.image1.[0].filename}}" alt="" style="width: 40px;height: 50px;"></td>
@@ -84,7 +85,7 @@
               onclick="return confirm('Are you sure ?')">{{this.del}}</a>
           </td>
         </tr>
-        
+
         {{/each}}
 
       </tbody>
@@ -94,8 +95,7 @@
 </section>
 
 <script>
-  hbs.registerHelper("inc", function(value, options)
-    {
-        return parseInt(value) + 1;
-    });
+  hbs.registerHelper("inc", function (value, options) {
+    return parseInt(value) + 1;
+  });
 </script>

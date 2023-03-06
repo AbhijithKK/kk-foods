@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const { adminHome, productDetails, orderdetails, userDetails, addproducts, editProduct, blockuser,
-    unblockUsers,  adminlogin, catogaryManage, editCatogary,
+    unblockUsers, adminlogin, catogaryManage, editCatogary,
     catogaryBlock, catogaryDelete, addcoopens, coopenlist, coopenPage, orederCancel, logout, offerlistAndunlist,
-     addeOffers, offergetpage, monthlyRevannue, updateCatogariess, loginCheck, getSalesReport, postSalesReport,
-      postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct, 
-      postAdminAddproduct, 
-      singleImageDelete,
-      postSingleImageAdd} = require('../controler/admincontrol');
+    addeOffers, offergetpage, monthlyRevannue, updateCatogariess, loginCheck, getSalesReport, postSalesReport,
+    postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct,
+    postAdminAddproduct,
+    singleImageDelete,
+    postSingleImageAdd } = require('../controler/admincontrol');
 const { multiUpload } = require('../helpers/multer');
 var db = require('../controler/databaseConfig/admin')
 
@@ -46,7 +46,6 @@ router.post('/upadeCatogatiess', loginCheck, updateCatogariess)
 router.post('/listOffer', loginCheck, offerlistAndunlist)
 router.post('/addoffer', loginCheck, addeOffers)
 router.post('/postSalesReport', loginCheck, postSalesReport)
-router.post('/proSingleImageDelete',loginCheck,singleImageDelete)
-router.post('/imageAdd',loginCheck,multiUpload,postSingleImageAdd)
-module.exports = router;  
- 
+router.post('/proSingleImageDelete', loginCheck, singleImageDelete)
+router.post('/imageAdd', loginCheck, multiUpload, postSingleImageAdd)
+module.exports = router;

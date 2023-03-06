@@ -22,7 +22,7 @@ module.exports = {
     userAdd: (data) => {
         return new Promise(async (resolve, reject) => {
             data.password = await bcript.hash(data.password, 10)
-            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock", cart: [], orderhistory: [],wallet:0 }).then((result) => {
+            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock", cart: [], orderhistory: [], wallet: 0 }).then((result) => {
                 resolve(result)
             }).catch((err) => {
                 reject(err)
@@ -43,7 +43,7 @@ module.exports = {
 
                     if (res) {
                         bcript.compare(data.password, res.password).then((result) => {
- 
+
                             if (result == true) {
                                 res.true = result
 
@@ -400,7 +400,7 @@ module.exports = {
             }
         })
     },
-    orderHistoryAdd: (id, cartProducts, address, coopenStatus, tatalAmt, date, method,wallet) => {
+    orderHistoryAdd: (id, cartProducts, address, coopenStatus, tatalAmt, date, method, wallet) => {
 
         return new Promise((resolve, reject) => {
             try {
@@ -412,7 +412,7 @@ module.exports = {
                             totalAmt: tatalAmt,
                             address: address,
                             coopenstatus: coopenStatus,
-                            walletAmt:wallet,
+                            walletAmt: wallet,
                             OrderDate: date,
                             payMethod: method,
                             productDetails: cartProducts,
@@ -432,7 +432,7 @@ module.exports = {
             }
         })
     },
-    OnlineorderHistoryAdd: (id, cartProducts, address, coopenStatus, tatalAmt, date, method,wallet) => {
+    OnlineorderHistoryAdd: (id, cartProducts, address, coopenStatus, tatalAmt, date, method, wallet) => {
 
         return new Promise((resolve, reject) => {
             try {
@@ -444,7 +444,7 @@ module.exports = {
                     totalAmt: tatalAmt,
                     address: address,
                     coopenstatus: coopenStatus,
-                    walletAmt:wallet,
+                    walletAmt: wallet,
                     OrderDate: date,
                     payMethod: method,
                     productDetails: cartProducts,
@@ -469,21 +469,21 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) }).then((data) => {
-                
+
                 let newsts;
                 for (let i = 0; i < data.orderhistory.length; i++) {
                     for (let j = 0; j < data.orderhistory[i].productDetails.length; j++) {
                         if (data.orderhistory[i].productDetails[j].proOrderId == datas.orderId) {
                             proidss = { [data.orderhistory[i].productDetails[j].proOrderId]: parseInt(datas.orderId) }
                             let ordrsts = data.orderhistory[i].productDetails[j].orderStatus
-                           
+
                             // wallet
-                            if(data.orderhistory[i].payMethod!="cod" && ordrsts == 'Orderd'){
+                            if (data.orderhistory[i].payMethod != "cod" && ordrsts == 'Orderd') {
                                 console.log(parseInt(data.wallet));
-                                let walletAmount=0
-                                walletAmount +=data.wallet+data.orderhistory[i].productDetails[j].proTotal
+                                let walletAmount = 0
+                                walletAmount += data.wallet + data.orderhistory[i].productDetails[j].proTotal
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) },
-                                {$set:{wallet:walletAmount}})
+                                    { $set: { wallet: walletAmount } })
                                 console.log(walletAmount);
                             }
                             // end wallet
@@ -562,7 +562,7 @@ module.exports = {
                                 totalAmt: result.totalAmt,
                                 address: result.address,
                                 coopenstatus: result.coopenStatus,
-                                walletAmt:result.walletAmt,
+                                walletAmt: result.walletAmt,
                                 OrderDate: result.OrderDate,
                                 payMethod: result.payMethod,
                                 productDetails: result.productDetails,
@@ -620,22 +620,22 @@ module.exports = {
 
         })
     },
-    getWalletamt:(id,walletAmount)=>{
+    getWalletamt: (id, walletAmount) => {
 
-        console.log('wallet Amount',walletAmount);
-        return new Promise(async(resolve,reject)=>{
-        let user=await db.get().collection(collectionname.USER_COLLECTION).findOne({_id:objectid(id)})
-        if(walletAmount==1 || walletAmount==undefined||walletAmount==null){
-          walletAmount=user.wallet
-        }
-        console.log('amt',walletAmount);
-       await db.get().collection(collectionname.USER_COLLECTION).updateOne({_id:objectid(id)},{
-            $set:{wallet:walletAmount}
-        }).then((a)=>{
-            console.log(a);
-            resolve()
-        })
+        console.log('wallet Amount', walletAmount);
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
+            if (walletAmount == 1 || walletAmount == undefined || walletAmount == null) {
+                walletAmount = user.wallet
+            }
+            console.log('amt', walletAmount);
+            await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, {
+                $set: { wallet: walletAmount }
+            }).then((a) => {
+                console.log(a);
+                resolve()
+            })
         })
     }
-    
+
 }             

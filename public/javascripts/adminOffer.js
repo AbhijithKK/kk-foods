@@ -1,4 +1,4 @@
-const adminRoute='http://localhost:3000/admin'
+const adminRoute = 'http://localhost:3000/admin'
 
 
 let val = '';
@@ -9,7 +9,7 @@ let Persantage = document.addform.ofPesantage;
 let expdata = document.addform.ofexpDate;
 
 function addoffer() {
-    
+
     fetch(`${adminRoute}/addoffer`, {
         method: "post",
         headers: {
@@ -63,7 +63,7 @@ function listCp(id, data) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: id,  })
+        body: JSON.stringify({ id: id, })
     }).then((data) => data.json()).then((data) => {
         location.reload()
     })

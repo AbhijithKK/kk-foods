@@ -1,173 +1,173 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+</head>
+<style>
+  h1 {
+    color: #88B04B;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
 
-  <head>
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
-  </head>
-    <style>
-     
-        h1 {
-          color: #88B04B;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-weight: 900;
-          font-size: 40px;
-          margin-bottom: 10px;
-        }
-        p {
-          color: #404F5E;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-size:20px;
-          margin: 0;
-        }
-      i {
-        color: #9ABC66;
-        font-size: 100px;
-        line-height: 200px;
-        margin-left:-15px;
-      }
-      .card {
-        
-        background: white;
-        padding: 60px;
-        border-radius: 4px;
-        box-shadow: 0 2px 3px #C8D0D8;
-        display: inline-block;
-        margin: 0 auto;
-        margin-top: 125px;
-      }
-    </style>
+  p {
+    color: #404F5E;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-size: 20px;
+    margin: 0;
+  }
 
-    <body>
-        <body style="background-color: #F5F5F5;">
-   <div class="hero_area" style="height: 85px;min-height: 85px;">
-  <div class="bg-box"  style="height: 85px;">
-    <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
-  </div>
-  <!-- header section strats -->
-  <header class="header_section">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container ">
-        <a class="navbar-brand" href="/">
-          <span>
-            KK foods
-          </span>
-        </a>
+  i {
+    color: #9ABC66;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: -15px;
+  }
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class=""> </span>
-        </button>
+  .card {
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav  mx-auto ">
-            <li class="nav-item active">
+    background: white;
+    padding: 60px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px #C8D0D8;
+    display: inline-block;
+    margin: 0 auto;
+    margin-top: 125px;
+  }
+</style>
 
-              {{!-- search --}}
+<body>
 
-              <div style=" width: 100%;max-width: 31.25rem;margin: 0rem auto;">
-
-                <div style=" width: 100%;display: flex;flex-direction: row;align-items: center;">
-                  <input
-                    style=" width: 100%;height: 2.8rem;background: #f5f5f5;
-                                 outline: none;border: none;border-radius: 1.625rem;padding: 0 3.5rem 0 1.5rem; font-size: 1rem;"
-                    type="text" name="searchQueryInput" placeholder="Search" value="" />
-                  <button style=" width: 3.5rem;height: 2.8rem;
-                                   margin-left: -3.5rem;background: none;border: none; outline: none;" type="submit"
-                    name="searchQuerySubmit">
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                      <path fill="#666666"
-                        d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="user_option">
-            {{!-- user icon --}}
-            <a href="/profile" class="user_link">
-            <div style="display: block ruby;">
-            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
-            <p>{{user.name1}}</p>
-              {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
-              </div>
+  <body style="background-color: #F5F5F5;">
+    <div class="hero_area" style="height: 85px;min-height: 85px;">
+      <div class="bg-box" style="height: 85px;">
+        <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
+      </div>
+      <!-- header section strats -->
+      <header class="header_section">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="/">
+              <span>
+                KK foods
+              </span>
             </a>
-            {{!-- cart --}}
-            <a class="cart_link" href="/cart"><span id="count"   class="badge badge-warning">{{totalcartCount}}</span>
-              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
-                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                <g>
-                  <g>
-                    <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav  mx-auto ">
+                <li class="nav-item active">
+
+                  {{!-- search --}}
+
+                  <div style=" width: 100%;max-width: 31.25rem;margin: 0rem auto;">
+
+                    <div style=" width: 100%;display: flex;flex-direction: row;align-items: center;">
+                      <input
+                        style=" width: 100%;height: 2.8rem;background: #f5f5f5;
+                                 outline: none;border: none;border-radius: 1.625rem;padding: 0 3.5rem 0 1.5rem; font-size: 1rem;"
+                        type="text" name="searchQueryInput" placeholder="Search" value="" />
+                      <button style=" width: 3.5rem;height: 2.8rem;
+                                   margin-left: -3.5rem;background: none;border: none; outline: none;" type="submit"
+                        name="searchQuerySubmit">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                          <path fill="#666666"
+                            d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="user_option">
+                {{!-- user icon --}}
+                <a href="/profile" class="user_link">
+                  <div style="display: block ruby;">
+                    <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+                    <p>{{user.name1}}</p>
+                    {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
+                  </div>
+                </a>
+                {{!-- cart --}}
+                <a class="cart_link" href="/cart"><span id="count" class="badge badge-warning">{{totalcartCount}}</span>
+                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
+                    style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                    <g>
+                      <g>
+                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                  </g>
-                </g>
-                <g>
-                  <g>
-                    <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
                    C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                  </g>
-                </g>
-                <g>
-                  <g>
-                    <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                  </g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-              </svg>
-            </a>
-            <form class="form-inline">
-              <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                {{!-- <i class="fa fa-search" aria-hidden="true"></i> --}}
-              </button>
-            </form>
-            <a href="/logout" class="order_online">
-              logout
-            </a>
-          </div>
+                      </g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                  </svg>
+                </a>
+                <form class="form-inline">
+                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                    {{!-- <i class="fa fa-search" aria-hidden="true"></i> --}}
+                  </button>
+                </form>
+                <a href="/logout" class="order_online">
+                  logout
+                </a>
+              </div>
+            </div>
+          </nav>
         </div>
-      </nav>
-    </div>
-  </header>
+      </header>
       <div class="card">
-      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-        <i class="checkmark">✓</i>
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+          <i class="checkmark">✓</i>
+        </div>
+        <h1>Success</h1>
+        <p>We received your purchase request;<br /> we'll be in touch shortly!</p>
+        <a href="/">click to continue shopping </a> <span> Or</span>
+        <a href="/orderhistory">Check Order history</a>
       </div>
-        <h1>Success</h1> 
-        <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
-         <a href="/">click to continue shopping </a> <span> Or</span>
-          <a href="/orderhistory">Check Order history</a>
-      </div>
-     
-    

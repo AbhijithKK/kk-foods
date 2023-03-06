@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg  bg-light fixed-top"
   style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
   <div class="container">
-   <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
-      <a class="navbar-brand" href="#">kk foods</a>
+    <a class="navbar-brand" href="#">kk foods</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      
+
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
         <li class="nav-item active ">
           <a class="nav-link " href="/admin/home">Dash bord</a>
@@ -25,12 +26,12 @@
         <li class="nav-item">
           <a class="nav-link" href="/admin/coopen">Coopen Manage</a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="/admin/offer_create">Offer Manage</a>
         </li>
       </ul>
 
-       <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto" >log out</a>
+      <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
     </div>
   </div>
 </nav>
@@ -56,7 +57,7 @@
           <th scope="col">User Address</th>
           <th scope="col">image</th>
           <th scope="col">Product Name</th>
-          
+
           <th scope="col">Product Quantity</th>
           <th scope="col">price</th>
           <th scope="col">Pay method</th>
@@ -77,21 +78,21 @@
           <td style="width: 10rem;">{{../this.address}}</td>
           <td><img src="/images/{{this.image1.[0].filename}}" alt="" style="width: 40px;height: 50px;"></td>
           <td>{{this.productName}}</td>
-          
+
           <td>{{this.count}}</td>
           <td>{{this.productPrize}}</td>
-         <td> {{../this.payMethod}}</td>
+          <td> {{../this.payMethod}}</td>
           <td>{{../this.coopenstatus.disAmt}}</td>
           {{#ifEqual this.orderStatus "Orderd"}}
           <td> <a id="{{../this.orderid}}" class="btn btn-primary btn-block mb-4">processing</a>
             {{/ifEqual}}
-            
-            
+
+
           </td>
           {{!-- <td>{{this.totalAmt}}</td> --}}
 
           <td>
-            
+
 
             {{#ifEqual this.orderStatus "Delivered"}}
             <a class="btn btn-success btn-block mb-4">delivered</a>
@@ -101,15 +102,15 @@
             {{else}}
             <a class="btn btn-white btn-block mb-4"
               onclick="orderCancel('{{../../this._id}}','{{this.proOrderId}}','{{this._id}}','Delivered')">delivered</a>
-           
+
             <a class="btn btn-white btn-block mb-4"
               onclick="orderCancel('{{../../this._id}}','{{this.proOrderId}}','{{this._id}}','Cancel')">Cancel</a>
             {{/ifEqual}}
-             {{/ifEqual}}
+            {{/ifEqual}}
 
           </td>
 
-          
+
         </tr>
         {{/each}}
         {{/each}}
@@ -123,5 +124,5 @@
 
 <script src="/javascripts/adminOrderDetails.js">
 
-  
+
 </script>

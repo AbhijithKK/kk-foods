@@ -18,19 +18,19 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav  mx-auto ">
-          
+
         </ul>
         <div class="user_option">
           {{!-- user icon --}}
-         <a href="/profile" class="user_link">
+          <a href="/profile" class="user_link">
             <div style="display: block ruby;">
-            <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
-            <p>{{userData.name1}}</p>
+              <img src="/images/{{proImag}}" style="height: 50px;width: 50px;border-radius: 40px;" alt="">
+              <p>{{userData.name1}}</p>
               {{!-- <i class="fa fa-user" aria-hidden="true"></i> --}}
-              </div>
-            </a>
+            </div>
+          </a>
           {{!-- cart --}}
-         <a class="cart_link" href="/cart"><span id="count"   class="badge badge-warning">{{totalcartCount}}</span>
+          <a class="cart_link" href="/cart"><span id="count" class="badge badge-warning">{{totalcartCount}}</span>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
               xml:space="preserve">
@@ -86,7 +86,7 @@
               </g>
             </svg>
           </a>
-          
+
           </form>
           <a href="/logout" class="order_online">
             logout
@@ -126,16 +126,16 @@
 
                 <div class="row text-center justify-content-md-center">
                   <div class="col-4"><a href="javascript:void(0)" class="link"><i class="mdi mdi-account-network"></i>
-                <a href="/orderhistory">Check Order history</a>
+                      <a href="/orderhistory">Check Order history</a>
                     </a></div>
-                   {{!-- card vallet--}}
-                   <div class="card" style="width: 12rem; background-color: #dddddd;">
-  <img class="card-img-top" src="..." alt="WALLET">
-  <div class="card-body">
-    <p class="card-text">Balace: <span style="font-size: large;">₹{{userData.wallet}}</span></p>
-  </div>
-</div>
-                   {{!-- card vallet --}}
+                  {{!-- card vallet--}}
+                  <div class="card" style="width: 12rem; background-color: #dddddd;">
+                    <img class="card-img-top" src="..." alt="WALLET">
+                    <div class="card-body">
+                      <p class="card-text">Balace: <span style="font-size: large;">₹{{userData.wallet}}</span></p>
+                    </div>
+                  </div>
+                  {{!-- card vallet --}}
                   <div class="col-4"><a href="javascript:void(0)" class="link"><i class="mdi mdi-camera"></i>
 
                     </a></div>
@@ -155,7 +155,9 @@
               <h6>{{this.addMob}}</h6>
               <h6>{{this.addPlace}}</h6>
               <div class="col-sm-12">
-                <button type="submit" onclick="editForm('{{this.addName}}','{{this.addAddress}}','{{this.addPin}}','{{this.addMob}}','{{this.addPlace}}')" class="btn btn-primary text-white">edit</button>
+                <button type="submit"
+                  onclick="editForm('{{this.addName}}','{{this.addAddress}}','{{this.addPin}}','{{this.addMob}}','{{this.addPlace}}')"
+                  class="btn btn-primary text-white">edit</button>
                 <button type="submit"
                   onclick="addDelete('{{this.addName}}','{{this.addAddress}}','{{this.addPin}}','{{this.addMob}}','{{this.addPlace}}')"
                   class="btn btn-danger text-white">delete</button>
@@ -169,7 +171,7 @@
                 <button class="btn btn-primary" onclick="viewform()">add new address</button>
               </div>
 
-              
+
             </div>
           </div>
         </div>
@@ -183,103 +185,108 @@
             <div class="card-body">
 
               {{!-- formmmmmmmm starttt --}}
-               <button onclick="closeForm()" id="closeBtn" class="btn" style="margin-left: 60rem; display: none;"  >close</button>
-                      <form id="hiddenform" class="form-horizontal form-material mx-2" name="addform" onsubmit="return addSubmit()" 
-                      style="background-color: #91bdb3;display: none;" >
-                       
-                        <h3>Add New Address</h3>
-                        <div class="form-group">
-                          <label class="col-md-12">Name</label>
-                          <div class="col-md-12">
-                            <input type="text" name="addName" value="" placeholder="name"
-                              class="form-control form-control-line" required>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Home Address/building Number</label>
-                          <div class="col-md-12">
-                            <textarea rows="5" name="addAddress" id="addressText"
-                              class="form-control form-control-line" required></textarea>
-                          </div>
-                        </div>
+              <button onclick="closeForm()" id="closeBtn" class="btn"
+                style="margin-left: 60rem; display: none;">close</button>
+              <form id="hiddenform" class="form-horizontal form-material mx-2" name="addform"
+                onsubmit="return addSubmit()" style="background-color: #91bdb3;display: none;">
 
-                        <div class="form-group">
-                          <label class="col-md-12">pincode</label>
-                          <div class="col-md-12">
-                            <input name="addPin" type="number" value="" class="form-control form-control-line" minlength="6" maxlength="10" required>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Mobile Number</label>
-                          <div class="col-md-12">
-                            <input type="number" name="addMob" value="" placeholder="123 456 7890"
-                              class="form-control form-control-line" minlength="10" maxlength="10" required>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Place</label>
-                          <div class="col-md-12">
-                            <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line" required>
-                          </div>
-                        </div>
+                <h3>Add New Address</h3>
+                <div class="form-group">
+                  <label class="col-md-12">Name</label>
+                  <div class="col-md-12">
+                    <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line"
+                      required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Home Address/building Number</label>
+                  <div class="col-md-12">
+                    <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"
+                      required></textarea>
+                  </div>
+                </div>
 
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button type="submit" class="btn btn-success text-white">add address</button>
-                          </div>
-                        </div>
-                      </form>
-               {{!--add new address formmmmmm enddd --}}
-               {{!-- edit address --}}
-               <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform" onsubmit="return updateAddr()" 
-                      style="background-color: #91bdb3;display: none;" >
-                       
-                        <h3>Edit Address</h3>
-                        <div class="form-group">
-                          <label class="col-md-12">Name</label>
-                          <div class="col-md-12">
-                            <input type="text" name="addName" value="" placeholder="name"
-                              class="form-control form-control-line" required>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Home Address/building Number</label>
-                          <div class="col-md-12">
-                            <textarea rows="5" name="addAddress" id="addressText"
-                              class="form-control form-control-line" required></textarea>
-                          </div>
-                        </div>
+                <div class="form-group">
+                  <label class="col-md-12">pincode</label>
+                  <div class="col-md-12">
+                    <input name="addPin" type="number" value="" class="form-control form-control-line" minlength="6"
+                      maxlength="10" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Mobile Number</label>
+                  <div class="col-md-12">
+                    <input type="number" name="addMob" value="" placeholder="123 456 7890"
+                      class="form-control form-control-line" minlength="10" maxlength="10" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Place</label>
+                  <div class="col-md-12">
+                    <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line"
+                      required>
+                  </div>
+                </div>
 
-                        <div class="form-group">
-                          <label class="col-md-12">pincode</label>
-                          <div class="col-md-12">
-                            <input name="addPin" type="number" value="" class="form-control form-control-line" minlength="6" maxlength="6">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Mobile Number</label>
-                          <div class="col-md-12">
-                            <input type="number" name="addMob" value="" placeholder="123 456 7890"
-                              class="form-control form-control-line" minlength="10" maxlength="10">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-12">Place</label>
-                          <div class="col-md-12">
-                            <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line" required>
-                          </div>
-                        </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success text-white">add address</button>
+                  </div>
+                </div>
+              </form>
+              {{!--add new address formmmmmm enddd --}}
+              {{!-- edit address --}}
+              <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform"
+                onsubmit="return updateAddr()" style="background-color: #91bdb3;display: none;">
 
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button type="submit" class="btn btn-success text-white">submit</button>
-                          </div>
-                        </div>
-                      </form>
-               {{!-- end edit --}}
+                <h3>Edit Address</h3>
+                <div class="form-group">
+                  <label class="col-md-12">Name</label>
+                  <div class="col-md-12">
+                    <input type="text" name="addName" value="" placeholder="name" class="form-control form-control-line"
+                      required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Home Address/building Number</label>
+                  <div class="col-md-12">
+                    <textarea rows="5" name="addAddress" id="addressText" class="form-control form-control-line"
+                      required></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-12">pincode</label>
+                  <div class="col-md-12">
+                    <input name="addPin" type="number" value="" class="form-control form-control-line" minlength="6"
+                      maxlength="6">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Mobile Number</label>
+                  <div class="col-md-12">
+                    <input type="number" name="addMob" value="" placeholder="123 456 7890"
+                      class="form-control form-control-line" minlength="10" maxlength="10">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Place</label>
+                  <div class="col-md-12">
+                    <input type="text" placeholder="..." name="addPlace" class="form-control form-control-line"
+                      required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success text-white">submit</button>
+                  </div>
+                </div>
+              </form>
+              {{!-- end edit --}}
               {{!-- pro formmmmmmmm starttt --}}
               <form id="profileforms" class="form-horizontal form-material mx-2" action="/updateProfile" method="post"
-                enctype="multipart/form-data" style="display: block;" >
+                enctype="multipart/form-data" style="display: block;">
                 <div class="form-group">
                   <label class="col-md-12">Change Name</label>
                   <div class="col-md-12">
@@ -325,7 +332,7 @@
                 </div>
 
 
-               
+
               </form>
 
               {{!-- formmmmmm enddd --}}
@@ -427,5 +434,5 @@
 <script src="/javascripts/profilejs/assets/custom.min.js"></script>
 
 <script src="/javascripts/userProfilePage.js">
-  
+
 </script>

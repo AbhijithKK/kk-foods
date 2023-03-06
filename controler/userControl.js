@@ -111,7 +111,7 @@ let usercotrol = {
                                         if (userData.image.proImage != null) {
 
                                             proImag = await userData.image.proImage[0].filename;
-                                            req.session.proImag=await userData.image.proImage[0].filename;
+                                            req.session.proImag = await userData.image.proImage[0].filename;
                                         } else {
                                             proImag = null
                                         }
@@ -122,7 +122,7 @@ let usercotrol = {
                                     db.cartProductAdd(req.query.productId, req.session.userId).then((product) => {
 
                                         console.log('hii');
-                                      req.session.totalcartCount = product.length;
+                                        req.session.totalcartCount = product.length;
 
 
                                         res.render('user/home', {
@@ -130,7 +130,7 @@ let usercotrol = {
                                                 "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                                                 "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                                                 "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                                            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag, userData, totalcartCount:req.session.totalcartCount
+                                            js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], products, proImag, userData, totalcartCount: req.session.totalcartCount
                                         })
                                     })
                                 })
@@ -300,7 +300,7 @@ let usercotrol = {
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk, proImag, userData, totalcartCount:req.session.totalcartCount
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk, proImag, userData, totalcartCount: req.session.totalcartCount
                     })
                 })
             }).catch((err) => {
@@ -366,7 +366,7 @@ let usercotrol = {
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product, proImag, userData, total, totalcartCount:req.session.totalcartCount
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product, proImag, userData, total, totalcartCount: req.session.totalcartCount
                     })
 
                     cartProducts = product;
@@ -427,7 +427,7 @@ let usercotrol = {
                         "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css",
                         '/stylesheets/profile.css'],
-                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], userData, emailNotMarch, proImag, addrs, totalcartCount:req.session.totalcartCount
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], userData, emailNotMarch, proImag, addrs, totalcartCount: req.session.totalcartCount
                 })
             }).catch((err) => {
                 res.redirect('/')
@@ -502,7 +502,7 @@ let usercotrol = {
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total, cartProducts, user, proImag, totalcartCount:req.session.totalcartCount
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total, cartProducts, user, proImag, totalcartCount: req.session.totalcartCount
                     })
                 }).catch((err) => {
                     res.redirect('/')
@@ -536,7 +536,7 @@ let usercotrol = {
                         "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], user, proImag, totalcartCount:req.session.totalcartCount
+                    js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], user, proImag, totalcartCount: req.session.totalcartCount
                 })
 
             } else {
@@ -632,13 +632,13 @@ let usercotrol = {
     },
     postCoopenAppply: (req, res) => {
         db.coopenFind(req.body.cpApply).then((data) => {
-            req.session.coupenDisTotal=0
+            req.session.coupenDisTotal = 0
             let results = {}
             if (data != null) {
                 if (data.cpList == 'Unlist') {
                     if (req.session.total > data.cpPurchaseAmt) {
                         if (new Date() < new Date(data.cpEndDataTime)) {
-                            req.session.coupenDisTotal=data.cpDisamt
+                            req.session.coupenDisTotal = data.cpDisamt
                             req.session.newCpAmt = req.session.total - data.cpDisamt
                             results = { disAmt: parseInt(data.cpDisamt), amt: req.session.newCpAmt }
                         } else {
@@ -659,25 +659,25 @@ let usercotrol = {
     },
     orderhistoryyy: (req, res) => {
         if (req.body.payMethod == 'cod') {
-            db.orderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod,req.session.newwallAmt).then(() => {
+            db.orderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod, req.session.newwallAmt).then(() => {
                 console.log('voopen', req.body.coopenStatus);
 
                 res.json({ status: true })
                 db.getWalletamt(req.session.userId, req.session.newwallAmt)
             })
-            
+
         } else {
-            db.OnlineorderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod,req.session.newwallAmt).then((responce) => {
-                console.log('online',req.session.walletTemp);
-                
+            db.OnlineorderHistoryAdd(req.session.userId, cartProducts, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod, req.session.newwallAmt).then((responce) => {
+                console.log('online', req.session.walletTemp);
+
 
                 req.session.cpsts = 0
                 if (req.body.coopenStatus.amt) {
-                    if(req.session.walletTemp!=undefined){
+                    if (req.session.walletTemp != undefined) {
 
-                    req.session.cpsts =  req.body.coopenStatus.amt-req.session.walletTemp
-                    }else{
-                        req.session.cpsts =  req.body.coopenStatus.amt 
+                        req.session.cpsts = req.body.coopenStatus.amt - req.session.walletTemp
+                    } else {
+                        req.session.cpsts = req.body.coopenStatus.amt
                     }
                 } else {
                     req.session.cpsts = responce[0].totalAmt
@@ -687,7 +687,7 @@ let usercotrol = {
                 })
             })
         }
-        
+
 
     },
     orderhistoryPage: async (req, res) => {
@@ -723,7 +723,7 @@ let usercotrol = {
                     "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                     "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                     "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], datas, allOrderTotal: req.session.allOrderTotal,proImag:req.session.proImag,user:req.session.userDetails, totalcartCount:req.session.totalcartCount
+                js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], datas, allOrderTotal: req.session.allOrderTotal, proImag: req.session.proImag, user: req.session.userDetails, totalcartCount: req.session.totalcartCount
             })
         }).catch((e) => {
             res.redirect('/')
@@ -841,49 +841,49 @@ let usercotrol = {
         })
     },
     walletAmtAdd: (req, res) => {
-       
-        if (req.body.walletamt != 0) {
-            req.session.totaltemp=req.session.total
-            req.session.walletTemp=req.body.walletamt
-            
-           if(req.body.walletamt<=req.session.total){
-            req.session.newwallAmt=0
-            req.session.total=req.session.total-req.body.walletamt
-           }else{
-            req.session.newwallAmt=req.body.walletamt-req.session.total
-            req.session.total=0
-           }
-                 if(req.session.coupenDisTotal!=undefined){
-                    req.session.total=req.session.total-req.session.coupenDisTotal
-                    res.json({total:req.session.total,wallet:req.session.walletTemp})
-                    req.session.coupenDisTotal=0
-                 }else{
-                    res.json({total:req.session.total,wallet:req.session.walletTemp})
-                 }
-               
-             
-        } else {
-            req.session.newwallAmt=1
-            if(req.session.coupenDisTotal!=undefined){
-                req.session.total = req.session.totaltemp
-                req.session.total=req.session.total-req.session.coupenDisTotal
-                req.session.coupenDisTotal=0
-                res.json({total:req.session.total,wallet:0})
-                
-             }else{
-                req.session.total = req.session.totaltemp
-                res.json({total:req.session.totaltemp,wallet:0})
-             }
 
-                
-                
-                
-            
-            
+        if (req.body.walletamt != 0) {
+            req.session.totaltemp = req.session.total
+            req.session.walletTemp = req.body.walletamt
+
+            if (req.body.walletamt <= req.session.total) {
+                req.session.newwallAmt = 0
+                req.session.total = req.session.total - req.body.walletamt
+            } else {
+                req.session.newwallAmt = req.body.walletamt - req.session.total
+                req.session.total = 0
+            }
+            if (req.session.coupenDisTotal != undefined) {
+                req.session.total = req.session.total - req.session.coupenDisTotal
+                res.json({ total: req.session.total, wallet: req.session.walletTemp })
+                req.session.coupenDisTotal = 0
+            } else {
+                res.json({ total: req.session.total, wallet: req.session.walletTemp })
+            }
+
+
+        } else {
+            req.session.newwallAmt = 1
+            if (req.session.coupenDisTotal != undefined) {
+                req.session.total = req.session.totaltemp
+                req.session.total = req.session.total - req.session.coupenDisTotal
+                req.session.coupenDisTotal = 0
+                res.json({ total: req.session.total, wallet: 0 })
+
+            } else {
+                req.session.total = req.session.totaltemp
+                res.json({ total: req.session.totaltemp, wallet: 0 })
+            }
+
+
+
+
+
+
             console.log('tttt', req.session.total);
 
         }
-       
+
     }
 
 }

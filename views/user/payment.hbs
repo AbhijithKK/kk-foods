@@ -35,7 +35,7 @@
               </div>
             </a>
             {{!-- cart --}}
-            <a class="cart_link" href="/cart"><span id="count"   class="badge badge-warning">{{totalcartCount}}</span>
+            <a class="cart_link" href="/cart"><span id="count" class="badge badge-warning">{{totalcartCount}}</span>
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
                 style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
@@ -171,12 +171,14 @@
                     <label for="html">Pay on Delivery</label><br>
                     <input type="radio" id="onlinePayment" name="payment" value="online">
                     <label for="css">Online payment</label><br>
-                    <input type="checkbox" id="myCheckbox" value="{{user.wallet}}" onclick="getCheckboxValue()" name="walletAmt">
-                    <label for="css">Use wallet Amount:  <span style="font-size: large;background-color: rgb(145, 145, 145);">₹{{user.wallet}}.00</span></label>
-                     
-  
-   
-  
+                    <input type="checkbox" id="myCheckbox" value="{{user.wallet}}" onclick="getCheckboxValue()"
+                      name="walletAmt">
+                    <label for="css">Use wallet Amount: <span
+                        style="font-size: large;background-color: rgb(145, 145, 145);">₹{{user.wallet}}.00</span></label>
+
+
+
+
                   </form>
 
                 </div>
@@ -237,7 +239,7 @@
               </li>
 
               <hr>
-              
+
               <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-2">
                 <div>
                   <strong>Total amount</strong>
@@ -250,15 +252,15 @@
 
             <a onclick="orderPlace()" class="btn btn-warning btn-lg btn-block"> Place Order</a>
 
-      
-        </div>
-        {{!-- onlineeeeeeeeee --}}
-<div id="alertWindow" style="z-index: 1;margin-top: -15rem;">
-  
-</div>
 
-</div>
-        
+          </div>
+          {{!-- onlineeeeeeeeee --}}
+          <div id="alertWindow" style="z-index: 1;margin-top: -15rem;">
+
+          </div>
+
+        </div>
+
       </div>
       {{!-- formss################################################### --}}
       {{!-- <div style="background-color: yellowgreen;margin-top: -26rem;z-index: 1;"> --}}
@@ -310,7 +312,7 @@
             </div>
           </div>
         </form>
-      
+
         {{!--add new address formmmmmm enddd --}}
         {{!-- edit address --}}
         <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform"

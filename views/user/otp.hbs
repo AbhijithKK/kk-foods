@@ -1,55 +1,62 @@
 <body style="background-image: url(/img/otp.jpg); background-repeat: no-repeat; background-size: cover;height: 100vh;">
-    <div class="container" style=" height: 100vh;">
-        <div class="text-center mt-3"><p style="color:rgb(223, 223, 223); font-size:3.5rem;font-weight: 600; font-family:it"><span style="color: #ffff;">KK</span> FOODS</p></div>
-        <div class="row" style="padding-top:1rem;display: flex; justify-content: center;">
-            <div class="col" style="border-style: solid; height:33rem ; max-width:45%;display: flex; border-radius: 2rem; background-color: rgba(129, 129, 129);">
-                <div style="width:100%;">
-               <div style="margin-top:1rem;text-align: center;">
-               <h3 style="margin-top:2rem; font-weight: 700;">Verify Mail Id</h3></div> 
-<div class="my-5" style="text-align: center;">
-   
-    <p>A text with a One time password(OTP) has been been sent to your mail id</p>
-    <p style="color: red;">{{msg}}</p>
-</div>
+  <div class="container" style=" height: 100vh;">
+    <div class="text-center mt-3">
+      <p style="color:rgb(223, 223, 223); font-size:3.5rem;font-weight: 600; font-family:it"><span
+          style="color: #ffff;">KK</span> FOODS</p>
+    </div>
+    <div class="row" style="padding-top:1rem;display: flex; justify-content: center;">
+      <div class="col"
+        style="border-style: solid; height:33rem ; max-width:45%;display: flex; border-radius: 2rem; background-color: rgba(129, 129, 129);">
+        <div style="width:100%;">
+          <div style="margin-top:1rem;text-align: center;">
+            <h3 style="margin-top:2rem; font-weight: 700;">Verify Mail Id</h3>
+          </div>
+          <div class="my-5" style="text-align: center;">
 
-<div style="text-align: center;">
-   
-        <h5 class="mb-3">Enter OTP :</h5>
-        
-<form action="/otp" method="post" onsubmit="return send()">
-<input style="width:40%;" class="form-control-lg" type="text"  name="otp" required> 
-    
-<div class="text-center pt-2"> 
-    <p id="countdown"></p>
-    <a href="/resendOtp" id="unhide" style="text-decoration: none;">resend OTP</a></div>
-    
+            <p>A text with a One time password(OTP) has been been sent to your mail id</p>
+            <p style="color: red;">{{msg}}</p>
+          </div>
 
-<div class="text-center">
-<button  type="submit" class="btn  rounded-pill mt-5 text-white"  style="background-color: rgb(4, 107, 4);">Submit</button>
-</form>
-</div>
-</div>
-            </div>
+          <div style="text-align: center;">
+
+            <h5 class="mb-3">Enter OTP :</h5>
+
+            <form action="/otp" method="post" onsubmit="return send()">
+              <input style="width:40%;" class="form-control-lg" type="text" name="otp" required>
+
+              <div class="text-center pt-2">
+                <p id="countdown"></p>
+                <a href="/resendOtp" id="unhide" style="text-decoration: none;">resend OTP</a>
+              </div>
+
+
+              <div class="text-center">
+                <button type="submit" class="btn  rounded-pill mt-5 text-white"
+                  style="background-color: rgb(4, 107, 4);">Submit</button>
+            </form>
+          </div>
         </div>
-        </div>
-        
-    </div>   
-   
+      </div>
+    </div>
+  </div>
 
-   <script>
-     document.getElementById("unhide").style.display = "none";
-    
-   
-  
-     var countDownTime = 30000;
-     var x = setInterval(function() {
-    countDownTime -= 1000;
-    var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
-    document.getElementById("countdown").innerHTML ="otp expire in " + seconds + "s ";
-    if (countDownTime < 0) {
-      clearInterval(x);
-       document.getElementById("countdown").innerHTML =""
-      document.getElementById("unhide").style.display = "block";
-    }
-  }, 1000);
-</script>
+  </div>
+
+
+  <script>
+    document.getElementById("unhide").style.display = "none";
+
+
+
+    var countDownTime = 30000;
+    var x = setInterval(function () {
+      countDownTime -= 1000;
+      var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerHTML = "otp expire in " + seconds + "s ";
+      if (countDownTime < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = ""
+        document.getElementById("unhide").style.display = "block";
+      }
+    }, 1000);
+  </script>

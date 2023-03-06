@@ -1,8 +1,8 @@
-const userRoute='http://localhost:3000'
+const userRoute = 'http://localhost:3000'
 
 let alet = document.getElementById('alertWindow')
 let paymentMethod = document.radiobtns.payment
-let wallet=document.radiobtns.walletAmt
+let wallet = document.radiobtns.walletAmt
 let onlinePay = document.getElementById('onlinePayment')
 let cod = document.getElementById('cashOnDelivery')
 let coopencode = document.coopenForm.couponCode;
@@ -121,7 +121,7 @@ function addSubmit() {
     alert('address added')
     addShow.innerHTML = ''
     return false
-   
+
 
 }
 
@@ -203,7 +203,7 @@ function addDelete(name, addr, pin, mob, place) {
     })
 }
 let coopenstatus = ''
-let coopenDisTotalamt=0
+let coopenDisTotalamt = 0
 function coopenApply() {
     fetch(`${userRoute}/coopenapply`, {
         method: "post",
@@ -223,8 +223,8 @@ function coopenApply() {
         } else {
             document.getElementById('cpDisAmt').innerHTML = data.disAmt + '.00'
             document.getElementById('cpmainAmt').innerHTML = data.amt + '.00'
-            coopenDisTotalamt=data.amt
-            
+            coopenDisTotalamt = data.amt
+
             document.getElementById('cpMsg').innerHTML = ''
         }
         coopenstatus = data
@@ -236,8 +236,8 @@ function coopenApply() {
     return false
 }
 function orderPlace() {
-   
-    
+
+
 
     if (text.value && text.value.trim() !== '') {
         fetch(`${userRoute}/orderHistory`, {
@@ -250,18 +250,18 @@ function orderPlace() {
             if (data.status == true) {
                 location.href = 'http://localhost:3000/success'
             } else {
-                let price=0
+                let price = 0
                 console.log(coopenDisTotalamt)
-                if(coopenDisTotalamt==0){
-                   
-                    price=data.amount
-                }else{
-                    price=coopenDisTotalamt
+                if (coopenDisTotalamt == 0) {
+
+                    price = data.amount
+                } else {
+                    price = coopenDisTotalamt
                 }
                 if (text.value != null && text.value != undefined && text.value != '' && text.value.charCodeAt() != 32) {
                     let options = {
                         "key": 'rzp_test_tkUZeWI1OfAb4R', // Enter the Key ID generated from the Dashboard
-                        "amount":price , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "amount": price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         "currency": "INR",
                         "name": "KK FOODS", //your business name
                         "description": "Test Transaction",
@@ -330,10 +330,10 @@ function verifypayment(responce, orderDetails) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ responce, orderDetails })
-    }).then((data)=>data.json()).then((data)=>{
-        if(data.pay==true){
+    }).then((data) => data.json()).then((data) => {
+        if (data.pay == true) {
             location.href = 'http://localhost:3000/success'
-        }else{
+        } else {
             alet.style.display = 'block'
             alet.innerHTML = `<div class="" tabindex="-1">
             <div class="modal-dialog">
@@ -369,35 +369,34 @@ function getCheckboxValue() {
     var checkbox = document.getElementById("myCheckbox");
     var showWalltAmt = document.getElementById("wallAmt");
     if (checkbox.checked) {
-        
-        showWalltAmt.innerHTML=checkbox.value+'.00'
-      fetch(`${userRoute}/walletAmtAdd`,{
-        method:"post",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({walletamt:checkbox.value})
-      }).then((data)=>data.json()).then((data)=>{
-        document.getElementById('cpmainAmt').innerHTML =data.total+'.00'
-        showWalltAmt.innerHTML=data.wallet
-        console.log(data)
-      })
+
+        showWalltAmt.innerHTML = checkbox.value + '.00'
+        fetch(`${userRoute}/walletAmtAdd`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ walletamt: checkbox.value })
+        }).then((data) => data.json()).then((data) => {
+            document.getElementById('cpmainAmt').innerHTML = data.total + '.00'
+            showWalltAmt.innerHTML = data.wallet
+            console.log(data)
+        })
     }
-    if(!checkbox.checked){
-        showWalltAmt.innerHTML='0.00'
-        fetch(`${userRoute}/walletAmtAdd`,{
-        method:"post",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({walletamt:0})
-      }).then((data)=>data.json()).then((data)=>{
-        document.getElementById('cpmainAmt').innerHTML =data.total+'.00'
-        showWalltAmt.innerHTML=data.wallet
-        console.log(data)
-      })
+    if (!checkbox.checked) {
+        showWalltAmt.innerHTML = '0.00'
+        fetch(`${userRoute}/walletAmtAdd`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ walletamt: 0 })
+        }).then((data) => data.json()).then((data) => {
+            document.getElementById('cpmainAmt').innerHTML = data.total + '.00'
+            showWalltAmt.innerHTML = data.wallet
+            console.log(data)
+        })
     }
-   
+
     return false
-  }
-  
+}

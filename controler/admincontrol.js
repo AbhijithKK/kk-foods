@@ -35,17 +35,17 @@ let admincontrol = {
                         for (let k = 0; k < allusers[i].orderhistory[j].productDetails.length; k++) {
                             //total orderd
                             if (allusers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
-                               
+
                                 totalOrder = totalOrder + (allusers[i].orderhistory[j].productDetails[k].proTotal * allusers[i].orderhistory[j].productDetails[k].count)
                             }
                             if (allusers[i].orderhistory[j].productDetails[k].orderStatus) {
                                 orederCount++;
-                                
+
                             }
                         }
                     }
                 }
-                req.session.salesRedirect=0
+                req.session.salesRedirect = 0
                 db.totalProducts().then((totalpro) => {
                     res.render('admin/adminHome', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
@@ -448,106 +448,108 @@ let admincontrol = {
     postSalesReport: (req, res) => {
         try {
             db.salesReport(req.body).then((allUsers) => {
-                
-                let product=[]
-            for(let i=0;i<allUsers.length;i++){
-                for(let j=0;j<allUsers[i].orderhistory.length;j++){
-                    for(let k=0;k<allUsers[i].orderhistory[j].productDetails.length;k++){
-                        if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
-                            product.push({
-                                orderid:allUsers[i].orderhistory[j].orderid,
-                                name:allUsers[i].name1,
-                                productName:allUsers[i].orderhistory[j].productDetails[k].productName,
-                                productPrice:allUsers[i].orderhistory[j].productDetails[k].productPrize,
-                                productQuantity:allUsers[i].orderhistory[j].productDetails[k].count,
-                                subTotal:allUsers[i].orderhistory[j].productDetails[k].productPrize*allUsers[i].orderhistory[j].productDetails[k].count,
-                                
-                            })
-                           
+
+                let product = []
+                for (let i = 0; i < allUsers.length; i++) {
+                    for (let j = 0; j < allUsers[i].orderhistory.length; j++) {
+                        for (let k = 0; k < allUsers[i].orderhistory[j].productDetails.length; k++) {
+                            if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
+                                product.push({
+                                    orderid: allUsers[i].orderhistory[j].orderid,
+                                    name: allUsers[i].name1,
+                                    productName: allUsers[i].orderhistory[j].productDetails[k].productName,
+                                    productPrice: allUsers[i].orderhistory[j].productDetails[k].productPrize,
+                                    productQuantity: allUsers[i].orderhistory[j].productDetails[k].count,
+                                    subTotal: allUsers[i].orderhistory[j].productDetails[k].productPrize * allUsers[i].orderhistory[j].productDetails[k].count,
+
+                                })
+
+                            }
+
                         }
-                                
                     }
                 }
-            }
-            req.session.salesTotal=0
-            for(let i=0;i<product.length;i++){
-                req.session.salesTotal=req.session.salesTotal+product[i].subTotal   
-            }   
-                req.session.salesData=product
-                req.session.salesRedirect=1
+                req.session.salesTotal = 0
+                for (let i = 0; i < product.length; i++) {
+                    req.session.salesTotal = req.session.salesTotal + product[i].subTotal
+                }
+                req.session.salesData = product
+                req.session.salesRedirect = 1
                 res.redirect('/admin/salesReport')
             })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
-    getSalesReport:(req, res) => {
-        
+    getSalesReport: (req, res) => {
+
         try {
-           
-                let product=[]
+
+            let product = []
             db.salesReport().then((allUsers) => {
-            for(let i=0;i<allUsers.length;i++){
-                for(let j=0;j<allUsers[i].orderhistory.length;j++){
-                    for(let k=0;k<allUsers[i].orderhistory[j].productDetails.length;k++){
-                        if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
-                          product.push({
-                                orderid:allUsers[i].orderhistory[j].orderid,
-                                name:allUsers[i].name1,
-                                productName:allUsers[i].orderhistory[j].productDetails[k].productName,
-                                productPrice:allUsers[i].orderhistory[j].productDetails[k].productPrize,
-                                productQuantity:allUsers[i].orderhistory[j].productDetails[k].count,
-                                subTotal:allUsers[i].orderhistory[j].productDetails[k].productPrize*allUsers[i].orderhistory[j].productDetails[k].count,
-                                
-                            })
-                           
+                for (let i = 0; i < allUsers.length; i++) {
+                    for (let j = 0; j < allUsers[i].orderhistory.length; j++) {
+                        for (let k = 0; k < allUsers[i].orderhistory[j].productDetails.length; k++) {
+                            if (allUsers[i].orderhistory[j].productDetails[k].orderStatus == "Delivered") {
+                                product.push({
+                                    orderid: allUsers[i].orderhistory[j].orderid,
+                                    name: allUsers[i].name1,
+                                    productName: allUsers[i].orderhistory[j].productDetails[k].productName,
+                                    productPrice: allUsers[i].orderhistory[j].productDetails[k].productPrize,
+                                    productQuantity: allUsers[i].orderhistory[j].productDetails[k].count,
+                                    subTotal: allUsers[i].orderhistory[j].productDetails[k].productPrize * allUsers[i].orderhistory[j].productDetails[k].count,
+
+                                })
+
+                            }
+
                         }
-                                
                     }
                 }
-            }
-            
-                
-            req.session.salesDatahome=product
-            
-            req.session.salesTotalhome=0
-            for(let i=0;i<product.length;i++){    
-                req.session.salesTotalhome=req.session.salesTotalhome+product[i].subTotal  
-                
-        }
-        let users
-        let total
-        if(req.session.salesRedirect==0){
-            users=req.session.salesDatahome
-            total=req.session.salesTotalhome
-        }else{
-            users=req.session.salesData
-            total=req.session.salesTotal
-        }
-        
-        console.log('tttttt',req.session.salesTotal);  
-            res.render('admin/salesReport',{users,total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]})
-            
-            req.session.salesRedirect=0
-        })
+
+
+                req.session.salesDatahome = product
+
+                req.session.salesTotalhome = 0
+                for (let i = 0; i < product.length; i++) {
+                    req.session.salesTotalhome = req.session.salesTotalhome + product[i].subTotal
+
+                }
+                let users
+                let total
+                if (req.session.salesRedirect == 0) {
+                    users = req.session.salesDatahome
+                    total = req.session.salesTotalhome
+                } else {
+                    users = req.session.salesData
+                    total = req.session.salesTotal
+                }
+
+                console.log('tttttt', req.session.salesTotal);
+                res.render('admin/salesReport', {
+                    users, total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
+                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]
+                })
+
+                req.session.salesRedirect = 0
+            })
         } catch (e) {
             res.redirect('/admin/')
         }
     },
-    singleImageDelete:(req,res)=>{
-        db.proImageDelete(req.body).then(()=>{
+    singleImageDelete: (req, res) => {
+        db.proImageDelete(req.body).then(() => {
             res.json('success')
         })
     },
-    postSingleImageAdd:(req,res)=>{
-        try{
-            
-            db.productImageAdd(req.body,req.files).then(()=>{
+    postSingleImageAdd: (req, res) => {
+        try {
+
+            db.productImageAdd(req.body, req.files).then(() => {
                 res.json('success')
             })
-           
-        }catch(err){
+
+        } catch (err) {
 
         }
     }

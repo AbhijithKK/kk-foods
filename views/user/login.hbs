@@ -1,83 +1,81 @@
+<div class="bg-box" style="height: 85px;">
+  <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
+</div>
+<!-- header section strats -->
+<header class="header_section">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg custom_nav-container ">
+      <a class="navbar-brand" href="/">
+        <span>
+          KK foods
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class=""> </span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav  mx-auto ">
+        </ul>
+        <div class="user_option">
 
 
-   
-  <div class="bg-box"  style="height: 85px;">
-    <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
-  </div>
-  <!-- header section strats -->
-  <header class="header_section">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container ">
-        <a class="navbar-brand" href="/">
-          <span>
-            KK foods
-          </span>
-        </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class=""> </span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav  mx-auto ">
-          </ul>
-          <div class="user_option">
-            
-           
-            
-          </div>
         </div>
-      </nav>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Sing in  Form -->
+<section class="sign-in">
+  <div class="container" style="margin-top: 170px;">
+    <div class="signin-content">
+      <div class="signin-image">
+        <figure><img src="/stylesheets/logintemp/images/about-img.png" alt="sing up image"></figure>
+        <a href="/signup" class="signup-image-link">Create an account</a>
+      </div>
+
+      <div class="signin-form">
+        <h2 class="form-title">Log In</h2>
+        <h4 id="errmsg" style="color: red;">{{msg}}</h4>
+        <form method="POST" class="register-form" id="login-form" action="/home" name="form" onsubmit="return valid()">
+          <div class="form-group">
+            <label for="email"><i class="zmdi zmdi-email"></i></label>
+            <input type="email" name="email" id="email" placeholder="Your Email" required />
+          </div>
+          <div class="form-group">
+            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+            <input type="password" name="password" id="your_pass" placeholder="Password" />
+            <p id="passw" style="color: red;"></p>
+          </div>
+          <div class="form-group">
+            {{!-- <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" /> --}}
+            <label for="remember-me" class="label-agree-term"><span><span></span></span><a href="/forgotPassword">forgot
+                password</a></label>
+          </div>
+          <div class="form-group form-button">
+            <input type="submit" id="signin" class="form-submit" value="Log in" />
+          </div>
+        </form>
+
+      </div>
     </div>
-  </header>  
-  
-  <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container" style="margin-top: 170px;">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="/stylesheets/logintemp/images/about-img.png" alt="sing up image"></figure>
-                        <a href="/signup" class="signup-image-link">Create an account</a>
-                    </div>
+  </div>
+</section>
 
-                    <div class="signin-form">
-                        <h2 class="form-title">Log In</h2>
-                        <h4 id="errmsg" style="color: red;">{{msg}}</h4>
-                        <form method="POST" class="register-form" id="login-form" action="/home" name="form" onsubmit="return valid()">
-                            <div class="form-group">
-                               <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="your_pass" placeholder="Password"/>
-                                <p id="passw" style="color: red;"></p>
-                            </div>
-                            <div class="form-group">
-                                {{!-- <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" /> --}}
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span><a href="/forgotPassword">forgot password</a></label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit"  id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
-                       
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <script>
-          let msg=document.getElementById('errmsg')
-            let pass=document.form.password;
-                function valid(){
-                    if(pass.value.length<5){
-                        document.getElementById('passw').innerHTML="password must 6 letters or above"
-                        return false;
-                    }
-                     document.getElementById('passw').innerHTML=""
-                }
+<script>
+  let msg = document.getElementById('errmsg')
+  let pass = document.form.password;
+  function valid() {
+    if (pass.value.length < 5) {
+      document.getElementById('passw').innerHTML = "password must 6 letters or above"
+      return false;
+    }
+    document.getElementById('passw').innerHTML = ""
+  }
                // fetch('http://localhost:3000/login',{
                  // method:"post",
                   //headers:{"Content-Type":"application/json"
@@ -86,4 +84,4 @@
                  // msg.innerHTML=data
                 //})
                 // msg.innerHTML=''
-        </script>
+</script>
