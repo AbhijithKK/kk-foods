@@ -5,10 +5,7 @@ const objectid = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
 const { resolve } = require('path');
 require('dotenv')
-const instance = new Razorpay({
-    key_id: 'rzp_test_tkUZeWI1OfAb4R',
-    key_secret: 'Dr92MosMlHUqZMP1kfmRlbze',
-});
+
 module.exports = {
     emailverify: (mail) => {
         return new Promise((resolve, reject) => {
@@ -525,7 +522,7 @@ module.exports = {
 
     },
     razorpay: (orderId, total) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
 
 
             let options = {
@@ -534,7 +531,12 @@ module.exports = {
                 receipt: orderId,
 
             }
-            instance.orders.create(options, function (err, ordder) {
+            const instance = new Razorpay ({
+                key_id:await process.env.RAZORPAY_ID,
+                key_secret:await process.env.RAZORPAY_SECRECT,
+            });
+            
+           instance.orders.create(options, function (err, ordder) {
 
                 resolve(ordder)
             })
@@ -547,7 +549,7 @@ module.exports = {
         console.log(data);
         return new Promise(async (resolve, reject) => {
             const crypto = require('crypto')
-            let hmac = crypto.createHmac('sha256', 'Dr92MosMlHUqZMP1kfmRlbze')
+            let hmac = crypto.createHmac('sha256', await process.env.RAZORPAY_SECRECT)
             hmac.update(data.responce.razorpay_order_id + '|' + data.responce.razorpay_payment_id)
             hmac = hmac.digest('hex')
             if (hmac == data.responce.razorpay_signature) {

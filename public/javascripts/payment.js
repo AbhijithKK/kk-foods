@@ -247,9 +247,9 @@ function orderPlace() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ address: text.value, coopenStatus: coopenstatus, date: new Date(), payMethod: paymentMethod.value })
-        }).then((data) => data.json()).then((data) => {
+        }).then((data) => data.json()).then(async(data) => {
             if (data.status == true) {
-                location.href = 'http://localhost:3000/success'
+                location.href = `${userRoute}/success`
             } else {
                 let price = 0
                 console.log(coopenDisTotalamt)
@@ -260,8 +260,9 @@ function orderPlace() {
                     price = coopenDisTotalamt
                 }
                 if (text.value != null && text.value != undefined && text.value != '' && text.value.charCodeAt() != 32) {
+                    
                     let options = {
-                        "key": 'rzp_test_tkUZeWI1OfAb4R', // Enter the Key ID generated from the Dashboard
+                        "key":'rzp_test_tkUZeWI1OfAb4R', // Enter the Key ID generated from the Dashboard
                         "amount": price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         "currency": "INR",
                         "name": "KK FOODS", //your business name
