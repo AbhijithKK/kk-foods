@@ -5,7 +5,7 @@
   <!-- header section strats -->
   <header class="header_section">
     <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container ">
+      <nav class="navbar navbar-expand-lg custom_nav-container " style="background-image: url(/stylesheets/logintemp/images/hero-bg.jpg);border-radius: 50px;">
         <a class="navbar-brand" href="/">
           <span>
             KK foods
@@ -134,9 +134,9 @@
 
                   <div class="row">
 
-                    <div style="text-align: left;" class="col-sm-8">
+                    <div style="text-align: left; max-width: 100%;" class="col-sm-8">
 
-                      <textarea id="textShow" style="border-color: #f5f7f62e;" name="address" placeholder="Add address"
+                      <textarea id="textShow" style="border-color: #f5f7f62e;max-width: 100%;" name="address" placeholder="Add address"
                         rows="5" cols="50" readonly required>
 
                            </textarea>
@@ -144,7 +144,7 @@
                     </div>
                     {{!-- popwindow --}}
                     <div id="popWindow" class="card mb-2"
-                      style="background-color: rgb(189, 212, 141); margin-top: -115px;z-index: 1;display: none;width: 400px;">
+                      style="background-color:  rgb(149, 149, 149); margin-top: -115px;z-index: 1;display: none;width: 400px;">
 
 
                     </div>
@@ -250,7 +250,7 @@
               </li>
             </ul>
 
-            <a onclick="orderPlace()" class="btn btn-warning btn-lg btn-block"> Place Order</a>
+            <a onclick="orderPlace()" class="paymentBtn btn btn-warning btn-lg btn-block"> Place Order</a>
 
 
           </div>
@@ -264,12 +264,14 @@
       </div>
       {{!-- formss################################################### --}}
       {{!-- <div style="background-color: yellowgreen;margin-top: -26rem;z-index: 1;"> --}}
-        <button onclick="closeForm()" id="closeBtn" class="btn"
-          style="margin-top: -50rem;z-index: 2;margin-left: 65rem; display: none;">close</button>
-        <form id="hiddenform" class="form-horizontal form-material mx-2" name="addform" onsubmit="return addSubmit()"
-          style="margin-top: -26rem;z-index: 1;background-color: #91bdb3;display: none;">
+        <div style="z-index: 5;">
+        <button onclick="closeForm()" id="closeBtn" class="btn paymentFormBtn" 
+          >x</button>
+                  </div>
+          
+        <form id="hiddenform" class="paymentForm form-horizontal form-material mx-2" name="addform" onsubmit="return addSubmit()">
 
-          <h3>Add New Address</h3>
+          <h3 style="margin-top: 32px;">Add New Address</h3>
           <div class="form-group">
             <label class="col-md-12">Name</label>
             <div class="col-md-12">
@@ -315,10 +317,10 @@
 
         {{!--add new address formmmmmm enddd --}}
         {{!-- edit address --}}
-        <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform"
-          onsubmit="return updateAddr()" style="margin-top: -26rem;z-index: 1;background-color: #91bdb3;display: none;">
+        <form id="hiddeneditform" class="paymentForm form-horizontal form-material mx-2" name="editform"
+          onsubmit="return updateAddr()" >
 
-          <h3>Edit Address</h3>
+          <h3 style="margin-top: 32px;">Edit Address</h3>
           <div class="form-group">
             <label class="col-md-12">Name</label>
             <div class="col-md-12">
@@ -369,14 +371,16 @@
       {{!-- formsend ################################################### --}}
     </div>
 
-  </div>
 
-</section>
 
-<div class="card" style="height: 111px;
-width: 29%;
-margin-left: 388px;
-margin-top: 45px;">
+
+
+
+
+
+
+
+<div class="me-auto card coupens" >
 
   <form name="coopenForm" onsubmit="return coopenApply()">
 
@@ -393,6 +397,11 @@ margin-top: 45px;">
     </div>
   </form>
 </div>
+  </div>
+
+</section>
+
+
 
 
 <!-- Optional JavaScript -->

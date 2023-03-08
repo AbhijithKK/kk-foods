@@ -1,10 +1,38 @@
 <body style="background-image: url(/img/otp.jpg); background-repeat: no-repeat; background-size: cover;height: 100vh;">
+<div class="bg-box" style="height: 85px;">
+  <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
+</div>
+<!-- header section strats -->
+<header class="header_section">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg custom_nav-container ">
+      <a class="navbar-brand" href="/">
+        <span>
+          KK foods
+        </span>
+      </a>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav  mx-auto ">
+        </ul>
+        <div class="user_option">
+
+
+
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+
+
+
   <div class="container" style=" height: 100vh;">
-    <div class="text-center mt-3">
-      <p style="color:rgb(223, 223, 223); font-size:3.5rem;font-weight: 600; font-family:it"><span
-          style="color: #ffff;">KK</span> FOODS</p>
-    </div>
-    <div class="row" style="padding-top:1rem;display: flex; justify-content: center;">
+   
+    <div class="row" style="padding-top:8rem;display: flex; justify-content: center;">
       <div class="col"
         style="border-style: solid; height:33rem ; max-width:45%;display: flex; border-radius: 2rem; background-color: rgba(129, 129, 129);">
         <div style="width:100%;">
@@ -14,19 +42,19 @@
           <div class="my-5" style="text-align: center;">
 
             <p>A text with a One time password(OTP) has been been sent to your mail id</p>
-            <p style="color: red;">{{msg}}</p>
+            <p  id="msg" style="color: red;">{{msg}}</p>
           </div>
 
           <div style="text-align: center;">
 
             <h5 class="mb-3">Enter OTP :</h5>
 
-            <form action="/otp" method="post" onsubmit="return send()">
+            <form name="form" onsubmit="return send()">
               <input style="width:40%;" class="form-control-lg" type="text" name="otp" required>
 
               <div class="text-center pt-2">
                 <p id="countdown"></p>
-                <a href="/resendOtp" id="unhide" style="text-decoration: none;">resend OTP</a>
+                <a class="btn"  id="unhide" onclick="resend()" style="text-decoration: none;">resend OTP</a>
               </div>
 
 
@@ -44,11 +72,68 @@
 
 
   <script>
+    let otpv=document.form.otp
+    document.getElementById('msg').innerHTML=''
     document.getElementById("unhide").style.display = "none";
+    function send(){
+      console.log(otpv.value)
+    fetch('http://localhost:3000/otp',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+        },
+        body:JSON.stringify({otp:otpv.value})
+
+    }).then((data)=>data.json()).then((data)=>{
+      if(data==false){
+        document.getElementById('msg').innerHTML='Enter Currect OTP'
+        return false
+      }else{
+        location.href='http://localhost:3000/login'
+      }
+    })
+    event.preventDefault()
+    return false
+    }
+    function resend(){
+      document.getElementById('msg').innerHTML=''
+      fetch('http://localhost:3000/resendOtp',{
+        method:"get",
+        headers:{
+          "Content-Type":"application/json"
+      },
+
+      }).then((data)=>data.json()).then((data)=>{
+        if(data==false){
+          document.getElementById('msg').innerHTML='Plese Re-Enter Signup form Properly'
+          return false
+        }else{
+          alert('OTP resend your Mail')
+          document.getElementById('msg').innerHTML=''
+    document.getElementById("unhide").style.display = "none";
+          var countDownTime = 60000;
+    var x = setInterval(function () {
+      countDownTime -= 1000;
+      var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerHTML = "otp expire in " + seconds + "s ";
+      if (countDownTime < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = ""
+        document.getElementById("unhide").style.display = "block";
+      }
+    }, 1000);
+          
+        }
+        
+        
+      })
+      return false
+    }
+    
+    
 
 
-
-    var countDownTime = 30000;
+    var countDownTime = 60000;
     var x = setInterval(function () {
       countDownTime -= 1000;
       var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);

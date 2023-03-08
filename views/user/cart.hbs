@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="wishlist">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Wishlist</title>
-  {{!--
-  <link href="css/bootstrap.min.css" rel="stylesheet"> --}}
-  {{!--
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.2/css/boxicons.min.css"> --}}
-  {{!--
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet"> --}}
-  {{!--
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"> --}}
-
+  <style>
+    #myTable td{
+      padding: -0.25rem !important;
+      
+    }
+  </style>
 </head>
-
-<body style="background-color: #F5F5F5;">
   <div class="hero_area" style="height: 85px;min-height: 85px;">
     <div class="bg-box" style="height: 85px;">
       <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" style="height: 85px;">
@@ -26,7 +14,7 @@
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
+        <nav class="navbar navbar-expand-lg custom_nav-container " style="background-image: url(/stylesheets/logintemp/images/hero-bg.jpg);border-radius: 50px;">
           <a class="navbar-brand" href="/">
             <span>
               KK foods
@@ -153,21 +141,22 @@
             <p class="mb-5">
               <i class="text-info font-weight-bold">{{totalcartCount}}</i> items in your cart
             </p>
-            <table id="shoppingCart" class="table table-condensed table-responsive">
+            <div style="overflow: auto;">
+            <table id="myTable" class="table" >
               <thead>
                 <tr>
-                  <th style="width:30%">image</th>
-                  <th style="width:30%">name</th>
-                  <th style="width:12%">Price</th>
-                  <th style="width:10%">Quantity</th>
-                  <th style="width:10%">Total</th>
-                  <th style="width:16%"></th>
+                  <th style="width:30%;padding: -0.25rem;!important">image</th>
+                  <th style="width:30%;padding: -0.25rem;!important">name</th>
+                  <th style="width:12%;padding: -0.25rem;!important">Price</th>
+                  <th style="width:10%;padding: -0.25rem;!important">Quantity</th>
+                  <th style="width:10%;padding: -0.25rem;!important">Total</th>
+                  <th style="width:16%;padding: -0.25rem;!important"></th>
                 </tr>
               </thead>
               <tbody>
                 {{#each product}}
                 <tr>
-                  <td data-th="Product">
+                  <td style="padding: -0.25rem;!important" data-th="Product">
                     <div class="row">
                       <div class="col-md-6 col-12 ">
                         <img src="/images/{{this.image1.[0].filename}}" alt="" class="img-fluid "
@@ -176,21 +165,21 @@
 
                     </div>
                   </td>
-                  <td>
+                  <td style="padding: -0.25rem;!important">
                     <h5>{{this.productName}}</h5>
                   </td>
-                  <td data-th="Price">{{this.productPrize}}</td>
-                  <td data-th="Quantity">
-                    <button id="minusbtn" class="btn"
+                  <td style="padding: -0.25rem;!important" data-th="Price">{{this.productPrize}}</td>
+                  <td style="padding: -0.25rem;!important" data-th="Quantity">
+                   
+                    <button style="width: 0;" id="minusbtn" class="btn"
                       onclick="counter('{{this._id}}','-1','{{@index}}','{{this.ofId}}')">-</button>
 
-                    <span id="{{@index}}">{{{this.count}}}</span>
-                    <button class="btn" onclick="counter('{{this._id}}','1','{{@index}}','{{this.ofId}}')">+</button>
-                    {{!-- <input type="number" id="" min="1" max="10"
-                      class="cartQuantityss form-control form-control-lg text-center" value="1"> --}}
+                    <span style="width: 0;" id="{{@index}}">{{{this.count}}}</span>
+                    <button style="width: 0;" class="btn" onclick="counter('{{this._id}}','1','{{@index}}','{{this.ofId}}')">+</button>
+                    
                   </td>
-                  <td data-th="Price" id="{{@index}}pro">{{this.proTotal}}</td>
-                  <td class="actions" data-th="">
+                  <td style="padding: -0.25rem;!important" data-th="Price" id="{{@index}}pro">{{this.proTotal}}</td>
+                  <td style="padding: -0.25rem;!important" class="actions" data-th="">
                     <div class="text-right">
 
                       <a href="/deleteCartitem?id={{this._id}}&&ofId={{this.ofId}}"
@@ -205,6 +194,7 @@
 
               </tbody>
             </table>
+            </div >
             <div class="float-right text-right">
               <h4>Subtotal:</h4>
               <h1 id="newtotal">{{total}}</h1>
@@ -325,3 +315,11 @@
     <script src="/javascripts/userCart.js">
 
     </script>
+    <script>
+  
+
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+  
+</script>

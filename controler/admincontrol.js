@@ -19,10 +19,7 @@ let admincontrol = {
                 res.redirect('/admin/Home')
             }
         } catch (e) {
-            res.redirect('/admin/', {
-                css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                    "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
-            })
+            res.redirect('/admin/')
         }
     },
     adminHome: (req, res) => {
@@ -49,7 +46,7 @@ let admincontrol = {
                 db.totalProducts().then((totalpro) => {
                     res.render('admin/adminHome', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",], totalOrder, orederCount, totalpro
+                             "/stylesheets/logintemp/css/style.css",], totalOrder, orederCount, totalpro
                     })
                 })
             })
@@ -62,7 +59,7 @@ let admincontrol = {
             db.showProducts().then((product) => {
                 res.render('admin/productDetails', {
                     product, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css",]
                 })
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -74,20 +71,34 @@ let admincontrol = {
     orderdetails: (req, res) => {
         try {
             db.userOrderHistory().then((order) => {
-                function reverseArray(arr) {
-                    arr.reverse();
-                    for (let i = 0; i < arr.length; i++) {
-                        if (Array.isArray(arr[i])) {
-                            reverseArray(arr[i]);
+                let orders=[];
+                                for(let i=0;i<order.length;i++){
+                    for(j=0;j<order[i].orderhistory.length;j++){
+                        for(k=0;k<order[i].orderhistory[j].productDetails.length;k++){
+                            orders.push({
+                                OrderDate:order[i].orderhistory[j].OrderDate,
+                                userName:order[i].name1,
+                                address:order[i].orderhistory[j].address,
+                                image:order[i].orderhistory[j].productDetails[k].image1[0].filename,
+                                proName:order[i].orderhistory[j].productDetails[k].productName,
+                                quantity:order[i].orderhistory[j].productDetails[k].count,
+                                productPrize:order[i].orderhistory[j].productDetails[k].productPrize,
+                                paymethod:order[i].orderhistory[j].payMethod,
+                                coupenSts:order[i].orderhistory[j].coopenstatus,
+                                orderStatus:order[i].orderhistory[j].productDetails[k].orderStatus,
+                                orderid:order[i].orderhistory[j].orderid,
+                                userId:order[i]._id,
+                                proId:order[i].orderhistory[j].productDetails[k]._id,
+                                proOrderId:order[i].orderhistory[j].productDetails[k].proOrderId
+
+                            })
                         }
                     }
-                    return arr;
                 }
-                let orders = reverseArray(order);
-
+                //  orders.reverse()
                 res.render('admin/orderDetails', {
-                    orders, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+                    orders, css: ["/stylesheets/logintemp/css/font-awesome.min.css","https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css" 
+                         ]
                 })
             })
         } catch (e) {
@@ -99,8 +110,8 @@ let admincontrol = {
             db.userData().then((result) => {
 
                 res.render('admin/userDetails', {
-                    result, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+                    result, css: ["/stylesheets/logintemp/css/font-awesome.min.css","https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css" 
+                ]
                 })
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -259,7 +270,7 @@ let admincontrol = {
                 }
                 res.render('admin/catogaryManage', {
                     catogary, data, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",]
+                    "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"]
                 })
                 catogarydetails = null;
             }).catch((err) => {
@@ -361,7 +372,7 @@ let admincontrol = {
 
                 res.render('admin/coopenManagement', {
                     css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"], result
+                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
                 })
             }).catch((e) => {
                 res.redirect('admin/')
@@ -411,7 +422,7 @@ let admincontrol = {
                 db.showOffers().then((offersPro) => {
                     res.render('admin/offer', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"], product, offersPro
+                        "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], product, offersPro
                     })
                 }).catch((err) => {
                     res.redirect('/admin/')

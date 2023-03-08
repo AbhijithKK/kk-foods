@@ -4,7 +4,7 @@
     <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
-    <a class="navbar-brand" href="#">kk foods</a>
+    <a class="navbar-brand" href="#" style="font-family:cursive;">kk foods</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
@@ -40,20 +40,16 @@
 <section style="margin-top: 4rem;">
   <div class="container">
     <div class="row">
-      <form class="form-inline my-2 my-lg-0">
-        <div class="d-flex">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search product">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </div>
-      </form>
-      <div style="margin-top: 15px;">
+     
+      <div style="margin-top: 19px;
+margin-bottom: 19px;">
         <a href="/admin/addProduct" class="btn btn-primary my-2 my-sm-0">Add product</a>
 
       </div>
 
     </div>
 
-    <table class="table" style="margin-top: 20px;">
+    <table  id="myTable" class="display" style="margin-top: 30px;">
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -95,7 +91,10 @@
 </section>
 
 <script>
-  hbs.registerHelper("inc", function (value, options) {
-    return parseInt(value) + 1;
-  });
+  
+
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+  
 </script>

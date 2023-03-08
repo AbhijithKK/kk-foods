@@ -4,7 +4,7 @@
     <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
-    <a class="navbar-brand" href="#">kk foods</a>
+    <a class="navbar-brand"  style="font-family:cursive;" href="#">kk foods</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
@@ -43,13 +43,8 @@
     <div class="row">
 
       <div class="d-flex ">
-        <div>
-          <form class=" form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" style="width: 200px;" placeholder="Search catogary">
-            <button class="btn btn-outline-success my-2 my-sm-0" style="margin-left: 8;" type="submit">Search</button>
-          </form>
-        </div>
-        <div class="ms-auto" id="addCatogary">
+       
+        <div class="me-auto" style="margin-bottom: 17px;" id="addCatogary">
           <form class=" form-inline my-2 my-lg-0 ms-auto" name="addForm" onsubmit="return addCatogary()">
             <input class="form-control mr-sm-2" type="text" name="catogaryAdd" style="width: 200px;"
               placeholder="add new catogary" minlength="3" required>
@@ -57,7 +52,7 @@
           </form>
         </div>
 
-        <div class="ms-auto" id="editCatogary">
+        <div class="me-auto" style="margin-bottom: 17px;" id="editCatogary">
           <button class="btn" onclick="closeedit()">x</button>
           <form onsubmit="return update()" class=" form-inline my-2 my-lg-0 ms-auto" name="updateform">
 
@@ -71,7 +66,7 @@
 
     </div>
 
-    <table class="table" style="margin-top: 20px;">
+    <table id="myTable" class="display" style="margin-top: 20px;">
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -96,7 +91,7 @@
             <a href="/admin/catogaryBlock?id={{this._id}}&delet={{this.block}}" class="btn btn-danger btn-block mb-4"
               onclick="return confirm('Are you sure ?')">{{this.block}}</a>
           </td>
-          <td><a href="/admin/catogaryDelete?id={{this._id}}" class="btn btn-danger btn-block mb-4"
+          <td><a href="/admin/catogaryDelete?id={{this._id}}" class="btn   mb-4" style="color: #ff3300;"
               onclick="return confirm('Are you sure ?')">remove</a></td>
         </tr>
 
@@ -130,7 +125,7 @@
 </div>
 
 {{!-- modal --}}
-<script type="module" src="/javascripts/adminCatogeryManage.js">
+<script  src="/javascripts/adminCatogeryManage.js">
 
 
 </script>

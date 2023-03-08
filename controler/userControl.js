@@ -155,47 +155,67 @@ let usercotrol = {
     },
     otpPage: (req, res) => {
         try {
-
+           let countDownTime = 0000;
             let msg;
             if (otpMsg == null) {
                 let msg = null;
             } else {
                 msg = otpMsg;
             }
-            res.render('user/otp', { css: ["/stylesheets/otp.css"], msg })
+            res.render('user/otp', { css: ["/stylesheets/otp.css",
+            "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css",
+            "/stylesheets/logintemp/css/style.css",], msg })
             otpMsg = null;
             // ##############
-            var countDownTime = 30000;
+             countDownTime = 60000;
             var x = setInterval(function () {
                 countDownTime -= 1000;
                 var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
                 if (countDownTime < 0) {
                     clearInterval(x);
-                    otp = undefined;
+                    req.session.otpsign = undefined;
                     console.log("main");
                 }
             }, 1000);
             // ##############
-            generateOTP()
+            
         } catch (e) {
             res.redirect('/')
         }
     },
     resendOtp: (req, res) => {
         try {
-            otp = generateOTP()
-            mailer(tempmail, otp)
-            res.redirect('/otp')
-            console.log("reseb" + otp);
+            if(req.session.tempmail==undefined){
+                res.json(data = false)
+            }else{
+            let generateOTP = () => {
+                return otpGenerator.generate(6, {
+                    digits: true,
+                    lowerCaseAlphabets: false,
+                    upperCaseAlphabets: false,
+                    specialChars: false
+                });
+            };
+            req.session.otp = generateOTP();
+            mailer(req.session.tempmail, req.session.otpsign)
+            console.log('forgot', req.session.otpsign + req.session.tempmail);
+            res.json(data = true)
+            // ############## 
+            //countdown
 
+            countDownTime = 60000;
+            let x = setInterval(function () {
+                countDownTime -= 1000;
+
+                if (countDownTime < 0) {
+                    clearInterval(x);
+                    req.session.otpsign = null
+                    console.log('otp null', req.session.otpsign);
+                }
+            }, 1000);
+            //countdown
             // ##############
-            var countDownTime = 30000;
-            setTimeout(() => {
-                otp = undefined;
-                console.log("recountown");
-            }, countDownTime);
-            // ##############
-            generateOTP()
+        }
         } catch (e) {
             res.redirect('/')
         }
@@ -203,16 +223,26 @@ let usercotrol = {
     },
     postOtp: (req, res) => {
         try {
-            if (req.body.otp == otp) {
-
+            
+           
+            if (req.body.otp != req.session.otpsign) {
+                let data=false
+                res.json(data)
+               
+            } else {
+                console.log(req.session.userTempData);
+                if(req.session.userTempData!=undefined){
                 db.userAdd(req.session.userTempData).then(() => {
-                    res.redirect('/login')
+                    res.json(data=true)
+                   
+                    req.session.userTempData=undefined;
                 }).catch((err) => {
                     res.redirect('/')
                 })
-            } else {
-                otpMsg = 'your enterd wrong otp'
-                res.redirect('/otp')
+            }else{
+                let data=false
+                res.json(data)
+            }
             }
         } catch (e) {
             res.redirect('/')
@@ -222,9 +252,18 @@ let usercotrol = {
         try {
             db.emailverify(req.body.Emailverify).then((resp) => {
                 if (resp == null) {
-                    tempmail = req.body.email
-                    mailer(req.body.email, otp)
-                    console.log(otp);
+                    req.session.tempmail = req.body.email
+                    let generateOTP = () => {
+                        return otpGenerator.generate(6, {
+                            digits: true,
+                            lowerCaseAlphabets: false,
+                            upperCaseAlphabets: false,
+                            specialChars: false
+                        });
+                    };
+                    req.session.otpsign = generateOTP();
+                    mailer(req.body.email, req.session.otpsign)
+                    console.log(req.session.otpsign);
                     req.session.userTempData = req.body
 
 
@@ -363,9 +402,9 @@ let usercotrol = {
 
                     res.render('user/cart', {
                         css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                            "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                            , "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
-                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
+                            "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", ],
                         js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product, proImag, userData, total, totalcartCount: req.session.totalcartCount
                     })
 
@@ -423,10 +462,10 @@ let usercotrol = {
                 }
                 res.render('user/profilePage', {
                     css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
-                        "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
+                        "/stylesheets/logintemp/css/responsive.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                         "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css",
-                        '/stylesheets/profile.css'],
+                        '/stylesheets/profile.css',"/stylesheets/logintemp/css/style.css"],
                     js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], userData, emailNotMarch, proImag, addrs, totalcartCount: req.session.totalcartCount
                 })
             }).catch((err) => {

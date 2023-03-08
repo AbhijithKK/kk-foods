@@ -4,7 +4,7 @@
 <!-- header section strats -->
 <header class="header_section">
   <div class="container">
-    <nav class="navbar navbar-expand-lg custom_nav-container ">
+    <nav class="navbar navbar-expand-lg custom_nav-container " style="background-image: url(/stylesheets/logintemp/images/hero-bg.jpg);border-radius: 50px;">
       <a class="navbar-brand" href="/">
         <span>
           KK foods
@@ -185,10 +185,13 @@
             <div class="card-body">
 
               {{!-- formmmmmmmm starttt --}}
-              <button onclick="closeForm()" id="closeBtn" class="btn"
-                style="margin-left: 60rem; display: none;">close</button>
-              <form id="hiddenform" class="form-horizontal form-material mx-2" name="addform"
-                onsubmit="return addSubmit()" style="background-color: #91bdb3;display: none;">
+              <div id="hiddenform" class="addOrEditForms">
+              <button onclick="closeForm()" id="closeBtn" class="closeBtns  btn"
+                style=" display: none; color: black;font-weight: bold;font-size: xx-large;">x</button>
+                
+
+              <form  class=" form-horizontal form-material mx-2" name="addform"
+                onsubmit="return addSubmit()">
 
                 <h3>Add New Address</h3>
                 <div class="form-group">
@@ -234,10 +237,17 @@
                   </div>
                 </div>
               </form>
+              </div>
               {{!--add new address formmmmmm enddd --}}
               {{!-- edit address --}}
-              <form id="hiddeneditform" class="form-horizontal form-material mx-2" name="editform"
-                onsubmit="return updateAddr()" style="background-color: #91bdb3;display: none;">
+              <div id="hiddenEform" class="addOrEditForms" style="background-color: #91bdb3;display: none;">
+              <button onclick="closeForm()" id="closeBtn2" class="closeBtns  btn"
+                style=" display: none; color: black;font-weight: bold;font-size: xx-large;">x</button>
+                 
+
+
+              <form class=" form-horizontal form-material mx-2" name="editform"
+                onsubmit="return updateAddr()" >
 
                 <h3>Edit Address</h3>
                 <div class="form-group">
@@ -283,6 +293,7 @@
                   </div>
                 </div>
               </form>
+              </div>
               {{!-- end edit --}}
               {{!-- pro formmmmmmmm starttt --}}
               <form id="profileforms" class="form-horizontal form-material mx-2" action="/updateProfile" method="post"

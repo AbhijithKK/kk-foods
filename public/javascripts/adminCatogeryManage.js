@@ -1,5 +1,5 @@
 
-//import { adminRoute, userRoute } from './featchRoute'
+
 const adminRoute = 'http://localhost:3000/admin'
 
 let modalclose = document.getElementById('modalClose')
@@ -70,3 +70,7 @@ function closeedit() {
     document.getElementById("editCatogary").style.display = "none";
 
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );

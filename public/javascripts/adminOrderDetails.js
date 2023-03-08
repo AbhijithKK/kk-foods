@@ -30,3 +30,7 @@ function orderCancel(userid, orderid, productName, currentsts) {
         return false
     }
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );

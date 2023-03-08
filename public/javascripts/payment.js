@@ -142,12 +142,13 @@ function addraddChange() {
 
     }).then((result) => result.json())
         .then((data) => {
-            popwindow.innerHTML = ` <div>
+            popwindow.innerHTML = ` <div >
                 <button style="margin-top: 5px;" class="btn btn-primary" onclick="viewform()">add new address</button>
-                 <button style="margin-top: 5px; margin-left:150px" class="btn btn-danger " onclick="closepop()">close</button>
+                 <button style="margin-top: 5px; margin-left:5rem" class="btn mx-auto" onclick="closepop()">x</button>
+                 <hr>
               </div>`
             data.forEach((val) => {
-                console.log('huuuu', val)
+                
                 if (val != null) {
                     popwindow.innerHTML += `
       <div class="card-body"> 

@@ -1,5 +1,5 @@
 const userRoute = 'http://localhost:3000'
-
+let editDiv=document.getElementById('hiddenEform')
 let editform = document.getElementById('hiddeneditform')
 let proForm = document.getElementById('profileforms')
 let Aname = document.addform.addName
@@ -31,11 +31,11 @@ function editForm(name, address, pin, mob, place) {
     EditPin.value = pin;
     EditMob.value = mob;
     EditPlace.value = place;
-    editform.style.display = 'block'
-    document.getElementById('closeBtn').style.display = 'block'
+    editDiv .style.display = 'block'
+    document.getElementById('closeBtn2').style.display = 'block'
     proForm.style.display = 'none'
     hideFM.style.display = 'none'
-
+ 
 }
 function updateAddr() {
     fetch(`${userRoute}/updateAddress`, {
@@ -61,7 +61,7 @@ function updateAddr() {
 
 
 function viewform() {
-    editform.style.display = 'none'
+    editDiv.style.display = 'none'
     hideFM.style.display = 'block'
     proForm.style.display = 'none'
     document.getElementById('closeBtn').style.display = 'block'
@@ -69,7 +69,7 @@ function viewform() {
 function closeForm() {
     hideFM.style.display = 'none'
     proForm.style.display = 'block'
-    editform.style.display = 'none'
+    editDiv.style.display = 'none'
     document.getElementById('closeBtn').style.display = 'none'
 
 

@@ -545,7 +545,8 @@ display-flex, .display-flex, .display-flex-center, .signup-content, .signin-cont
     .signin-image {
       margin-left: 0px;
       margin-right: 0px;
-      margin-top: 50px;
+      margin-top: -265px;
+      margin-left: 152px;
       order: 2;
       -moz-order: 2;
       -webkit-order: 2;
@@ -553,7 +554,7 @@ display-flex, .display-flex, .display-flex-center, .signup-content, .signin-cont
       -ms-order: 2; }
   
     .signup-form, .signup-image, .signin-form, .signin-image {
-      width: auto; }
+      width: auto; margin-top: -200px;}
   
     .social-login {
       justify-content: center;

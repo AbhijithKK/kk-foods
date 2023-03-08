@@ -68,3 +68,4 @@ function listCp(id, data) {
         location.reload()
     })
 }
+

@@ -4,7 +4,7 @@
     <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span></button>
-    <a class="navbar-brand" href="#">kk foods</a>
+    <a class="navbar-brand"  style="font-family:cursive;" href="#">kk foods</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto">
@@ -37,19 +37,13 @@
 </nav>
 <section style="margin-top: 4rem;">
   <div class="container">
-    <div class="row">
-      <div class="d-flex ">
-        <input class="form-control mr-sm-2" type="text" style="width: 200px;" placeholder="Search catogary">
-        <button class="btn btn-outline-success my-2 my-sm-0" style="margin-left: ;" type="submit">Search</button>
-
-      </div>
-    </div>
+    
 
     {{!-- ########################## --}}
-    <div style="padding-left: 20px; padding-right: 20px; margin-top: 10px;">
-      <div style="float: right;"><a onclick="showWindow()" class="btn btn-outline-dark mb-2">Add coupon</a></div>
-      <table class="table table-top">
-        <thead class="thead-dark">
+    <div class="me-auto" >
+      <div ><a onclick="showWindow()" class="btn btn-primary mb-2">Add coupon</a></div>
+      <table id="myTable" class="display" style="margin-top: 20px;">
+      <thead>
           <tr>
             <th scope="col">Coupon name</th>
             <th scope="col">Coupon code</th>
@@ -76,7 +70,7 @@
 
           </tr>
           {{/each}}
-          <tr id="newCoopen" style="height: 80px; "></tr>
+          {{!-- <tr id="newCoopen" style="height: 80px; "></tr> --}}
         </tbody>
 
 
@@ -93,11 +87,11 @@
 
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control form-control-lg mb-3" placeholder="Coupon name" name="cpName"
+                <input type="text" class="form-control form-control-lg mb-3" placeholder="Name" name="cpName"
                   required />
               </div>
               <div class="col">
-                <input type="text" class="form-control form-control-lg mb-3" placeholder="Coupon code" name="cpCode"
+                <input type="text" class="form-control form-control-lg mb-3" placeholder="Code" name="cpCode"
                   required />
               </div>
             </div>
@@ -137,4 +131,9 @@
 
     <script src="/javascripts/adminCoopenManage.js">
 
+    </script>
+    <script>
+      $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
     </script>

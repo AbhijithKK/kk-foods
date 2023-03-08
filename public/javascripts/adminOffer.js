@@ -68,3 +68,7 @@ function listCp(id, data) {
         location.reload()
     })
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );

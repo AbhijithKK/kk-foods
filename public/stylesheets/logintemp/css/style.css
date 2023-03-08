@@ -162,7 +162,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav {
-  padding-left: 18%;
+  padding-left: 0;
 }
 
 .custom_nav-container .navbar-nav .nav-item .nav-link {
@@ -199,6 +199,7 @@ a:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+          padding-left: 0.5rem;
 }
 
 .user_option a {
@@ -253,11 +254,13 @@ a:focus {
 
 .custom_nav-container .navbar-toggler {
   outline: none;
+ 
 }
+ 
 
 .custom_nav-container .navbar-toggler {
   padding: 0;
-  width: 37px;
+  width: 50px;
   height: 42px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -267,7 +270,7 @@ a:focus {
   display: block;
   width: 35px;
   height: 4px;
-  background-color: #ffffff;
+  background-color: #f7f7f7;
   margin: 7px 0;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -1004,4 +1007,40 @@ a:focus {
 .footer_section .footer-info p a {
   color: inherit;
 }
+.paymentFormBtn{
+  margin-top: -26rem;
+  z-index: 2;
+  margin-left: 0;
+  font-size: x-large;
+  font-weight: bold; 
+  display: none;
+}
+.paymentForm{
+  margin-top: -26rem;
+  z-index: 1;
+  background-color: rgb(149, 149, 149);
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */
+@media(min-width:767px){
+.coupens{
+  width: 48.7%;
+margin-top: -5rem;
+}
+
+}
+@media(max-width:767px){
+  .paymentBtn{
+    margin-top: 191px;
+  }
+  .coupens{
+  margin-top: -2rem;
+  }
+  .paymentForm{
+    margin-top: -55rem;
+  }
+  .paymentFormBtn{
+    margin-top: -55rem;
+  }
+  
+  }
