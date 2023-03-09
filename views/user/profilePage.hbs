@@ -133,6 +133,7 @@
                     <img class="card-img-top" src="..." alt="WALLET">
                     <div class="card-body">
                       <p class="card-text">Balace: <span style="font-size: large;">₹{{userData.wallet}}</span></p>
+                      <a style="color: blue;" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">History</a>
                     </div>
                   </div>
                   {{!-- card vallet --}}
@@ -440,7 +441,54 @@
     </div>
   </div>
 </footer>
+{{!-- modal --}}
+<!-- Button trigger modal -->
+<button >
+  Launch static backdrop modal
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">wallet History</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{!-- table --}}
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Amount </th>
+      <th scope="col">Status</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+   {{#each userData.walletHistory}}
+   
+    <tr>
+      <td >{{inc @index}}</td>
+      <td >₹{{amount}}</td>
+      <td >{{Action}}</td>
+      <td>{{date}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+        {{!-- close table --}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- modal --}}
 <script src="/javascripts/profilejs/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="/javascripts/profilejs/assets/custom.min.js"></script>
 

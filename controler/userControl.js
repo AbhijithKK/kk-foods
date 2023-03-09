@@ -8,7 +8,7 @@ const rasorpay = require('razorpay')
 const otpGenerator = require('otp-generator')
 
 let emailNotMarchc = null;
-let tempmail;
+
 let mailCheck = null;
 let emailNotMarch = null;
 let otpMsg = null;
@@ -156,6 +156,21 @@ let usercotrol = {
     otpPage: (req, res) => {
         try {
            let countDownTime = 0000;
+        //    otpmailSend Section
+        if(req.session.tempmail!=undefined){
+        let generateOTP = () => {
+            return otpGenerator.generate(6, {
+                digits: true,
+                lowerCaseAlphabets: false,
+                upperCaseAlphabets: false,
+                specialChars: false
+            });
+        };
+        req.session.otpsign = generateOTP();
+        mailer( req.session.tempmail, req.session.otpsign)
+        console.log(req.session.otpsign);
+    }
+        // otp Mail Send end
             let msg;
             if (otpMsg == null) {
                 let msg = null;
@@ -166,6 +181,7 @@ let usercotrol = {
             "/stylesheets/fonts/material-icon/css/material-design-iconic-font.min.css",
             "/stylesheets/logintemp/css/style.css",], msg })
             otpMsg = null;
+
             // ##############
              countDownTime = 60000;
             var x = setInterval(function () {
@@ -253,17 +269,7 @@ let usercotrol = {
             db.emailverify(req.body.Emailverify).then((resp) => {
                 if (resp == null) {
                     req.session.tempmail = req.body.email
-                    let generateOTP = () => {
-                        return otpGenerator.generate(6, {
-                            digits: true,
-                            lowerCaseAlphabets: false,
-                            upperCaseAlphabets: false,
-                            specialChars: false
-                        });
-                    };
-                    req.session.otpsign = generateOTP();
-                    mailer(req.body.email, req.session.otpsign)
-                    console.log(req.session.otpsign);
+                    
                     req.session.userTempData = req.body
 
 
@@ -355,6 +361,7 @@ let usercotrol = {
 
 
             db.cartProductAdd(req.query.productId, req.session.userId).then((product) => {
+                req.session.cartProductDetails=product
 
                 console.log('hii');
                 req.session.totalcartCount = product.length;
@@ -409,6 +416,7 @@ let usercotrol = {
                     })
 
                     cartProducts = product;
+                    console.log('ptooo',cartProducts);
                 })
             }).catch((err) => {
                 res.redirect('/cart')
@@ -522,26 +530,47 @@ let usercotrol = {
     paymentAddressGet: (req, res) => {
         try {
             if (req.session.loginId != undefined) {
-                let user = req.session.userDetails;
+                let users=req.session.userDetails
                 let proImag = null;
 
-                if (user.image != null) {
-                    if (user.image.proImage != null) {
-                        proImag = user.image.proImage[0].filename;
+                if (users.image != null) {
+                    if (users.image.proImage != null) {
+                        proImag = users.image.proImage[0].filename;
                     } else {
                         proImag = null
                     }
                 } else {
                     proImag = null
                 }
+                // ############################################
+                
+
+                console.log('hii');
+                
+                db.profile(req.session.userId).then(async (userData) => {
+                    
+                    for (let i = 0; i < req.session.cartProductDetails.length; i++) {
+                        for (let j = 0; j < userData.cart.length; j++) {
+                            if (req.session.cartProductDetails[i]._id == userData.cart[j].productId) {
+
+                                req.session.cartProductDetails[i].count = userData.cart[j].quantity
+                                req.session.cartProductDetails[i].orderStatus = "Orderd"
+                                
+                                req.session.cartProductDetails[i].proTotal = parseInt(req.session.cartProductDetails[i].productPrize) * parseInt(req.session.cartProductDetails[i].count)
+                            }
+
+                        }
+                    }
+                })
+                // ##############################################
                 db.address(req.session.userId).then((addr) => {
-                    let total = req.session.total
+                   
                     res.render('user/payment', {
                         css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css", '/stylesheets/checkout.css'],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total, cartProducts, user, proImag, totalcartCount: req.session.totalcartCount
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total:req.session.total, cartProducts:req.session.cartProductDetails, user:req.session.userDetails, proImag, totalcartCount: req.session.totalcartCount
                     })
                 }).catch((err) => {
                     res.redirect('/')
@@ -702,7 +731,8 @@ let usercotrol = {
                 console.log('voopen', req.body.coopenStatus);
 
                 res.json({ status: true })
-                db.getWalletamt(req.session.userId, req.session.newwallAmt)
+
+                db.getWalletamt(req.session.userId, req.session.newwallAmt,req.session.walletMinus)
             })
 
         } else {
@@ -778,7 +808,7 @@ let usercotrol = {
     onlinepayDetails: (req, res) => {
         db.verifyPayment(req.body).then(() => {
             res.json({ pay: true })
-            db.getWalletamt(req.session.userId, req.session.newwallAmt)
+            db.getWalletamt(req.session.userId, req.session.newwallAmt,req.session.walletMinus)
         }).catch(() => {
             res.json({ pay: false })
         })
@@ -880,15 +910,21 @@ let usercotrol = {
         })
     },
     walletAmtAdd: (req, res) => {
-
+        req.session.walletMinus=0
+        if(req.session.totaltemp==undefined){
+        req.session.totaltemp = req.session.total
+        }
         if (req.body.walletamt != 0) {
-            req.session.totaltemp = req.session.total
+            
             req.session.walletTemp = req.body.walletamt
 
             if (req.body.walletamt <= req.session.total) {
                 req.session.newwallAmt = 0
+                req.session.walletMinus=req.body.walletamt
                 req.session.total = req.session.total - req.body.walletamt
             } else {
+                
+                req.session.walletMinus=req.session.total
                 req.session.newwallAmt = req.body.walletamt - req.session.total
                 req.session.total = 0
             }
@@ -903,7 +939,7 @@ let usercotrol = {
 
         } else {
             req.session.newwallAmt = 1
-            if (req.session.coupenDisTotal != undefined) {
+            if (req.session.coupenDisTotal != undefined &&req.session.total!=0) {
                 req.session.total = req.session.totaltemp
                 req.session.total = req.session.total - req.session.coupenDisTotal
                 req.session.coupenDisTotal = 0

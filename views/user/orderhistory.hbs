@@ -246,8 +246,14 @@
                                     <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
                                         {{this.coopenstatus.amt}}</p>
                                     {{else}}
-                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> {{this.totalAmt}}
+                                    {{#ifEqual this.totalAmt 0}}
+                                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>Using Wallet
                                     </p>
+                                                    {{else}}
+                                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> {{this.totalAmt}}
+                                    </p>
+                                                    {{/ifEqual}}
+                                    
                                     {{/if}}
                                 </div>
                             </div>

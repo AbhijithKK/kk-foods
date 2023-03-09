@@ -284,6 +284,18 @@ module.exports = {
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userid) },
                                     { $set: { wallet: walletAmount } })
                                 console.log(walletAmount);
+                                db.get().collection(collectionname.USER_COLLECTION).updateOne({_id:objectid(id)},{
+                                    $push:{
+                                        walletHistory:{
+                                            Action:"Amount_Added",
+                                            amount:walletAmount,
+                                            date: new Date(),
+                                            proName:data.orderhistory[i].productDetails[j].productName,
+                                            quantity:data.orderhistory[i].productDetails[j].count
+            
+                                        }
+                                    }
+                                })
                             }
                             // end wallet
 

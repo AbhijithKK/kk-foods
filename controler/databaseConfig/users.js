@@ -19,7 +19,7 @@ module.exports = {
     userAdd: (data) => {
         return new Promise(async (resolve, reject) => {
             data.password = await bcript.hash(data.password, 10)
-            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock", cart: [], orderhistory: [], wallet: 0 }).then((result) => {
+            db.get().collection(collectionname.USER_COLLECTION).insertOne({ ...data, block: "unBlock", cart: [], orderhistory: [], wallet: 0,walletHistory:[] }).then((result) => {
                 resolve(result)
             }).catch((err) => {
                 reject(err)
@@ -176,17 +176,23 @@ module.exports = {
 
     },
     profile: (id) => {
-        try {
+        
             return new Promise(async (resolve, reject) => {
+                try {
                 if (id != null && id != undefined) {
                     let res = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
                     resolve(res)
+
+
+                    
                 }
+            }catch (e) {
+                reject(e)
+            }
 
             })
-        } catch (e) {
-            reject(e)
-        }
+            
+        
     },
     profileUpdate: (id, data, image) => {
         try {
@@ -413,6 +419,7 @@ module.exports = {
                             OrderDate: date,
                             payMethod: method,
                             productDetails: cartProducts,
+                           
                         }
                     }
                 }).then(() => {
@@ -480,7 +487,22 @@ module.exports = {
                                 let walletAmount = 0
                                 walletAmount += data.wallet + data.orderhistory[i].productDetails[j].proTotal
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) },
-                                    { $set: { wallet: walletAmount } })
+                                    { $set: { 
+                                        wallet: walletAmount,
+                                        
+                                    } })
+                                    db.get().collection(collectionname.USER_COLLECTION).updateOne({_id:objectid(id)},{
+                                        $push:{
+                                            walletHistory:{
+                                                Action:"Amount_Added",
+                                                amount:walletAmount,
+                                                date: new Date(),
+                                                proName:data.orderhistory[i].productDetails[j].productName,
+                                                quantity:data.orderhistory[i].productDetails[j].count
+                
+                                            }
+                                        }
+                                    })
                                 console.log(walletAmount);
                             }
                             // end wallet
@@ -622,7 +644,7 @@ module.exports = {
 
         })
     },
-    getWalletamt: (id, walletAmount) => {
+    getWalletamt: (id, walletAmount,minusAmt) => {
 
         console.log('wallet Amount', walletAmount);
         return new Promise(async (resolve, reject) => {
@@ -632,11 +654,30 @@ module.exports = {
             }
             console.log('amt', walletAmount);
             await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, {
-                $set: { wallet: walletAmount }
+                $set: {
+                     wallet: walletAmount ,
+                    
+                    }
             }).then((a) => {
                 console.log(a);
                 resolve()
             })
+            if(walletAmount != user.wallet){
+                if(minusAmt==0){
+                    minusAmt=walletAmount
+                }
+            db.get().collection(collectionname.USER_COLLECTION).updateOne({_id:objectid(id)},{
+                $push:{
+                    walletHistory:{
+                        Action:"Amount_Returned_₹"+minusAmt,
+                        amount:walletAmount,
+                        date: new Date(),
+                        
+
+                    } 
+                }
+            })
+        }
         })
     }
 
