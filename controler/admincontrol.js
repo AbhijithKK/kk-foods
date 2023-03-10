@@ -10,7 +10,6 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-
     adminlogin: function (req, res, next) {
         try {
             if (req.session.adminLogin == undefined) {
@@ -37,7 +36,6 @@ let admincontrol = {
                             }
                             if (allusers[i].orderhistory[j].productDetails[k].orderStatus) {
                                 orederCount++;
-
                             }
                         }
                     }
@@ -46,7 +44,7 @@ let admincontrol = {
                 db.totalProducts().then((totalpro) => {
                     res.render('admin/adminHome', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                             "/stylesheets/logintemp/css/style.css",], totalOrder, orederCount, totalpro
+                            "/stylesheets/logintemp/css/style.css",], totalOrder, orederCount, totalpro
                     })
                 })
             })
@@ -59,7 +57,7 @@ let admincontrol = {
             db.showProducts().then((product) => {
                 res.render('admin/productDetails', {
                     product, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css",]
+                        "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css",]
                 })
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -71,34 +69,33 @@ let admincontrol = {
     orderdetails: (req, res) => {
         try {
             db.userOrderHistory().then((order) => {
-                let orders=[];
-                                for(let i=0;i<order.length;i++){
-                    for(j=0;j<order[i].orderhistory.length;j++){
-                        for(k=0;k<order[i].orderhistory[j].productDetails.length;k++){
+                let orders = [];
+                for (let i = 0; i < order.length; i++) {
+                    for (j = 0; j < order[i].orderhistory.length; j++) {
+                        for (k = 0; k < order[i].orderhistory[j].productDetails.length; k++) {
                             orders.push({
-                                OrderDate:order[i].orderhistory[j].OrderDate,
-                                userName:order[i].name1,
-                                address:order[i].orderhistory[j].address,
-                                image:order[i].orderhistory[j].productDetails[k].image1[0].filename,
-                                proName:order[i].orderhistory[j].productDetails[k].productName,
-                                quantity:order[i].orderhistory[j].productDetails[k].count,
-                                productPrize:order[i].orderhistory[j].productDetails[k].productPrize,
-                                paymethod:order[i].orderhistory[j].payMethod,
-                                coupenSts:order[i].orderhistory[j].coopenstatus,
-                                orderStatus:order[i].orderhistory[j].productDetails[k].orderStatus,
-                                orderid:order[i].orderhistory[j].orderid,
-                                userId:order[i]._id,
-                                proId:order[i].orderhistory[j].productDetails[k]._id,
-                                proOrderId:order[i].orderhistory[j].productDetails[k].proOrderId
-
+                                OrderDate: order[i].orderhistory[j].OrderDate,
+                                userName: order[i].name1,
+                                address: order[i].orderhistory[j].address,
+                                image: order[i].orderhistory[j].productDetails[k].image1[0].filename,
+                                proName: order[i].orderhistory[j].productDetails[k].productName,
+                                quantity: order[i].orderhistory[j].productDetails[k].count,
+                                productPrize: order[i].orderhistory[j].productDetails[k].productPrize,
+                                paymethod: order[i].orderhistory[j].payMethod,
+                                coupenSts: order[i].orderhistory[j].coopenstatus,
+                                orderStatus: order[i].orderhistory[j].productDetails[k].orderStatus,
+                                orderid: order[i].orderhistory[j].orderid,
+                                userId: order[i]._id,
+                                proId: order[i].orderhistory[j].productDetails[k]._id,
+                                proOrderId: order[i].orderhistory[j].productDetails[k].proOrderId
                             })
                         }
                     }
                 }
                 //  orders.reverse()
                 res.render('admin/orderDetails', {
-                    orders, css: ["/stylesheets/logintemp/css/font-awesome.min.css","https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css" 
-                         ]
+                    orders, css: ["/stylesheets/logintemp/css/font-awesome.min.css", "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"
+                    ]
                 })
             })
         } catch (e) {
@@ -108,10 +105,9 @@ let admincontrol = {
     userDetails: (req, res) => {
         try {
             db.userData().then((result) => {
-
                 res.render('admin/userDetails', {
-                    result, css: ["/stylesheets/logintemp/css/font-awesome.min.css","https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css" 
-                ]
+                    result, css: ["/stylesheets/logintemp/css/font-awesome.min.css", "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"
+                    ]
                 })
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -141,7 +137,6 @@ let admincontrol = {
     },
     editProduct: (req, res) => {
         try {
-
             db.editProduct(req.params.id).then((data) => {
                 db.showCatogary().then((cat) => {
                     let datas = [];
@@ -158,7 +153,6 @@ let admincontrol = {
                     res.redirect('/admin/')
                 })
             })
-
         } catch (e) {
             res.redirect('/admin/')
         }
@@ -166,7 +160,6 @@ let admincontrol = {
     blockuser: (req, res) => {
         try {
             db.blockUser(req.params.id).then((block) => {
-
                 res.redirect('/admin/userDetails')
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -178,7 +171,6 @@ let admincontrol = {
     unblockUsers: (req, res) => {
         try {
             db.unblockUser(req.params.id).then((unblock) => {
-
                 res.redirect('/admin/userDetails')
             }).catch((err) => {
                 res.redirect('/admin/')
@@ -192,9 +184,7 @@ let admincontrol = {
             db.adminLogin(req.body).then((result) => {
                 if (result != true) {
                     res.redirect('/admin/')
-
                 } else {
-
                     req.session.adminLogin = req.body.name
                     res.redirect('/admin/Home')
                 }
@@ -270,13 +260,12 @@ let admincontrol = {
                 }
                 res.render('admin/catogaryManage', {
                     catogary, data, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                    "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"]
+                        "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"]
                 })
                 catogarydetails = null;
             }).catch((err) => {
                 res.redirect('/admin/')
             })
-
         } catch (e) {
             res.redirect('/admin/')
         }
@@ -284,7 +273,6 @@ let admincontrol = {
     editCatogary: (req, res) => {
         try {
             db.findCatogary(req.body.id).then((data) => {
-
                 catogarydetails = data
                 res.json(data)
             }).catch((err) => {
@@ -296,9 +284,7 @@ let admincontrol = {
         }
     },
     postUpdatecatogary: (req, res) => {
-
         try {
-
             db.updateCatogary(req.body.id, req.body.catogaryAdd).then((resp) => {
                 res.json(resp)
             }).catch((err) => {
@@ -326,7 +312,6 @@ let admincontrol = {
     },
     catogaryDelete: (req, res) => {
         try {
-
             db.deleteCatogary(req.query.id).then(() => {
                 res.redirect("/admin/catogaryManage")
             }).catch((err) => {
@@ -339,13 +324,11 @@ let admincontrol = {
     },
     addcoopens: (req, res) => {
         try {
-
             db.coopenAdd(req.body).then((data) => {
                 res.json(data)
             }).catch((e) => {
                 res.redirect('/admin/')
             })
-
         } catch (e) {
             res.redirect('/admin/')
         }
@@ -367,12 +350,11 @@ let admincontrol = {
     },
     coopenPage: (req, res) => {
         try {
-
             db.coopenFind().then((result) => {
 
                 res.render('admin/coopenManagement', {
                     css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
+                        "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
                 })
             }).catch((e) => {
                 res.redirect('admin/')
@@ -392,6 +374,7 @@ let admincontrol = {
     },
     orederCancel: (req, res) => {
         try {
+            console.log('cancel check',req.body.userid);
             db.cancelOrder(req.body.userid, req.body.orderId, req.body.productName, req.body.currentStatus).then((data) => {
                 res.json(data)
             }).catch((e) => {
@@ -409,10 +392,8 @@ let admincontrol = {
         } catch (e) {
             res.redirect('/admin/')
         }
-
     }, addeOffers: (req, res) => {
         db.addOffer(req.body).then((data) => {
-
             res.json(data)
         })
     },
@@ -422,7 +403,7 @@ let admincontrol = {
                 db.showOffers().then((offersPro) => {
                     res.render('admin/offer', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
-                        "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], product, offersPro
+                            "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], product, offersPro
                     })
                 }).catch((err) => {
                     res.redirect('/admin/')
@@ -459,7 +440,6 @@ let admincontrol = {
     postSalesReport: (req, res) => {
         try {
             db.salesReport(req.body).then((allUsers) => {
-
                 let product = []
                 for (let i = 0; i < allUsers.length; i++) {
                     for (let j = 0; j < allUsers[i].orderhistory.length; j++) {
@@ -474,9 +454,7 @@ let admincontrol = {
                                     subTotal: allUsers[i].orderhistory[j].productDetails[k].productPrize * allUsers[i].orderhistory[j].productDetails[k].count,
 
                                 })
-
                             }
-
                         }
                     }
                 }
@@ -493,9 +471,7 @@ let admincontrol = {
         }
     },
     getSalesReport: (req, res) => {
-
         try {
-
             let product = []
             db.salesReport().then((allUsers) => {
                 for (let i = 0; i < allUsers.length; i++) {
@@ -511,20 +487,14 @@ let admincontrol = {
                                     subTotal: allUsers[i].orderhistory[j].productDetails[k].productPrize * allUsers[i].orderhistory[j].productDetails[k].count,
 
                                 })
-
                             }
-
                         }
                     }
                 }
-
-
                 req.session.salesDatahome = product
-
                 req.session.salesTotalhome = 0
                 for (let i = 0; i < product.length; i++) {
                     req.session.salesTotalhome = req.session.salesTotalhome + product[i].subTotal
-
                 }
                 let users
                 let total
@@ -535,13 +505,11 @@ let admincontrol = {
                     users = req.session.salesData
                     total = req.session.salesTotal
                 }
-
                 console.log('tttttt', req.session.salesTotal);
                 res.render('admin/salesReport', {
                     users, total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                         "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]
                 })
-
                 req.session.salesRedirect = 0
             })
         } catch (e) {
@@ -555,13 +523,11 @@ let admincontrol = {
     },
     postSingleImageAdd: (req, res) => {
         try {
-
             db.productImageAdd(req.body, req.files).then(() => {
                 res.json('success')
             })
 
         } catch (err) {
-
         }
     }
 }

@@ -460,22 +460,26 @@
         <table class="table">
   <thead>
     <tr>
-      <th scope="col">No</th>
+      
       <th scope="col">Amount </th>
-      <th scope="col">Status</th>
+      <th scope="col">Transaction Type</th>
       <th scope="col">Date</th>
     </tr>
   </thead>
   <tbody>
+    {{#if userData.walletHistory}}
    {{#each userData.walletHistory}}
    
     <tr>
-      <td >{{inc @index}}</td>
+      
       <td >₹{{amount}}</td>
       <td >{{Action}}</td>
       <td>{{date}}</td>
     </tr>
     {{/each}}
+    {{else}}
+    <tr><td></td><td>History Empty</td><td></td></tr>
+    {{/if}}
   </tbody>
 </table>
         {{!-- close table --}}

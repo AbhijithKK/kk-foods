@@ -45,11 +45,11 @@
           <th scope="col">Ordered Date</th>
           <th scope="col">User Name</th>
           <th scope="col">User Address</th>
-          <th scope="col">image&Name</th>
+          <th scope="col">Image&Name</th>
           <th scope="col">Product Quantity</th>
-          <th scope="col">price</th>
-          <th scope="col">Pay method</th>
-          <th scope="col">Coupen status</th>
+          <th scope="col">Price</th>
+          <th scope="col">Pay Method</th>
+          <th scope="col">Coupen Status</th>
           <th scope="col">Order Status</th>
           <th scope="col">Action</th>
         </tr>
@@ -85,7 +85,7 @@
             <a class="btn btn-white btn-block mb-4"
               onclick="orderCancel('{{this.userId}}','{{this.proOrderId}}','{{this.proId}}','Delivered')">delivered</a>
             <a class="btn btn-white btn-block mb-4"
-              onclick="orderCancel('{{this.userd}}','{{this.proOrderId}}','{{this.proId}}','Cancel')">Cancel</a>
+              onclick="orderCancel('{{this.userId}}','{{this.proOrderId}}','{{this.proId}}','Cancel')">Cancel</a>
            
             {{/ifEqual}}
            

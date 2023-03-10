@@ -1,3 +1,16 @@
+
+<style>
+    .blink {
+        animation: blink-animation 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+</style>
+
 <div class="hero_area">
   <div class="bg-box">
     <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="">
@@ -140,7 +153,7 @@
                     we are making in foods used by fresh items
                   </p>
                   <div class="btn-box">
-                    <a href="" class="btn1">
+                    <a href="#foods" class="btn1">
                       Order Now
                     </a>
                   </div>
@@ -153,13 +166,7 @@
 
       </div>
     </div>
-    {{!-- <div class="container">
-      <ol class="carousel-indicators">
-        <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-        <li data-target="#customCarousel1" data-slide-to="1"></li>
-        <li data-target="#customCarousel1" data-slide-to="2"></li>
-      </ol>
-    </div> --}}
+    
 </div>
 
 </section>
@@ -246,9 +253,17 @@
         {{!-- start --}}
         {{#each products}}
         <div class="col-sm-6 col-lg-4 all pizza">
+          
           <div class="box">
+            {{#if this.oldRate}}
+             <span class="blink" style="color: rgb(255, 75, 4);font-weight: bolder;font-family: cursive; ">offer Available</span> 
+             {{else}}
+             <span > &nbsp;</span>
+                    {{/if}} 
             <div>
+            
               <div class="img-box">
+                
                 <img src="/images/{{this.image1.[0].filename}}" alt="">
               </div>
               <div class="detail-box">
@@ -260,8 +275,11 @@
                 </p>
                 <div class="options">
                   {{#if this.oldRate}}
-                  <h6><del>₹ {{this.oldRate}}</del>
-                    offer Rate{{/if}} ₹ {{this.productPrize}}
+                  <h6>
+                    <del>₹ {{this.oldRate}}</del>
+                   <span style="color: rgb(255, 188, 4);font-weight: bolder;font-style: italic; ">offer Rate</span> 
+                    {{/if}} 
+                    ₹ {{this.productPrize}}
 
                   </h6>
                   <a href="/cart?productId={{this._id}}">
