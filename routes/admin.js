@@ -7,7 +7,8 @@ const { adminHome, productDetails, orderdetails, userDetails, addproducts, editP
     postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct,
     postAdminAddproduct,
     singleImageDelete,
-    postSingleImageAdd } = require('../controller/adminController');
+    postSingleImageAdd, 
+    coupenPage} = require('../controller/adminController');
 const { multiUpload } = require('../helpers/multer');
 
 /* GET users listing. */
@@ -24,10 +25,10 @@ router.get('/catogaryManage', loginCheck, catogaryManage)
 router.get('/productDelete', loginCheck, postAdminDeleteProduct)
 router.get('/catogaryBlock', loginCheck, catogaryBlock)
 router.get('/catogaryDelete', loginCheck, catogaryDelete)
-router.get('/coopen', loginCheck, coopenPage)
+router.get('/coupen', loginCheck, coupenPage)
 router.get('/logout', logout)
 router.get('/monthlyRevanue', loginCheck, monthlyRevannue)
-router.get('/offer_create', loginCheck, offergetpage)
+router.get('/offerCreate', loginCheck, offergetpage)
 router.get('/salesReport', loginCheck, getSalesReport)
 
 

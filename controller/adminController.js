@@ -348,11 +348,11 @@ let admincontrol = {
             res.redirect('/admin/')
         }
     },
-    coopenPage: (req, res) => {
+    coupenPage: (req, res) => {
         try {
             db.coopenFind().then((result) => {
 
-                res.render('admin/coopenManagement', {
+                res.render('admin/coupenManagement', {
                     css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
                 })

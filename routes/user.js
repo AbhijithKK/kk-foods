@@ -12,7 +12,6 @@ const proImageupload = require('../helpers/profileMulter')
 /* GET home page. */
 router.get('/', guestUserHome)
 router.get('/login', login);
-// router.post('/mailerr',loginMailErr)
 router.get('/signup', signup)
 router.get('/home', mainHome)
 router.get('/otp', otpPage)
@@ -26,16 +25,14 @@ router.get('/deleteCartitem', loginCheck, cartDelet)
 router.get('/orderhistory', loginCheck, orderhistoryPage)
 router.get('/getAddress', loginCheck, addget)
 router.get('/forgotPassword', getForgotPassword)
-// router.get('/offer_page', loginCheck, offerpage)
+// logout
+router.get('/logout', userLogout)
 // post
 router.post('/otp', postOtp)
 router.post('/', postUserData)
 router.post("/home", postHomelogin)
 router.post('/updateProfile', loginCheck, proImageupload, postProfileUpdate)
 router.post('/addAddress', PostProfileAddess)
-// logout
-router.get('/logout', userLogout)
-
 router.post('/search', productSearch)
 router.post("/count", loginCheck, postCount)
 router.post('/addDelete', loginCheck, addressDelete)
