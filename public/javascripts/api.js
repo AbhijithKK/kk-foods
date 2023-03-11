@@ -37,9 +37,31 @@ function itemSearch() {
           val = dd
           console.log('hii', val._id);
           if (val._id == val._id) {
+
+
+
+            // rate script
+            const Rate=`
+            ${val.oldRate
+              ?`<h6><del>₹ ${val.oldRate}</del>
+              <span style="color: rgb(255, 188, 4);font-weight: bolder;font-style: italic; ">offer Rate</span> 
+                     ₹ ${val.productPrize}
+
+                  </h6>`:`<h6>₹ ${val.productPrize}</h6>`}`
+                  // rate script end
+
+// offer script
+const boxContent = `
+     ${val.oldRate 
+      ? `<span class="blink" style="color: rgb(255, 75, 4);
+      font-weight: bolder;font-family: cursive;">
+      ${val.ofpesantage}% offer Available</span>`
+      : `<span>&nbsp;</span>`}`;
+// offerscript End
             serchResp.innerHTML += `
 <div class="col-sm-6 col-lg-4 all pizza">
           <div class="box">
+          ${boxContent}
             <div>
               <div class="img-box">
                 <img src="/images/${val.image1[0].filename}" alt=""> 
@@ -52,9 +74,7 @@ function itemSearch() {
                   ${val.productDiscription}
                 </p>
                 <div class="options">
-                  <h6>
-                    ₹ ${val.productPrize}
-                  </h6> 
+                  ${Rate}
                   <a href="/cart?productId=${val._id}">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"

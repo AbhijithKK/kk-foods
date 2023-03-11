@@ -2,6 +2,8 @@ const db = require('./connection')
 const collectionname = require('./collectionName')
 const bcript = require('bcrypt')
 const { login } = require('../userControl')
+const sharp = require('sharp');
+
 const objectid = require('mongodb').ObjectId
 module.exports = {
     adminLogin: (data) => {
@@ -52,7 +54,24 @@ module.exports = {
         })
     },
     addProduct: (data, imgid) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
+            // #################IMAGE CROP#################
+
+            await sharp(imgid.image1[0].path)
+                .png()
+                .resize(300, 300, {
+                    kernel: sharp.kernel.nearest,
+                    fit: 'contain',
+                    position: 'center',
+                    background: { r: 255, g: 255, b: 255, alpha: 0 }
+                })
+                .toFile(imgid.image1[0].path + ".png", (err, info) => {
+                    if (err) throw err;
+                    console.log('imagee', info);
+                });
+            imgid.image1[0].filename = imgid.image1[0].filename + ".png"
+            imgid.image1[0].path = imgid.image1[0].path + ".png"
+            // ###############################################
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).insertOne({ ...data, ...imgid, del: "unflage" }).then((rs) => {
 
                 resolve(rs.insertedId)
@@ -98,7 +117,28 @@ module.exports = {
         })
     },
     updateProduct: (id, datas, imgid) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
+              // #################IMAGE CROP#################
+              console.log(imgid);
+                if(imgid.image1!=undefined){
+                    if(imgid.image1[0].path!=undefined){
+              await sharp(imgid.image1[0].path)
+              .png()
+              .resize(300, 300, {
+                  kernel: sharp.kernel.nearest,
+                  fit: 'contain',
+                  position: 'center',
+                  background: { r: 255, g: 255, b: 255, alpha: 0 }
+              })
+              .toFile(imgid.image1[0].path + ".png", (err, info) => {
+                  if (err) throw err;
+                  console.log('imagee', info);
+              });
+          imgid.image1[0].filename = imgid.image1[0].filename + ".png"
+          imgid.image1[0].path = imgid.image1[0].path + ".png"
+            }
+            }
+          // ###############################################
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({ _id: objectid(id) }, {
                 $set: {
                     productName: datas.productName,
@@ -240,18 +280,18 @@ module.exports = {
         })
     },
     cancelOrder: (userid, orderId, productId, currentStatus) => {
-        console.log('juy',typeof(productId));
-        
+        console.log('juy', typeof (productId));
+
         return new Promise((resolve, reject) => {
             db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userid) }).then((data) => {
-                
+
                 for (let i = 0; i < data.orderhistory.length; i++) {
                     for (let j = 0; j < data.orderhistory[i].productDetails.length; j++) {
                         if (data.orderhistory[i].productDetails[j].proOrderId == orderId) {
                             proidss = { [data.orderhistory[i].productDetails[j].proOrderId]: parseInt(orderId) }
                             let ordrsts = data.orderhistory[i].productDetails[j].orderStatus
                             // wallet
-                            if (data.orderhistory[i].payMethod != "cod" && ordrsts == 'Orderd'&&currentStatus!='Delivered') {
+                            if (data.orderhistory[i].payMethod != "cod" && ordrsts == 'Orderd' && currentStatus != 'Delivered') {
                                 console.log(parseInt(data.wallet));
                                 let walletAmount = 0
                                 walletAmount += data.wallet + data.orderhistory[i].productDetails[j].proTotal
@@ -277,7 +317,7 @@ module.exports = {
                                     _id: objectid(userid), "orderhistory.productDetails._id": productId
                                 },
                                 {
-                                    $set: { "orderhistory.$[].productDetails.$[elem].orderStatus":currentStatus }
+                                    $set: { "orderhistory.$[].productDetails.$[elem].orderStatus": currentStatus }
                                 },
                                 {
                                     arrayFilters: [
@@ -291,7 +331,7 @@ module.exports = {
                                 resolve(resp)
                                 console.log(resp);
                             }).catch((err) => {
-                                
+
                                 reject(err)
                             })
                         }
@@ -416,13 +456,13 @@ module.exports = {
         if (date != undefined) {
             date1 = date.date1
             date2 = date.date2
-            console.log('given', date1);
+
         }
-        console.log(date1);
+        console.log(date1, date2);
         return new Promise(async (resolve, reject) => {
             try {
                 let allUsers = await db.get().collection(collectionname.USER_COLLECTION).find({ "orderhistory.OrderDate": { $gte: date1, $lt: date2 } }).toArray()
-                console.log(allUsers);
+                console.log('nnnnnn', allUsers);
                 resolve(allUsers)
             } catch (e) {
                 reject(e)

@@ -474,6 +474,7 @@ let admincontrol = {
         try {
             let product = []
             db.salesReport().then((allUsers) => {
+                console.log(allUsers);
                 for (let i = 0; i < allUsers.length; i++) {
                     for (let j = 0; j < allUsers[i].orderhistory.length; j++) {
                         for (let k = 0; k < allUsers[i].orderhistory[j].productDetails.length; k++) {
@@ -491,6 +492,7 @@ let admincontrol = {
                         }
                     }
                 }
+                console.log('mmm',product);
                 req.session.salesDatahome = product
                 req.session.salesTotalhome = 0
                 for (let i = 0; i < product.length; i++) {

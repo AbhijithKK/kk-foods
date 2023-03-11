@@ -94,9 +94,10 @@
 
               <div class="col-md-3 mb-3">
                 <label for="validationDefault05">Main Image </label>
+                
                 <img src="/images/{{data.image1.[0].filename}}" alt="" style="height: 50px;width: 40px;" id="viewimage">
-                <input type="file" class="form-control" id="validationDefault05" name="image1" style="width: 16rem;"
-                  placeholder="image" onchange="viewimg(event)">
+                <input type="file" onchange="viewImage(event)" class="form-control" id="validationDefault05" name="image1" style="width: 16rem;"
+                  placeholder="image" >
               </div>
               <div class="col-md-3 mb-3">
                 <label for="validationDefault05">Sub Images(max-3)</label>
@@ -134,11 +135,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img src="/images/{{data.image2.[0].filename}}" alt="(IMG-1 EMPTY)" style="height: 50px;width: 7rem;">
+        <img src="/images/{{data.image2.[0].filename}}" alt="(IMG-1 EMPTY)" style="height: 50px;width: 7rem;" id="showIMG">
         <button onclick="imageChange('{{data._id}}','0')" type="button" class="btn "
           data-bs-dismiss="modal">Delete</button>
         <form name="imageForm2" enctype="multipart/form-data" onsubmit="return imagesAdd('{{data._id}}','0')">
-          <input type="file" value="" class="form-control" id="validationDefault05" name="image2" style="width: 16rem;"
+          <input type="file" onchange="imgShow(event,'1')" value="" class="form-control" id="validationDefault05" name="image2" style="width: 16rem;"
             placeholder="image">
           <button type="submit" style="width: 53rem;" class="btn"> <a>Save</a></button>
         </form>
@@ -160,11 +161,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img src="/images/{{data.image2.[1].filename}}" alt="(IMG-2 EMPTY) " style="height: 50px;width: 7rem;">
+        <img src="/images/{{data.image2.[1].filename}}" alt="(IMG-2 EMPTY) " style="height: 50px;width: 7rem;" id="showIMG1">
         <button onclick="imageChange('{{data._id}}','1')" type="button" class="btn "
           data-bs-dismiss="modal">Delete</button>
         <form name="imageForm1" enctype="multipart/form-data" onsubmit="return imagesAdd('{{data._id}}','1')">
-          <input type="file" value="" class="form-control" id="validationDefault05" name="image2" style="width: 16rem;"
+          <input type="file" onchange="imgShow(event,'2')" value="" class="form-control" id="validationDefault05" name="image2" style="width: 16rem;"
             placeholder="image">
           <button type="submit" style="width: 53rem;" class="btn"> <a>Save</a></button>
         </form>
@@ -186,12 +187,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img src="/images/{{data.image2.[2].filename}}" alt="(IMG-3 EMPTY)" style="height: 50px;width: 7rem;">
+        <img src="/images/{{data.image2.[2].filename}}" alt="(IMG-3 EMPTY)" style="height: 50px;width: 7rem;" id="showIMG2">
         <button onclick="imageChange('{{data._id}}','2')" type="button" class="btn "
           data-bs-dismiss="modal">Delete</button>
         <div class="row">
           <form name="imageForm" enctype="multipart/form-data" onsubmit="return imagesAdd('{{data._id}}','2')">
-            <input type="file" value="" class="form-control" id="validationDefault05" name="image2"
+            <input type="file" onchange="imgShow(event,'3')" value="" class="form-control" id="validationDefault05" name="image2"
               style="width: 16rem;" placeholder="image">
             <button type="submit" style="width: 53rem;" class="btn"> <a>Save</a></button>
           </form>

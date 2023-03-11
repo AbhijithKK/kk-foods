@@ -363,7 +363,7 @@ module.exports = {
                             address: address,
                             coopenstatus: coopenStatus,
                             walletAmt: wallet,
-                            OrderDate: date,
+                            OrderDate: new Date().toISOString().slice(0, 10),
                             payMethod: method,
                             productDetails: cartProducts,
                         }
@@ -389,7 +389,7 @@ module.exports = {
                     address: address,
                     coopenstatus: coopenStatus,
                     walletAmt: wallet,
-                    OrderDate: date,
+                    OrderDate: new Date().toISOString().slice(0, 10),
                     payMethod: method,
                     productDetails: cartProducts,
                     onlinePay: "processError",

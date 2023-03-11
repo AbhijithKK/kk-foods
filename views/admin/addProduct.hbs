@@ -94,12 +94,18 @@
 
               <div class="col-md-3 mb-3">
                 <label for="validationDefault05">Main Image </label>
-                <input type="file" class="form-control" id="validationDefault05" name="image1"
+                <div ><img  id="imgView" style="width: 50px;height: 70px;margin-bottom: 10px;"></div>
+                <input type="file" class="form-control" id="validationDefault05" name="image1" onchange="viewImage(event)"
                   style="width: 16rem;border-color: black;" placeholder="image" required>
               </div>
               <div class="col-md-3 mb-3">
                 <label for="validationDefault05">Sub Image (max 3)</label>
-                <input type="file" class="form-control" id="validationDefault05" name="image2"
+                 <div class="row">
+                  <img  id="imgMulti" style="width: 3rem;height: 70px;margin-bottom: 10px;">
+                  <img  id="imgMulti1" style="width: 3rem;height: 70px;margin-bottom: 10px;padding-left: 33px;margin-left: 15px;margin-right: 15px;">
+                  <img  id="imgMulti2" style="width: 7rem;height: 70px;margin-bottom: 10px;">
+                  </div>
+                <input type="file" onchange="viewMultiImg(event)"  class="form-control" id="validationDefault05" name="image2"
                   style="width: 16rem;border-color: black;" placeholder="image" multiple>
               </div>
             </div>
@@ -115,4 +121,14 @@
 
 <script src="/javascripts/adminAddproduct.js">
 
+</script>
+<script>
+  function viewImage(event) {
+    document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+  }
+  function viewMultiImg(event){
+    document.getElementById('imgMulti').src = URL.createObjectURL(event.target.files[0])
+    document.getElementById('imgMulti1').src = URL.createObjectURL(event.target.files[1])
+    document.getElementById('imgMulti2').src = URL.createObjectURL(event.target.files[2])
+  }
 </script>

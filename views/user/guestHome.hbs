@@ -1,3 +1,15 @@
+<style>
+    .blink {
+        animation: blink-animation 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+</style>
+
 <div class="hero_area">
   <div class="bg-box">
     <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="">
@@ -178,6 +190,11 @@
 
         <div class="col-sm-6 col-lg-4 all pizza">
           <div class="box">
+            {{#if this.oldRate}}
+             <span class="blink" style="color: rgb(255, 75, 4);font-weight: bolder;font-family: cursive; ">{{this.ofpesantage}}% offer Available</span> 
+             {{else}}
+             <span > &nbsp;</span>
+                    {{/if}} 
             <div>
               <div class="img-box">
                 <img src="/images/{{this.image1.[0].filename}}" alt="">

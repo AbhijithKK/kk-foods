@@ -3,11 +3,22 @@ const adminRoute = 'http://localhost:3000/admin'
 let fileInput2 = document.imageForm2.image2
 let fileInput1 = document.imageForm1.image2
 let fileInput = document.imageForm.image2
-function viewimg(event) {
-    console.log(URL.createObjectURL(event));
+function viewImage(event) {
     document.getElementById('viewimage').src = URL.createObjectURL(event.target.files[0])
-}
-
+  }
+// 3images
+function imgShow(event,no){
+    if(no==1){
+    document.getElementById("showIMG").src = URL.createObjectURL(event.target.files[0])
+    }
+     if(no==2){
+    document.getElementById("showIMG1").src = URL.createObjectURL(event.target.files[0])
+    }
+     if(no==3){
+    document.getElementById("showIMG2").src = URL.createObjectURL(event.target.files[0])
+    }
+  }
+// ens img sec
 
 
 let name = document.editForm.productName;
