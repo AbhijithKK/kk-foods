@@ -1,6 +1,6 @@
 
 
-const db = require('./databaseConfig/users')
+const db = require('../model/userConfig')
 const mailer = require('../helpers/nodeMailer');
 const { json } = require('express');
 require('dotenv')
@@ -11,7 +11,6 @@ let emailNotMarchc = null;
 let mailCheck = null;
 let emailNotMarch = null;
 let otpMsg = null;
-let cartProducts;
 let countDownTime = 60000;
 let generateOTP = () => {
     return otpGenerator.generate(6, {
@@ -116,7 +115,6 @@ let usercotrol = {
                                         proImag = null
                                     }
                                     db.cartProductAdd(req.query.productId, req.session.userId).then((product) => {
-                                        console.log('hii');
                                         req.session.totalcartCount = product.length;
                                         res.render('user/home', {
                                             css: ["/stylesheets/logintemp/css/bootstrap.css", "/stylesheets/logintemp/css/font-awesome.min.css",
@@ -159,12 +157,11 @@ let usercotrol = {
                 };
                 req.session.otpsign = generateOTP();
                 mailer(req.session.tempmail, req.session.otpsign)
-                console.log(req.session.otpsign);
             }
             // otp Mail Send end
             let msg;
             if (otpMsg == null) {
-                let msg = null;
+                msg = null;
             } else {
                 msg = otpMsg;
             }
@@ -178,11 +175,9 @@ let usercotrol = {
             countDownTime = 60000;
             var x = setInterval(function () {
                 countDownTime -= 1000;
-                var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
                 if (countDownTime < 0) {
                     clearInterval(x);
                     req.session.otpsign = undefined;
-                    console.log("main");
                 }
             }, 1000);
             // ##############
@@ -206,7 +201,6 @@ let usercotrol = {
                 };
                 req.session.otp = generateOTP();
                 mailer(req.session.tempmail, req.session.otpsign)
-                console.log('forgot', req.session.otpsign + req.session.tempmail);
                 res.json(data = true)
                 // ############## 
                 //countdown
@@ -216,7 +210,6 @@ let usercotrol = {
                     if (countDownTime < 0) {
                         clearInterval(x);
                         req.session.otpsign = null
-                        console.log('otp null', req.session.otpsign);
                     }
                 }, 1000);
                 //countdown
@@ -233,7 +226,6 @@ let usercotrol = {
                 res.json(data)
 
             } else {
-                console.log(req.session.userTempData);
                 if (req.session.userTempData != undefined) {
                     db.userAdd(req.session.userTempData).then(() => {
                         res.json(data = true)
@@ -348,7 +340,6 @@ let usercotrol = {
                             }
                         }
                     }
-                    console.log('haiii', product);
                     if (req.session.total != 0) {
                         req.session.total = 0
                     }
@@ -377,7 +368,6 @@ let usercotrol = {
                         js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], product, proImag, userData, total, totalcartCount: req.session.totalcartCount
                     })
                     cartProducts = product;
-                    console.log('ptooo', cartProducts);
                 })
             }).catch((err) => {
                 res.redirect('/cart')
@@ -445,19 +435,16 @@ let usercotrol = {
                 if (resp == null || resp.email == null) {
 
                     db.profileUpdate(req.session.userId, req.body, req.files).then((resp) => {
-                        console.log('done');
                         res.redirect('/profile')
                     })
                 } else {
                     emailNotMarchc = "already exist";
-                    console.log('post profile update');
                     res.redirect('/profile')
                 }
             }).catch((err) => {
                 res.redirect('/')
             })
         } catch (e) {
-            console.log('post profile update');
             res.redirect('/')
         }
 
@@ -501,7 +488,7 @@ let usercotrol = {
 
                                 req.session.cartProductDetails[i].count = userData.cart[j].quantity
                                 req.session.cartProductDetails[i].orderStatus = "Orderd"
-                                req.session.cartProductDetails[i].proOrderId=Date.now()
+                                req.session.cartProductDetails[i].proOrderId = Date.now()
                                 req.session.cartProductDetails[i].proTotal = parseInt(req.session.cartProductDetails[i].productPrize) * parseInt(req.session.cartProductDetails[i].count)
                             }
                         }
@@ -574,7 +561,6 @@ let usercotrol = {
         try {
             db.cartCount(req.session.userId, req.body.countValue, req.body.proId, req.body.ofId).then((result) => {
                 db.cartProductAdd(req.query.productId, req.session.userId, req.body.ofId).then((product) => {
-                    console.log(product);
                     db.profile(req.session.userId).then((userData) => {
                         for (let i = 0; i < product.length; i++) {
                             for (let j = 0; j < userData.cart.length; j++) {
@@ -594,8 +580,6 @@ let usercotrol = {
                                 }
                             }
                         }
-                        console.log(req.session.total);
-
                         res.json({ result: result.quantity, newTotal: req.session.total, prototal: result.prototal })
                     })
                 })
@@ -608,7 +592,6 @@ let usercotrol = {
     addressDelete: (req, res) => {
         try {
             db.adddelete(req.session.userId, req.body).then((resp) => {
-                console.log(req.body);
                 res.json(resp)
             }).catch((e) => {
                 res.redirect('/')
@@ -666,13 +649,13 @@ let usercotrol = {
     orderhistoryyy: (req, res) => {
         if (req.body.payMethod == 'cod') {
             db.orderHistoryAdd(req.session.userId, req.session.cartProductDetails, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod, req.session.newwallAmt).then(() => {
-                console.log('voopen', req.body.coopenStatus);
+
                 res.json({ status: true })
                 db.getWalletamt(req.session.userId, req.session.newwallAmt, req.session.walletMinus)
             })
         } else {
             db.OnlineorderHistoryAdd(req.session.userId, req.session.cartProductDetails, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod, req.session.newwallAmt).then((responce) => {
-                console.log('online', req.session.walletTemp);
+
                 req.session.cpsts = 0
                 if (req.body.coopenStatus.amt) {
                     if (req.session.walletTemp != undefined) {
@@ -696,7 +679,6 @@ let usercotrol = {
             req.session.allOrderTotal = 0;
             for (i = 0; i < datas.length; i++) {
                 for (j = 0; j < datas[i].productDetails.length; j++) {
-                    console.log('ordered', req.session.allOrderTotal);
                     if (datas[i].productDetails[j].orderStatus == 'Delivered') {
                         req.session.allOrderTotal = req.session.allOrderTotal + parseInt(datas[i].productDetails[j].proTotal)
                     }
@@ -704,7 +686,6 @@ let usercotrol = {
                         if (datas[i].productDetails[j].orderStatus == 'Delivered') {
                             req.session.allOrderTotal = req.session.allOrderTotal - parseInt(datas[i].coopenstatus.disAmt)
                         }
-                        console.log('aa', req.session.allOrderTotal);
                     }
                 }
             }
@@ -758,7 +739,6 @@ let usercotrol = {
                 };
                 req.session.otp = generateOTP();
                 mailer(req.session.resetPassword, req.session.otp)
-                console.log('forgot', req.session.otp + req.session.resetPassword);
                 res.json(data = true)
                 // ##############
                 //countdown
@@ -769,7 +749,6 @@ let usercotrol = {
                     if (countDownTime < 0) {
                         clearInterval(x);
                         req.session.otp = null
-                        console.log('otp null', req.session.otp);
                     }
                 }, 1000);
                 //countdown
@@ -799,7 +778,6 @@ let usercotrol = {
         };
         req.session.otp = generateOTP();
         mailer(req.session.resetPassword, req.session.otp)
-        console.log('re', req.session.otp);
         res.json('success')
         countDownTime = 60000;
         let x = setInterval(function () {
@@ -808,13 +786,11 @@ let usercotrol = {
             if (countDownTime < 0) {
                 clearInterval(x);
                 req.session.otp = null
-                console.log('reotp null', req.session.otp);
             }
         }, 1000);
         //countdown
     },
     passwordReset: (req, res) => {
-        console.log('fff');
         db.resetpass(req.session.resetPassword, req.body.pass1).then(() => {
             res.json('success')
         })
@@ -856,5 +832,4 @@ let usercotrol = {
         }
     }
 }
-
 module.exports = usercotrol

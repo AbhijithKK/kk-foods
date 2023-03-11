@@ -1,7 +1,7 @@
-const db = require('./connection')
-const collectionname = require('./collectionName')
+const db = require('./dataBaseConfig')
+const collectionname = require('../helpers/collectionName')
 const bcript = require('bcrypt')
-const { login } = require('../userControl')
+//const { login } = require('../userController')
 const sharp = require('sharp');
 
 const objectid = require('mongodb').ObjectId
@@ -9,7 +9,6 @@ module.exports = {
     adminLogin: (data) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collectionname.ADMIN_COLLECTION).findOne({ name: data.name }).then((result) => {
-                console.log(result);
                 if (result) {
                     var rs = false;
                     if (data.password === result.password) {
@@ -36,7 +35,6 @@ module.exports = {
     blockUser: (id) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, { $set: { block: "Blocked" } }).then((res) => {
-                console.log(res);
                 resolve()
             }).catch((err) => {
                 reject(err)
@@ -67,7 +65,6 @@ module.exports = {
                 })
                 .toFile(imgid.image1[0].path + ".png", (err, info) => {
                     if (err) throw err;
-                    console.log('imagee', info);
                 });
             imgid.image1[0].filename = imgid.image1[0].filename + ".png"
             imgid.image1[0].path = imgid.image1[0].path + ".png"
@@ -117,28 +114,26 @@ module.exports = {
         })
     },
     updateProduct: (id, datas, imgid) => {
-        return new Promise(async(resolve, reject) => {
-              // #################IMAGE CROP#################
-              console.log(imgid);
-                if(imgid.image1!=undefined){
-                    if(imgid.image1[0].path!=undefined){
-              await sharp(imgid.image1[0].path)
-              .png()
-              .resize(300, 300, {
-                  kernel: sharp.kernel.nearest,
-                  fit: 'contain',
-                  position: 'center',
-                  background: { r: 255, g: 255, b: 255, alpha: 0 }
-              })
-              .toFile(imgid.image1[0].path + ".png", (err, info) => {
-                  if (err) throw err;
-                  console.log('imagee', info);
-              });
-          imgid.image1[0].filename = imgid.image1[0].filename + ".png"
-          imgid.image1[0].path = imgid.image1[0].path + ".png"
+        return new Promise(async (resolve, reject) => {
+            // #################IMAGE CROP#################
+            if (imgid.image1 != undefined) {
+                if (imgid.image1[0].path != undefined) {
+                    await sharp(imgid.image1[0].path)
+                        .png()
+                        .resize(300, 300, {
+                            kernel: sharp.kernel.nearest,
+                            fit: 'contain',
+                            position: 'center',
+                            background: { r: 255, g: 255, b: 255, alpha: 0 }
+                        })
+                        .toFile(imgid.image1[0].path + ".png", (err, info) => {
+                            if (err) throw err;
+                        });
+                    imgid.image1[0].filename = imgid.image1[0].filename + ".png"
+                    imgid.image1[0].path = imgid.image1[0].path + ".png"
+                }
             }
-            }
-          // ###############################################
+            // ###############################################
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({ _id: objectid(id) }, {
                 $set: {
                     productName: datas.productName,
@@ -157,13 +152,10 @@ module.exports = {
     catogatyAdd: (catogary) => {
         return new Promise(async (resolve, reject) => {
             let cat = await db.get().collection('catogary').find({ catogary: RegExp("^" + catogary, 'i') }).toArray()
-            console.log(cat);
             let resp = false
-
             if (cat.length > 0) {
                 resp = true
             }
-            console.log(resp);
             if (resp != true) {
                 db.get().collection('catogary').insertOne({ catogary, block: "unBlock" }).then(() => {
                     resolve(resp = true)
@@ -196,7 +188,6 @@ module.exports = {
         })
     },
     updateCatogary: (id, data) => {
-        console.log(data);
         return new Promise((resolve, reject) => {
             db.get().collection('catogary').updateOne({ _id: objectid(id) }, {
                 $set: {
@@ -280,8 +271,6 @@ module.exports = {
         })
     },
     cancelOrder: (userid, orderId, productId, currentStatus) => {
-        console.log('juy', typeof (productId));
-
         return new Promise((resolve, reject) => {
             db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userid) }).then((data) => {
 
@@ -292,12 +281,10 @@ module.exports = {
                             let ordrsts = data.orderhistory[i].productDetails[j].orderStatus
                             // wallet
                             if (data.orderhistory[i].payMethod != "cod" && ordrsts == 'Orderd' && currentStatus != 'Delivered') {
-                                console.log(parseInt(data.wallet));
                                 let walletAmount = 0
                                 walletAmount += data.wallet + data.orderhistory[i].productDetails[j].proTotal
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userid) },
                                     { $set: { wallet: walletAmount } })
-                                console.log(walletAmount);
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(userid) }, {
                                     $push: {
                                         walletHistory: {
@@ -329,7 +316,6 @@ module.exports = {
                                 }
                             ).then((resp) => {
                                 resolve(resp)
-                                console.log(resp);
                             }).catch((err) => {
 
                                 reject(err)
@@ -342,30 +328,32 @@ module.exports = {
     },
     monthlyRevanue: () => {
         return new Promise(async (resolve, reject) => {
-            const allUsers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray();
-            // console.log(product);
-            const orders = allUsers.flatMap(user => user.orderhistory);
-            let revanue = []
-            for (let i = 0; i < 12; i++) {
-                // Filter orders for the desired month
-                const filterMonth = i; // replace with the desired month (0-based)
-                const filteredOrders = orders.filter((order) => {
-                    // if (order.productDetails[i].orderStatus == 'Delivered') {
-                    const orderDate = new Date(order.OrderDate);
+            try {
+                const allUsers = await db.get().collection(collectionname.USER_COLLECTION).find().toArray();
+                const orders = allUsers.flatMap(user => user.orderhistory);
+                let revanue = []
+                for (let i = 0; i < 12; i++) {
+                    // Filter orders for the desired month
+                    const filterMonth = i; // replace with the desired month (0-based)
+                    const filteredOrders = orders.filter((order) => {
+                        // if (order.productDetails[i].orderStatus == 'Delivered') {
+                        const orderDate = new Date(order.OrderDate);
 
-                    return orderDate.getMonth() === filterMonth;
-                    // }
-                });
-                console.log(filteredOrders);
-                // Calculate the total revenue for the month
-                const totalRevenue = filteredOrders.reduce((total, order) => {
-                    total = total + order.productDetails[0].proTotal * order.productDetails[0].count
+                        return orderDate.getMonth() === filterMonth;
+                        // }
+                    });
+                    // Calculate the total revenue for the month
+                    const totalRevenue = filteredOrders.reduce((total, order) => {
+                        total = total + order.productDetails[0].proTotal * order.productDetails[0].count
 
-                    return total
-                }, 0);
-                revanue.push(totalRevenue)
+                        return total
+                    }, 0);
+                    revanue.push(totalRevenue)
+                }
+                resolve(revanue);
+            } catch (e) {
+                reject(e)
             }
-            resolve(revanue);
         });
     },
     addOffer: (data) => {
@@ -402,7 +390,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.id) }).then(async (responce) => {
-                    console.log(responce);
                     let price = await responce.oldRate
                     responce.productPrize = await price
                     responce.ofId = ''
@@ -449,7 +436,6 @@ module.exports = {
         })
     },
     salesReport: (date) => {
-        console.log(date);
         let date1 = new Date().toISOString().slice(0, 10);
         let date2 = new Date().toISOString().slice(0, 10);
 
@@ -458,11 +444,9 @@ module.exports = {
             date2 = date.date2
 
         }
-        console.log(date1, date2);
         return new Promise(async (resolve, reject) => {
             try {
                 let allUsers = await db.get().collection(collectionname.USER_COLLECTION).find({ "orderhistory.OrderDate": { $gte: date1, $lt: date2 } }).toArray()
-                console.log('nnnnnn', allUsers);
                 resolve(allUsers)
             } catch (e) {
                 reject(e)
@@ -472,23 +456,19 @@ module.exports = {
     proImageDelete: (data) => {
         let way = data.path
         return new Promise((resolve, reject) => {
-            console.log(data.path);
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({ _id: objectid(data.proId) }, {
                 $unset: { [`image2.${way}`]: 1 }
             }).then((b) => {
                 resolve()
-                console.log(b);
             }).catch((err) => reject(err))
         })
     },
     productImageAdd: (data, image) => {
         return new Promise((resolve, reject) => {
-            console.log(image.image2[0]);
             let way = data.arrpos
             db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).updateOne({ _id: objectid(data.proId) }, {
                 $set: { [`image2.${way}`]: image.image2[0] }
             }).then((b) => {
-                console.log(b);
                 resolve()
             }).catch((err) => reject(err))
         })

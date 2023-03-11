@@ -1,5 +1,5 @@
-const db = require('./connection')
-const collectionname = require('./collectionName')
+const db = require('./dataBaseConfig')
+const collectionname = require('../helpers/collectionName')
 const bcript = require('bcrypt')
 const objectid = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
@@ -31,7 +31,6 @@ module.exports = {
     doLogin: (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(data);
                 var err;
                 let res = await db.get().collection(collectionname.USER_COLLECTION).findOne({ email: data.email })
                 if (res == null) {
@@ -101,7 +100,6 @@ module.exports = {
                         val.push(data[i])
                     }
                 }
-                console.log(val);
                 resolve(val)
             } catch (e) {
                 reject(e)
@@ -130,13 +128,11 @@ module.exports = {
                     }
                 } else {
                     let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(userId) })
-                    console.log(data.cart);
                     if (data.cart != undefined || data.cart != null) {
                         let arr = [];
                         for (let i = 0; i < data.cart.length; i++) {
                             arr.push(await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).findOne({ _id: objectid(data.cart[i].productId) }))
                         }
-                        console.log('new', arr);
                         resolve(arr)
                     } else {
                         resolve()
@@ -175,7 +171,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let mailcheck = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
-                console.log(mailcheck);
                 if (data.proEmail == null || data.proEmail == '') {
                     data.proEmail = mailcheck.email;
                 }
@@ -244,7 +239,6 @@ module.exports = {
                     if (result.cart[i].productId == proId || result.cart[i].ofId == ofid) {
                         if (count != '-1') {
                             c = parseInt(result.cart[i].quantity) + parseInt(count)
-                            console.log(typeof (c) + c);
                         } else {
                             if (result.cart[i].quantity == 1) {
                                 c = parseInt(result.cart[i].quantity)
@@ -301,7 +295,6 @@ module.exports = {
 
     },
     updateaddress: (id, data) => {
-        console.log(data.uname);
         return new Promise(async (resolve, reject) => {
 
             await db.get().collection(collectionname.USER_COLLECTION).updateOne(
@@ -395,7 +388,6 @@ module.exports = {
                     onlinePay: "processError",
                 }).then(() => {
                     db.get().collection(collectionname.ONLINE_HISTORY).find().toArray().then((result) => {
-                        console.log(result.slice(-1));
                         resolve(result.slice(-1))
                     })
                 })
@@ -415,7 +407,6 @@ module.exports = {
                             let ordrsts = data.orderhistory[i].productDetails[j].orderStatus
                             // wallet
                             if (data.orderhistory[i].payMethod != "cod" && ordrsts == 'Orderd') {
-                                console.log(parseInt(data.wallet));
                                 let walletAmount = 0
                                 walletAmount += data.wallet + data.orderhistory[i].productDetails[j].proTotal
                                 db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) },
@@ -437,22 +428,19 @@ module.exports = {
                                 })
                             }
                             // end wallet
-                            
                             if (ordrsts == 'Orderd') {
                                 newsts = 'Cancel'
                             } else {
                                 newsts = 'Cancel'
                             }
                             //datas.userid as product id
-                            
-                            console.log(datas);
                             db.get().collection(collectionname.USER_COLLECTION).updateOne(
 
                                 {
                                     _id: objectid(id), "orderhistory.productDetails._id": datas.userid
                                 },
                                 {
-                                    $set: { "orderhistory.$[].productDetails.$[elem].orderStatus":newsts }
+                                    $set: { "orderhistory.$[].productDetails.$[elem].orderStatus": newsts }
                                 },
                                 {
                                     arrayFilters: [
@@ -464,12 +452,11 @@ module.exports = {
                                 }
                             ).then((resp) => {
                                 resolve(resp)
-                                console.log(resp);
                             }).catch((err) => {
-                                
+
                                 reject(err)
                             })
-                            
+
                         }
                     }
                 }
@@ -497,7 +484,6 @@ module.exports = {
         })
     },
     verifyPayment: (data) => {
-        console.log(data);
         return new Promise(async (resolve, reject) => {
             const crypto = require('crypto')
             let hmac = crypto.createHmac('sha256', await process.env.RAZORPAY_SECRECT)
@@ -506,7 +492,6 @@ module.exports = {
             if (hmac == data.responce.razorpay_signature) {
                 let useridd
                 await db.get().collection(collectionname.ONLINE_HISTORY).findOne({ orderid: parseInt(data.orderDetails.receipt) }).then(async (result) => {
-                    console.log('result', result);
                     useridd = result.userid
                     await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(result.userid) }, {
                         $push: {
@@ -527,11 +512,8 @@ module.exports = {
                 })
                 resolve()
                 await db.get().collection(collectionname.ONLINE_HISTORY).deleteMany({ userid: objectid(useridd) }).then((a) => {
-                    console.log(a);
                 })
-                console.log('success pay');
             } else {
-                console.log('faild pay');
                 reject()
             }
         })
@@ -565,7 +547,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ email: email })
-                console.log(data.password + newpass);
                 data.password = await bcript.hash(newpass, 10)
                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ email: email }, { $set: { ...data } })
                 resolve()
@@ -575,21 +556,17 @@ module.exports = {
         })
     },
     getWalletamt: (id, walletAmount, minusAmt) => {
-
-        console.log('wallet Amount', walletAmount);
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collectionname.USER_COLLECTION).findOne({ _id: objectid(id) })
             if (walletAmount == 1 || walletAmount == undefined || walletAmount == null) {
                 walletAmount = user.wallet
             }
-            console.log('amt', walletAmount);
             await db.get().collection(collectionname.USER_COLLECTION).updateOne({ _id: objectid(id) }, {
                 $set: {
                     wallet: walletAmount,
 
                 }
-            }).then((a) => {
-                console.log(a);
+            }).then(() => {
                 resolve()
             }).catch((e) => reject(e))
             if (walletAmount != user.wallet) {

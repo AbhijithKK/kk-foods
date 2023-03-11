@@ -1,12 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../controler/databaseConfig/users')
+let express = require('express');
+let router = express.Router();
 const { guestUserHome, login, signup, mainHome, otpPage, resendOtp, userLogout, singleProductView, cartDelet, profilEdit,
     paymentAddressGet, successpage, productSearch, addressDelete, updateAdd, addget, orderhistoryyy, orderhistoryPage, orderCanceled, onlinepayDetails, postProfileUpdate,
     PostProfileAddess, postCount, postCoopenAppply, postOtp, postUserData, postHomelogin, getCartProductadd, getForgotPassword, forgotMailCheck,
     passOtpverify, passResendOtp, passwordReset,
     loginCheck,
-    walletAmtAdd } = require('../controler/userControl');
+    walletAmtAdd } = require('../controller/userController');
 const proImageupload = require('../helpers/profileMulter')
 
 

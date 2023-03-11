@@ -1,13 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const db = require('./controler/databaseConfig/connection')
-var session = require('express-session')
+const createError = require('http-errors');
+let express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const db = require('./model/dataBaseConfig')
+const session = require('express-session')
 let cors = require('cors')
-var userRouter = require('./routes/user');
-var adminRouter = require('./routes/admin');
+const userRouter = require('./routes/user');
+const adminRouter = require('./routes/admin');
 const { head } = require('./routes/user');
 const hbs = require('hbs')
 require('dotenv').config()
@@ -25,10 +25,11 @@ app.use((req, res, next) => {
   next()
 })
 app.use(session({
-   secret: process.env.SESSION_KEY, 
-   saveUninitialized: true, 
-   cookie: { maxAge: 1000000 },
-    resave: false }))
+  secret: process.env.SESSION_KEY,
+  saveUninitialized: true,
+  cookie: { maxAge: 1000000 },
+  resave: false
+}))
 app.use(cors())
 
 app.use(logger('dev'));
@@ -41,11 +42,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 hbs.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
 });
-hbs.registerHelper('count',(val)=>{
-return  parseInt(val)= parseInt(val)+1
+hbs.registerHelper('count', (val) => {
+  return parseInt(val) = parseInt(val) + 1
 })
 
-hbs.registerHelper('ifEqual', function(a, b, options) {
+hbs.registerHelper('ifEqual', function (a, b, options) {
   if (a === b) {
     return options.fn(this);
   }

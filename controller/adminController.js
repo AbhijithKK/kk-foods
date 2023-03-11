@@ -1,4 +1,4 @@
-let db = require('./databaseConfig/admin')
+let db = require('../model/adminConfig')
 
 let catogarydetails = null;
 
@@ -374,7 +374,6 @@ let admincontrol = {
     },
     orederCancel: (req, res) => {
         try {
-            console.log('cancel check',req.body.userid);
             db.cancelOrder(req.body.userid, req.body.orderId, req.body.productName, req.body.currentStatus).then((data) => {
                 res.json(data)
             }).catch((e) => {
@@ -474,7 +473,6 @@ let admincontrol = {
         try {
             let product = []
             db.salesReport().then((allUsers) => {
-                console.log(allUsers);
                 for (let i = 0; i < allUsers.length; i++) {
                     for (let j = 0; j < allUsers[i].orderhistory.length; j++) {
                         for (let k = 0; k < allUsers[i].orderhistory[j].productDetails.length; k++) {
@@ -492,7 +490,6 @@ let admincontrol = {
                         }
                     }
                 }
-                console.log('mmm',product);
                 req.session.salesDatahome = product
                 req.session.salesTotalhome = 0
                 for (let i = 0; i < product.length; i++) {
@@ -507,7 +504,6 @@ let admincontrol = {
                     users = req.session.salesData
                     total = req.session.salesTotal
                 }
-                console.log('tttttt', req.session.salesTotal);
                 res.render('admin/salesReport', {
                     users, total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                         "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]

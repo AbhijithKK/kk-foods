@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const { adminHome, productDetails, orderdetails, userDetails, addproducts, editProduct, blockuser,
     unblockUsers, adminlogin, catogaryManage, editCatogary,
     catogaryBlock, catogaryDelete, addcoopens, coopenlist, coopenPage, orederCancel, logout, offerlistAndunlist,
@@ -7,9 +7,8 @@ const { adminHome, productDetails, orderdetails, userDetails, addproducts, editP
     postAdminhome, postUpdatecatogary, postCatogaryAdd, postAdminDeleteProduct, postAdminEditproduct,
     postAdminAddproduct,
     singleImageDelete,
-    postSingleImageAdd } = require('../controler/admincontrol');
+    postSingleImageAdd } = require('../controller/adminController');
 const { multiUpload } = require('../helpers/multer');
-var db = require('../controler/databaseConfig/admin')
 
 /* GET users listing. */
 router.get('/', adminlogin);
