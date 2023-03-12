@@ -73,6 +73,7 @@ module.exports = {
                         val.push(data[i])
                     }
                 }
+               val=val.slice(0,6)
                 resolve(val)
             } catch (e) {
                 reject(e)
@@ -96,9 +97,13 @@ module.exports = {
                 let data = await db.get().collection(collectionname.ADMIN_PRODUCTS_ADD).find().toArray()
                 let val = []
                 for (i = 0; i < data.length; i++) {
+                    if(catogary!='All'){
                     if (data[i].productCatogary == catogary) {
                         val.push(data[i])
                     }
+                }else{
+                    val.push(data[i])
+                }
                 }
                 resolve(val)
             } catch (e) {

@@ -116,7 +116,7 @@
         <div class="col-md-6  ">
           <div class="box ">
             <div class="img-box">
-              <img src="/stylesheets/logintemp/images/o1.jpg" alt="">
+              <img src="/stylesheets/logintemp/images/b4.jpg" alt="">
             </div>
             <div class="detail-box">
               <h5>
@@ -134,7 +134,7 @@
         <div class="col-md-6  ">
           <div class="box ">
             <div class="img-box">
-              <img src="/stylesheets/logintemp/images/o2.jpg" alt="">
+              <img src="/stylesheets/logintemp/images/p4.jpg" alt="">
             </div>
             <div class="detail-box">
               <h5>
@@ -208,8 +208,11 @@
                 </p>
                 <div class="options">
                   {{#if this.oldRate}}
-                  <h6><del>₹ {{this.oldRate}}</del>
-                    offer Rate{{/if}} ₹ {{this.productPrize}}
+                  <h6>
+                    <del>₹ {{this.oldRate}}</del>
+                   <span style="color: rgb(255, 188, 4);font-weight: bolder;font-style: italic; ">offer Rate</span> 
+                    {{/if}} 
+                    ₹ {{this.productPrize}}
 
                   </h6>
                   <a type="button" data-bs-target="#staticBackdrop" data-bs-toggle="modal">
@@ -279,7 +282,7 @@
     </div>
     {{!-- end --}}
     <div class="btn-box">
-      <a href="">
+      <a type="button" data-bs-target="#staticBackdrop" data-bs-toggle="modal">
         View More
       </a>
     </div>

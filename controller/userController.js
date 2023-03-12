@@ -284,6 +284,8 @@ let usercotrol = {
                 let brg;
                 let piz;
                 let chk;
+                let All;
+                if(req.query.catogery!='All'){
                 if (data[0].productCatogary == 'burger') {
                     brg = "active"
                     piz = null;
@@ -297,7 +299,18 @@ let usercotrol = {
                     chk = "active"
                     piz = null;
                     brg = null;
+                }else {
+                    All="active"
+                    piz = null;
+                    brg = null;
+                    chk = null;
                 }
+            }else{
+                All="active"
+                piz = null;
+                brg = null;
+                chk = null; 
+            }
                 db.profile(req.session.userId).then(async (userData) => {
                     if (userData.image != null) {
                         if (userData.image.proImage != null) {
@@ -313,7 +326,7 @@ let usercotrol = {
                             "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
                             "https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"],
-                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk, proImag, userData, totalcartCount: req.session.totalcartCount
+                        js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], data, brg, piz, chk,All, proImag, userData, totalcartCount: req.session.totalcartCount
                     })
                 })
             }).catch((err) => {
