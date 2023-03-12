@@ -46,11 +46,11 @@ let usercotrol = {
                     })
 
                 }).catch((err) => {
-                    res.redirect('/')
+                    res.redirect('/404')
                 })
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     login: function (req, res, next) {
@@ -71,7 +71,7 @@ let usercotrol = {
                 emailNotMarch = null;
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     signup: (req, res) => {
@@ -88,7 +88,7 @@ let usercotrol = {
             })
             mailCheck = null;
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     mainHome: (req, res) => {
@@ -136,10 +136,10 @@ let usercotrol = {
                     res.redirect('/login')
                 }
             }).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     otpPage: (req, res) => {
@@ -183,7 +183,7 @@ let usercotrol = {
             // ##############
 
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     resendOtp: (req, res) => {
@@ -216,7 +216,7 @@ let usercotrol = {
                 // ##############
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postOtp: (req, res) => {
@@ -240,7 +240,7 @@ let usercotrol = {
                 }
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postUserData: (req, res) => {
@@ -255,10 +255,10 @@ let usercotrol = {
                     res.json('This Email Already Exists')
                 }
             }).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postHomelogin: (req, res) => {
@@ -275,7 +275,7 @@ let usercotrol = {
                 res.redirect('/login')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     singleProductView: (req, res) => {
@@ -317,10 +317,10 @@ let usercotrol = {
                     })
                 })
             }).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     getCartProductadd: (req, res) => {
@@ -370,27 +370,31 @@ let usercotrol = {
                     cartProducts = product;
                 })
             }).catch((err) => {
-                res.redirect('/cart')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     userLogout: (req, res) => {
+        try{
         req.session.total = 0;
         req.session.loginId = undefined;
         res.redirect('/')
+        }catch(e){
+            res.redirect('/404')
+        }
     },
     cartDelet: (req, res) => {
         try {
             db.delCartitem(req.session.userId, req.query.id, req.query.ofId).then((ress => {
                 res.redirect('/cart')
             })).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
 
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     profilEdit: (req, res) => {
@@ -420,12 +424,12 @@ let usercotrol = {
                     js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], userData, emailNotMarch, proImag, addrs, totalcartCount: req.session.totalcartCount
                 })
             }).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
             emailNotMarchc = null
 
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postProfileUpdate: (req, res) => {
@@ -442,10 +446,10 @@ let usercotrol = {
                     res.redirect('/profile')
                 }
             }).catch((err) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
 
 
@@ -456,14 +460,14 @@ let usercotrol = {
                 db.address(req.session.userId, req.body).then((resp) => {
                     res.json(resp)
                 }).catch((err) => {
-                    res.redirect('/')
+                    res.redirect('/404')
                 })
             } else {
                 emailNotMarchc = "already exist";
                 res.redirect('/profile')
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     paymentAddressGet: (req, res) => {
@@ -505,14 +509,14 @@ let usercotrol = {
                         js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], addr, total: req.session.total, cartProducts: req.session.cartProductDetails, user: req.session.userDetails, proImag, totalcartCount: req.session.totalcartCount
                     })
                 }).catch((err) => {
-                    res.redirect('/')
+                    res.redirect('/404')
                 })
             } else {
                 emailNotMarchc = "already exist";
                 res.redirect('/profile')
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     successpage: (req, res) => {
@@ -542,7 +546,7 @@ let usercotrol = {
                 res.redirect('/profile')
             }
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     productSearch: (req, res) => {
@@ -551,10 +555,10 @@ let usercotrol = {
                 res.json(data)
 
             }).catch(() => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postCount: (req, res) => {
@@ -586,7 +590,7 @@ let usercotrol = {
             })
 
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     addressDelete: (req, res) => {
@@ -594,10 +598,10 @@ let usercotrol = {
             db.adddelete(req.session.userId, req.body).then((resp) => {
                 res.json(resp)
             }).catch((e) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     updateAdd: (req, res) => {
@@ -605,10 +609,10 @@ let usercotrol = {
             db.updateaddress(req.session.userId, req.body).then((data) => {
                 res.json(data)
             }).catch((e) => {
-                res.redirect('/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     addget: (req, res) => {
@@ -617,10 +621,11 @@ let usercotrol = {
                 res.json(data)
             })
         } catch (e) {
-            res.redirect('/')
+            res.redirect('/404')
         }
     },
     postCoopenAppply: (req, res) => {
+        try{
         db.coopenFind(req.body.cpApply).then((data) => {
             req.session.coupenDisTotal = 0
             let results = {}
@@ -645,8 +650,12 @@ let usercotrol = {
             }
             res.json(results)
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     orderhistoryyy: (req, res) => {
+        try{
         if (req.body.payMethod == 'cod') {
             db.orderHistoryAdd(req.session.userId, req.session.cartProductDetails, req.body.address, req.body.coopenStatus, req.session.total, req.body.date, req.body.payMethod, req.session.newwallAmt).then(() => {
 
@@ -672,8 +681,12 @@ let usercotrol = {
                 })
             })
         }
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     orderhistoryPage: async (req, res) => {
+        try{
         db.profile(req.session.userId).then((data) => {
             let datas = data.orderhistory
             req.session.allOrderTotal = 0;
@@ -697,24 +710,35 @@ let usercotrol = {
                 js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js'], datas, allOrderTotal: req.session.allOrderTotal, proImag: req.session.proImag, user: req.session.userDetails, totalcartCount: req.session.totalcartCount
             })
         }).catch((e) => {
-            res.redirect('/')
+            res.redirect('/404')
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     orderCanceled: (req, res) => {
-
+        try{
         db.ordercancel(req.session.userId, req.body).then((result) => {
             res.json(result)
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     onlinepayDetails: (req, res) => {
+        try{
         db.verifyPayment(req.body).then(() => {
             res.json({ pay: true })
             db.getWalletamt(req.session.userId, req.session.newwallAmt, req.session.walletMinus)
         }).catch(() => {
             res.json({ pay: false })
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     getForgotPassword: (req, res) => {
+        try{
         otp = null
         res.render('user/forgotPassword', {
             css: [, "/stylesheets/logintemp/css/font-awesome.min.css",
@@ -724,8 +748,12 @@ let usercotrol = {
             js: ['bootstrap.js', "custom.js", 'jquery-3.4.1.min.js']
         })
         countDownTime = 0;
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     forgotMailCheck: (req, res) => {
+        try{
         db.forgotPassMailCheck(req.body.email).then((data) => {
             req.session.resetPassword = req.body.email
             if (data != null) {
@@ -757,17 +785,25 @@ let usercotrol = {
                 res.json(data = false)
             }
         }).catch((err) => {
-            res.redirect('/')
+            res.redirect('/404')
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     passOtpverify: (req, res) => {
+        try{
         if (req.body.otp == req.session.otp) {
             res.json({ data: true })
         } else {
             res.json({ data: false })
         }
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     passResendOtp: (req, res) => {
+        try{
         let generateOTP = () => {
             return otpGenerator.generate(6, {
                 digits: true,
@@ -789,13 +825,21 @@ let usercotrol = {
             }
         }, 1000);
         //countdown
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     passwordReset: (req, res) => {
+        try{
         db.resetpass(req.session.resetPassword, req.body.pass1).then(() => {
             res.json('success')
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     walletAmtAdd: (req, res) => {
+        try{
         req.session.walletMinus = 0
         if (req.session.totaltemp == undefined) {
             req.session.totaltemp = req.session.total
@@ -830,6 +874,13 @@ let usercotrol = {
                 res.json({ total: req.session.totaltemp, wallet: 0 })
             }
         }
+    }catch(e){
+        res.redirect('/404')
+    }
+
+    },
+    errPage:(req,res)=>{
+        res.render('404')
     }
 }
 module.exports = usercotrol

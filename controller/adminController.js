@@ -18,7 +18,7 @@ let admincontrol = {
                 res.redirect('/admin/Home')
             }
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     adminHome: (req, res) => {
@@ -49,7 +49,7 @@ let admincontrol = {
                 })
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     productDetails: (req, res) => {
@@ -63,7 +63,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     orderdetails: (req, res) => {
@@ -99,7 +99,7 @@ let admincontrol = {
                 })
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     userDetails: (req, res) => {
@@ -113,7 +113,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     }, addproducts: (req, res) => {
         try {
@@ -132,7 +132,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     editProduct: (req, res) => {
@@ -154,7 +154,7 @@ let admincontrol = {
                 })
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     blockuser: (req, res) => {
@@ -165,7 +165,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     unblockUsers: (req, res) => {
@@ -176,7 +176,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postAdminhome: (req, res) => {
@@ -192,7 +192,7 @@ let admincontrol = {
                 res.redirect('/admin/Home')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postAdminAddproduct: (req, res) => {
@@ -204,7 +204,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postAdminEditproduct: (req, res) => {
@@ -216,7 +216,7 @@ let admincontrol = {
                 res.redirect('/admin/')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postAdminDeleteProduct: (req, res) => {
@@ -232,10 +232,10 @@ let admincontrol = {
 
                 res.redirect('/admin/productDetails')
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postCatogaryAdd: (req, res) => {
@@ -243,10 +243,10 @@ let admincontrol = {
             db.catogatyAdd(req.body.catogaryAdd).then((resp) => {
                 res.json(resp)
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     catogaryManage: (req, res) => {
@@ -264,10 +264,10 @@ let admincontrol = {
                 })
                 catogarydetails = null;
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     editCatogary: (req, res) => {
@@ -276,11 +276,11 @@ let admincontrol = {
                 catogarydetails = data
                 res.json(data)
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
 
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postUpdatecatogary: (req, res) => {
@@ -288,10 +288,10 @@ let admincontrol = {
             db.updateCatogary(req.body.id, req.body.catogaryAdd).then((resp) => {
                 res.json(resp)
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     catogaryBlock: (req, res) => {
@@ -303,11 +303,11 @@ let admincontrol = {
             db.blockCatogary(req.query.id, val).then((ress) => {
                 res.redirect("/admin/catogaryManage")
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
 
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     catogaryDelete: (req, res) => {
@@ -315,11 +315,11 @@ let admincontrol = {
             db.deleteCatogary(req.query.id).then(() => {
                 res.redirect("/admin/catogaryManage")
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
 
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     addcoopens: (req, res) => {
@@ -327,10 +327,10 @@ let admincontrol = {
             db.coopenAdd(req.body).then((data) => {
                 res.json(data)
             }).catch((e) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     coopenlist: (req, res) => {
@@ -342,10 +342,10 @@ let admincontrol = {
                     res.redirect('/admin/')
                 })
             } else {
-                res.redirect('/admin/')
+                res.redirect('/404')
             }
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     coupenPage: (req, res) => {
@@ -357,11 +357,11 @@ let admincontrol = {
                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
                 })
             }).catch((e) => {
-                res.redirect('admin/')
+                res.redirect('/404')
             })
 
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     logout: (req, res) => {
@@ -369,7 +369,7 @@ let admincontrol = {
             req.session.adminLogin = undefined
             res.redirect("/admin/")
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     orederCancel: (req, res) => {
@@ -377,10 +377,10 @@ let admincontrol = {
             db.cancelOrder(req.body.userid, req.body.orderId, req.body.productName, req.body.currentStatus).then((data) => {
                 res.json(data)
             }).catch((e) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     offerlistAndunlist: (req, res) => {
@@ -389,7 +389,7 @@ let admincontrol = {
                 res.json('success')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     }, addeOffers: (req, res) => {
         db.addOffer(req.body).then((data) => {
@@ -405,13 +405,13 @@ let admincontrol = {
                             "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], product, offersPro
                     })
                 }).catch((err) => {
-                    res.redirect('/admin/')
+                    res.redirect('/404')
                 })
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     monthlyRevannue: (req, res) => {
@@ -419,10 +419,10 @@ let admincontrol = {
             db.monthlyRevanue().then((data) => {
                 res.json(data)
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     updateCatogariess: (req, res) => {
@@ -430,10 +430,10 @@ let admincontrol = {
             db.updateCatogary(req.body.id, req.body.catogaryAdd).then((resp) => {
                 res.json(resp)
             }).catch((err) => {
-                res.redirect('/admin/')
+                res.redirect('/404')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     postSalesReport: (req, res) => {
@@ -466,7 +466,7 @@ let admincontrol = {
                 res.redirect('/admin/salesReport')
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     getSalesReport: (req, res) => {
@@ -511,13 +511,17 @@ let admincontrol = {
                 req.session.salesRedirect = 0
             })
         } catch (e) {
-            res.redirect('/admin/')
+            res.redirect('/404')
         }
     },
     singleImageDelete: (req, res) => {
+        try{
         db.proImageDelete(req.body).then(() => {
             res.json('success')
         })
+    }catch(e){
+        res.redirect('/404')
+    }
     },
     postSingleImageAdd: (req, res) => {
         try {
@@ -526,6 +530,7 @@ let admincontrol = {
             })
 
         } catch (err) {
+            res.redirect('/404')
         }
     }
 }

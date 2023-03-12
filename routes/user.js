@@ -5,7 +5,8 @@ const { guestUserHome, login, signup, mainHome, otpPage, resendOtp, userLogout, 
     PostProfileAddess, postCount, postCoopenAppply, postOtp, postUserData, postHomelogin, getCartProductadd, getForgotPassword, forgotMailCheck,
     passOtpverify, passResendOtp, passwordReset,
     loginCheck,
-    walletAmtAdd } = require('../controller/userController');
+    walletAmtAdd, 
+    errPage} = require('../controller/userController');
 const proImageupload = require('../helpers/profileMulter')
 
 
@@ -25,6 +26,7 @@ router.get('/deleteCartitem', loginCheck, cartDelet)
 router.get('/orderhistory', loginCheck, orderhistoryPage)
 router.get('/getAddress', loginCheck, addget)
 router.get('/forgotPassword', getForgotPassword)
+router.get('/404',errPage)
 // logout
 router.get('/logout', userLogout)
 // post
