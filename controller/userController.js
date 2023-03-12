@@ -383,7 +383,8 @@ let usercotrol = {
                     cartProducts = product;
                 })
             }).catch((err) => {
-                res.redirect('/404')
+                
+                res.redirect('/cart')
             })
         } catch (e) {
             res.redirect('/404')
