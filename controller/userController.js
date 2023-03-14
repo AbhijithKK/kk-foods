@@ -566,8 +566,13 @@ let usercotrol = {
     productSearch: (req, res) => {
         try {
             db.searchproduct(req.body.data).then((data) => {
-                res.json(data)
+                if(req.session.loginId != undefined){
+                    res.json({data,status:true})
 
+                }else{
+                    res.json({data,status:false})
+                }
+                
             }).catch(() => {
                 res.redirect('/404')
             })

@@ -3,19 +3,9 @@ const currentDomain = `${window.location.protocol}//${window.location.hostname}:
 
 
 console.log(currentDomain);
-let userRoute
-if (currentDomain ==  'https://kkfoods.online') {
-    userRoute='https://kkfoods.online'
-}
-if (currentDomain ==   'https://www.kkfoods.online') {
-    userRoute= 'https://www.kkfoods.online'
-}
-if (currentDomain ==    'http://3.227.231.17') {
-    userRoute=  'http://3.227.231.17'
-}
-if (currentDomain ==    'http://localhost:3000') {
-    userRoute= 'http://localhost:3000'
-}
+let userRoute = currentDomain
+
+
 let searchVal = '';
 let val = '';
 
@@ -49,31 +39,37 @@ function itemSearch() {
       body: JSON.stringify({ data: sea.value })
     }).then((data) => data.json())
       .then((data) => {
-        data.forEach((dd) => {
+        data.data.forEach((dd) => {
           val = dd
           console.log('hii', val._id);
           if (val._id == val._id) {
 
 
+            // cart add script
+            const cartAdd = `
+            ${data.status
+                ? `<a href="/cart?productId=${val._id}">`: `<a type="button" data-bs-target="#staticBackdrop" data-bs-toggle="modal">`}`
+            // cart add end
+
 
             // rate script
-            const Rate=`
+            const Rate = `
             ${val.oldRate
-              ?`<h6><del>₹ ${val.oldRate}</del>
+                ? `<h6><del>₹ ${val.oldRate}</del>
               <span style="color: rgb(255, 188, 4);font-weight: bolder;font-style: italic; ">offer Rate</span> 
                      ₹ ${val.productPrize}
 
-                  </h6>`:`<h6>₹ ${val.productPrize}</h6>`}`
-                  // rate script end
+                  </h6>`: `<h6>₹ ${val.productPrize}</h6>`}`
+            // rate script end
 
-// offer script
-const boxContent = `
-     ${val.oldRate 
-      ? `<span class="blink" style="color: rgb(255, 75, 4);
+            // offer script
+            const boxContent = `
+     ${val.oldRate
+                ? `<span class="blink" style="color: rgb(255, 75, 4);
       font-weight: bolder;font-family: cursive;">
       ${val.ofpesantage}% offer Available</span>`
-      : `<span>&nbsp;</span>`}`;
-// offerscript End
+                : `<span>&nbsp;</span>`}`;
+            // offerscript End
             serchResp.innerHTML += `
 <div class="col-sm-6 col-lg-4 all pizza">
           <div class="box">
@@ -91,7 +87,7 @@ const boxContent = `
                 </p>
                 <div class="options">
                   ${Rate}
-                  <a href="/cart?productId=${val._id}">
+                  ${cartAdd}
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
                       style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">

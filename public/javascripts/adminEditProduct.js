@@ -3,19 +3,7 @@ const currentDomain = `${window.location.protocol}//${window.location.hostname}:
 
 
 console.log(currentDomain);
-let adminRoute
-if (currentDomain ==  'https://kkfoods.online') {
-    adminRoute='https://kkfoods.online'
-}
-if (currentDomain ==   'https://www.kkfoods.online') {
-    adminRoute= 'https://www.kkfoods.online'
-}
-if (currentDomain ==    'http://3.227.231.17') {
-    adminRoute=  'http://3.227.231.17'
-}
-if (currentDomain ==    'http://localhost:3000') {
-    adminRoute= 'http://localhost:3000'
-}
+let userRoute=currentDomain
 
 let fileInput2 = document.imageForm2.image2
 let fileInput1 = document.imageForm1.image2
@@ -51,7 +39,7 @@ function validCheck() {
 
 function imageChange(proid, imagePath) {
     console.log(imagePath)
-    fetch(`${adminRoute}/proSingleImageDelete`, {
+    fetch(`${adminRoute}/admin/proSingleImageDelete`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -91,7 +79,7 @@ function imagesAdd(id, position) {
         formData.append('arrpos', position)
     }
     console.log(formData)
-    fetch(`${adminRoute}/imageAdd`, {
+    fetch(`${adminRoute}/admin/imageAdd`, {
         method: "post",
 
         body: formData

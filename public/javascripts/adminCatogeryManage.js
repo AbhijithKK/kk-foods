@@ -5,26 +5,14 @@ const currentDomain = `${window.location.protocol}//${window.location.hostname}:
 
 
 console.log(currentDomain);
-let adminRoute
-if (currentDomain ==  'https://kkfoods.online') {
-    adminRoute='https://kkfoods.online'
-}
-if (currentDomain ==   'https://www.kkfoods.online') {
-    adminRoute= 'https://www.kkfoods.online'
-}
-if (currentDomain ==    'http://3.227.231.17') {
-    adminRoute=  'http://3.227.231.17'
-}
-if (currentDomain ==    'http://localhost:3000') {
-    adminRoute= 'http://localhost:3000'
-}
+let adminRoute=currentDomain
 
 let modalclose = document.getElementById('modalClose')
 let modal = document.getElementById("staticBackdrop")
 let newcatogary = document.addForm.catogaryAdd
 function addCatogary() {
     console.log(newcatogary.value)
-    fetch(`${adminRoute}/catogaryAdd`, {
+    fetch(`${adminRoute}/admin/catogaryAdd`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
