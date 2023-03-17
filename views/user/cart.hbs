@@ -132,7 +132,7 @@
     </header>
 
 
-
+ {{#if product}}
     <section class="pt-5 pb-5">
       <div class="container">
         <div class="row w-100">
@@ -141,6 +141,7 @@
             <p class="mb-5">
               <i class="text-info font-weight-bold">{{totalcartCount}}</i> items in your cart
             </p>
+           
             <div style="overflow: auto;">
             <table id="myTable" class="table" >
               <thead>
@@ -205,6 +206,7 @@
           <div class="col-sm-6 order-md-2 text-right">
             <a href="/payment" class="btn btn-warning mb-4 btn-lg pl-5 pr-5">Checkout</a>
           </div>
+          
           <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
             <a href="/home">
               <i class="fas fa-arrow-left mr-2"></i> Continue Shopping</a>
@@ -212,6 +214,27 @@
         </div>
       </div>
     </section>
+    {{else}}
+    
+       <section class="pt-5 pb-5">
+      <div class="container">
+        <div class="row w-100">
+          <div class="col-lg-12 col-md-12 col-12">
+            <h3 class="display-5 mb-2">Shopping Cart</h3>
+            <p class="mb-5">
+              
+              <img src="https://cdni.iconscout.com/illustration/premium/thumb/confusing-woman-due-to-empty-cart-4558760-3780056.png" alt="0 Items In Your Cart" class="img-fluid">
+            </p>
+          </div>
+          <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+            <a href="/home">
+              <i class="fas fa-arrow-left mr-2"></i> Continue Shopping</a>
+          </div>
+        </div> 
+      </div>
+      
+    </section>
+    {{/if}}
     <!-- footer section -->
     <footer class="footer_section">
       <div class="container">

@@ -23,10 +23,10 @@
             <a class="nav-link" href="/admin/userDetails">User Details</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+            <a class="nav-link" href="/admin/catogaryManage">Category Manage</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+            <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/offerCreate">Offer Manage</a>
@@ -55,13 +55,13 @@
             onsubmit="return validCheck()">
             <div class="form-row">
               <div class="col-md-4 mb-3">
-                <label id="proName0" for="validationDefault01">product Name</label>
+                <label id="proName0" for="validationDefault01">product Name <span style="color: #ff3300;">*</span> </label>
                 <label id="proName" style="color: #ff3300;" for="validationDefault01"></label>
                 <input type="text" class="form-control" id="validationDefault01" name="productName"
                   placeholder="product name" style="width: 16rem;border-color: black;" required>
               </div>
               <div class="col-md-4 mb-3">
-                <label for="validationDefault02">catogery</label>
+                <label for="validationDefault02">catogery <span style="color: #ff3300;">*</span></label>
 
                 <div class="dropdown">
                   <select class="btn btn-white dropdown-toggle" name="productCatogary" id=""
@@ -87,13 +87,13 @@
             </div>
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <label for="validationDefault03">₹ price</label>
+                <label for="validationDefault03">₹ price <span style="color: #ff3300;">*</span></label>
                 <input type="number" class="form-control" id="validationDefault03" name="productPrize"
                   style="width: 16rem;border-color: black;" placeholder="price" value="₹" required min="0">
               </div>
 
               <div class="col-md-3 mb-3">
-                <label for="validationDefault05">Main Image </label>
+                <label for="validationDefault05">Main Image <span style="color: #ff3300;">*</span></label>
                 <div ><img  id="imgView" style="width: 50px;height: 70px;margin-bottom: 10px;"></div>
                 <input type="file" class="form-control" id="validationDefault05" name="image1" onchange="viewImage(event)"
                   style="width: 16rem;border-color: black;" placeholder="image" required>

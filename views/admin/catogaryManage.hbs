@@ -21,18 +21,18 @@
           <a class="nav-link" href="/admin/userDetails">User Details</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="font-weight: bold;" href="/admin/catogaryManage">Catogary Manage</a>
+          <a class="nav-link" style="font-weight: bold;" href="/admin/catogaryManage">Category Manage</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+          <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/offerCreate">Offer Manage</a>
         </li>
       </ul>
 
-      <a href="/admin/logout" class="btnbtn btn-outline-primary  ms-auto">log out</a>
+      <a href="/admin/logout" class="btn btn btn-outline-primary  ms-auto">log out</a>
     </div>
   </div>
 </nav>
@@ -57,7 +57,7 @@
           <form onsubmit="return update()" class=" form-inline my-2 my-lg-0 ms-auto" name="updateform">
 
             <input id="editCatogatyName" class="form-control mr-sm-2" type="text" value="" name="changeCatogary"
-              style="width: 200px;" placeholder="click edit btn then change" minlength="3" required>
+              style="width: 200px;" placeholder="" minlength="3" required>
             <button class="btn btn-primary my-2 my-sm-0" style="margin-left: 8;" type="submit">submit</button>
           </form>
         </div>
@@ -67,14 +67,16 @@
     </div>
 
     <table id="myTable" class="display" style="margin-top: 20px;">
+     
       <thead>
+        
         <tr>
           <th scope="col">No</th>
 
           <th scope="col">catogary name</th>
 
-          <th scope="col">action</th>
-          <th scope="col">delete</th>
+          <th scope="col">actions</th>
+         
         </tr>
       </thead>
       <tbody>
@@ -88,11 +90,25 @@
 
           <td>
             <a onclick="edit('{{this._id}}')" class="btn btn-primary btn-block mb-4">edit</a>
+
+
             <a href="/admin/catogaryBlock?id={{this._id}}&delet={{this.block}}" class="btn btn-danger btn-block mb-4"
-              onclick="return confirm('Are you sure ?')">{{this.block}}</a>
+              onclick="return confirm('Are you sure ?')">
+              
+              {{#ifEqual this.block "unBlock"}}
+              Block
+           {{/ifEqual}}
+            {{#ifEqual this.block "block"}}
+              Un Block
+           {{/ifEqual}}
+              
+              </a>
+
+
+              <a href="/admin/catogaryDelete?id={{this._id}}" class="btn   mb-4" style="color: #ff3300;"
+              onclick="return confirm('Are you sure ?')">Remove</a>
           </td>
-          <td><a href="/admin/catogaryDelete?id={{this._id}}" class="btn   mb-4" style="color: #ff3300;"
-              onclick="return confirm('Are you sure ?')">remove</a></td>
+         
         </tr>
 
         {{/each}}

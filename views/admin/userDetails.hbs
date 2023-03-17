@@ -21,10 +21,10 @@
           <a class="nav-link" href="/admin/userDetails" style="font-weight: bold;">User Details</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+          <a class="nav-link" href="/admin/catogaryManage">Category Manage</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+          <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/offerCreate">Offer Manage</a>
@@ -63,10 +63,16 @@
 
           <td>{{this.block}}</td>
           <td>
-            <a href="/admin/block/{{this._id}}" class="btn btn-danger btn-block mb-4"
-              onclick="return confirm('Are you sure ?')">block</a>
-            <a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-block mb-4"
+             {{#ifEqual this.block "Blocked"}}
+          <a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-block mb-4"
               onclick="return confirm('Are you sure ?')">unBlock</a>
+              {{/ifEqual}}
+              {{#ifEqual this.block "unBlock"}}
+        <a href="/admin/block/{{this._id}}" class="btn btn-danger btn-block mb-4"
+              onclick="return confirm('Are you sure ?')">block</a>
+           {{/ifEqual}}
+            
+            
           </td>
         </tr>
         {{/each}}

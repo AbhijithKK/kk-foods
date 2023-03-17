@@ -21,10 +21,10 @@
                     <a class="nav-link" href="/admin/userDetails">User Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+                    <a class="nav-link" href="/admin/catogaryManage">Category Manage</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+                    <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="font-weight: bold;" href="/admin/offerCreate">Offer Manage</a>
@@ -89,9 +89,9 @@
 
                             <div class="dropdown mt-2">
                                 <select class="btn btn-white dropdown-toggle" name="productId" id="" style="
-                                width: 100%; border-color: black;">
+                                width: 100%; border-color: black;" required>
                                     <option class="dropdown-menu dropdown-menu-white" value="" style="width: 160%;">
-                                        select product Name</option>
+                                        select product Name </option>
                                     {{#each product}}
                                     <option value="{{this._id}}">{{this.productName}}</option>
                                     {{/each}}
@@ -100,7 +100,7 @@
 
                             <div class="col mt-3">
                                 <input type="text" class="form-control form-control-lg mb-3"
-                                    placeholder="discount Persantage" name="ofPesantage" required min="0" max="100" />
+                                    placeholder="discount Persantage" name="ofPesantage" required min="0" max="100"  />
                             </div>
 
                         </div>

@@ -25,10 +25,10 @@
             <a class="nav-link" href="/admin/userDetails">User Details</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/catogaryManage">catogary Manage</a>
+            <a class="nav-link" href="/admin/catogaryManage">Category Manage</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+            <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/offerCreate">Offer Manage</a>
@@ -52,7 +52,7 @@
                 <h4>Sales Report</h4>
               </li>
               <div>
-                <form action="/admin/postSalesReport" method="post">
+                <form name="salesReport" onsubmit="return report()">
                   <label for="">From</label>
                   <input type="date" name="date1" required>&nbsp;&nbsp;
                   <label for="">To</label>
@@ -70,8 +70,15 @@
 
     <div style="overflow: auto;">
       <table id="table-id" class="table align-middle mb-0 bg-white container">
-
+        
+        
         <thead class="bg-light">
+         <th style="border: none;  background-color: rgb(255, 255, 255);"> <h1 style="text-align: center; font-weight: bold; font-family: cursive;">kk foods</h1></th>
+          <tr>
+       <th style="border: none; background-color: rgb(255, 255, 255);"> <p id="date11">From:{{fromDate}}</p><p id="date22">To:{{toDate}}</p></th>
+         <a type="button" style="color: blue;" onclick="downloadPDF()">download report</a>
+        
+        </tr>
           <tr>
             <th>Order ID</th>
             <th>Username</th>
@@ -84,12 +91,13 @@
 
           </tr>
         </thead>
-        {{#if users}}
-        {{#each users}}
+        {{!-- {{#if users}} --}}
+        
+        <tbody id="getReport">
+          {{#each users}}
 
-        <tbody>
 
-          <tr>
+          <tr  >
 
             <td>
 
@@ -114,10 +122,10 @@
 
           </tr>
           {{/each}}
-          <a type="button" style="color: blue;" onclick="downloadPDF()">download report</a>
-          {{else}}
-          <h4 style="text-align: center; font-weight: bold; font-family: cursive;">No Sale for today</h4>
-          {{/if}}
+         
+         
+          <h4 id="status" style="text-align: center; font-weight: bold; font-family: cursive; display: block;">No Sale for today</h4>
+         
           <tr>
             <td></td>
             <td></td>
@@ -129,12 +137,12 @@
 
             <td>
 
-              <i style="font-size: 25px;  " class="bi bi-currency-rupee">{{total}}</i>
-    </div>
+              <i  id="totals" style="font-size: 25px;  " class="bi bi-currency-rupee">{{total}}</i>
+   
     </td>
     </tr>
     </tbody>
-
+ </div>
     </table>
     </div>
   </section>
@@ -157,5 +165,70 @@
       const fileName = 'table' + new Date() + '.pdf';
 
       html2pdf().from(tableHTML).save(fileName);
+    }
+    let date1=document.salesReport.date1;
+    let date2=document.salesReport.date2;
+   document.getElementById('date11').innerHTML=''
+        document.getElementById('date22').innerHTML=''
+    function report(){
+      
+      fetch('http://localhost:3000/admin/postSalesReport',{
+        method:"post",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({date1:date1.value,date2:date2.value})
+      }).then((data)=>data.json()).then((data)=>{
+        console.log(data.total)
+         document.getElementById('date11').innerHTML ='From:'+date1.value
+         document.getElementById('date22').innerHTML ='To:'+date2.value
+        data.product.forEach((val)=>{
+
+        document.getElementById('getReport').innerHTML +=`
+        <tr>
+           <td>
+              <p class="fw-normal mb-1">${val.orderid}</p>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">${val.name} </p>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">${val.productName}</p>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">${val.productPrice}</p>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">${val.productQuantity}</p>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">${val.subTotal}</p>
+            </td>
+          </tr>`
+})
+
+       document.getElementById('getReport').innerHTML +=` <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <h5 style="width: 0; font-weight: bold; font-family: cursive; ">Total Revenue:</h5>
+            </td>
+
+            <td>
+
+              <i  id="totals" style="font-size: 25px;  " class="bi bi-currency-rupee">${data.total}</i>
+   
+    </td>
+    </tr>`
+        
+      })
+      
+       document.getElementById('status').style.display='none'
+      document.getElementById('getReport').innerHTML=''
+      document.getElementById('date11').innerHTML=''
+      document.getElementById('date22').innerHTML=''
+      return false
     }
   </script>

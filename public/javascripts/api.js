@@ -128,5 +128,23 @@ function itemSearch() {
   }
 
 }
+  function cartAdder(productId){
+fetch(`${userRoute}/cart?productId=${productId}`,{
+  method:"get",
+  headers:{
+    "Content-Type":"application/json"
+  }
+}).then((data)=>data.json()).then((data)=>{
+  document.getElementById('count').innerHTML=data.cartCount
+  if(data.status=true){
 
+    document.getElementById('staticBackdrop').style.display='block'
+    setTimeout(function() {
+      document.getElementById('staticBackdrop').style.display = "none";
+    }, 900); 
+  }
+  
+
+})
+  }
 //   @@@@@@@@@@@@@@@@cart section@@@@@@@@@@//

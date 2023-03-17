@@ -21,10 +21,10 @@
           <a class="nav-link" href="/admin/userDetails">User Details</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/catogaryManage">Catogary Manage</a>
+          <a class="nav-link" href="/admin/catogaryManage">Category Manage</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/coupen">Coopen Manage</a>
+          <a class="nav-link" href="/admin/coupen">Coupen Manage</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/offerCreate">Offer Manage</a>
@@ -58,7 +58,7 @@ margin-bottom: 19px;">
           <th scope="col">catogary</th>
           <th scope="col">description</th>
           <th scope="col">price</th>
-          <th scope="col">flag status</th>
+         
           <th scope="col">action</th>
         </tr>
       </thead>
@@ -74,11 +74,14 @@ margin-bottom: 19px;">
           <td>{{this.productCatogary}}</td>
           <td>{{this.productDiscription}}</td>
           <td>{{this.productPrize}}</td>
-          <td>{{this.del}}</td>
+          
           <td>
             <a href="/admin/editproduct/{{this._id}}" class="btn btn-primary btn-block mb-4">edit</a>
-            <a href="/admin/productDelete?id={{this._id}}&delet={{this.del}}" class="btn btn-danger btn-block mb-4"
-              onclick="return confirm('Are you sure ?')">{{this.del}}</a>
+            <a id="{{this._id}}" type="button" class="btn btn-danger btn-block mb-4"
+              onclick="message('{{this._id}}','{{this.del}}')"  >
+              {{this.del}}
+              </a>
+              <input id="temp" type="text" value="{{this.del}}" hidden>
           </td>
         </tr>
 
@@ -89,6 +92,19 @@ margin-bottom: 19px;">
 
   </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" 
+style="display: none;
+opacity: 2.0;
+background: rgba(0, 0, 0, 0.5);
+margin-top: rem;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="width: 20rem;">
+      <div class="modal-body">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>      
+      </div>     
+  </div>
+</div>
 
 <script>
   
@@ -96,5 +112,33 @@ margin-bottom: 19px;">
   $(document).ready( function () {
     $('#myTable').DataTable();
 } );
+function message(id,del){
+ let tempr= document.getElementById('temp')
+  let m=''
+    if(tempr.value=="unflage"){
+      m='flage'
+    }else{
+      m='unflage'
+    }  
+  console.log(del,tempr.value)
+  tempr.value=m
+  fetch(`http://localhost:3000/admin/productDelete?id=${id}&delet=${m}`,{
+    method:"get",
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+  }).then((data)=>data.json()).then((data)=>{
+    console.log(data)
+    document.getElementById(id).innerHTML=m
+    document.getElementById('staticBackdropLabel').innerHTML=`Product ${m}ed `
+    document.getElementById('staticBackdrop').style.display='block'
+    setTimeout(function() {
+      document.getElementById('staticBackdrop').style.display = "none";
+    }, 900); 
+  })
+  
+    return false
+}
   
 </script>

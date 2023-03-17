@@ -383,13 +383,19 @@ let usercotrol = {
                     cartProducts = product;
                 })
             }).catch((err) => {
+                db.cartCountGet(req.session.userId).then((product) => {
+                    
+                    req.session.totalcartCount =product
+                    res.json({cartCount:req.session.totalcartCount,status:true})
+                })
                 
-                res.redirect('/cart')
             })
         } catch (e) {
             res.redirect('/404')
         }
+        
     },
+    
     userLogout: (req, res) => {
         try{
         req.session.total = 0;

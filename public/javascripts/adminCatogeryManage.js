@@ -41,7 +41,7 @@ function edit(id) {
     updateId = id;
     document.getElementById("addCatogary").style.display = "none";
     document.getElementById("editCatogary").style.display = "block";
-    fetch(`${adminRoute}/editCatogary`, {
+    fetch(`${adminRoute}/admin/editCatogary`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -57,7 +57,7 @@ function edit(id) {
 function update() {
     let updateval = document.updateform.changeCatogary
     console.log('gggg')
-    fetch(`${adminRoute}/upadeCatogatiess`, {
+    fetch(`${adminRoute}/admin/upadeCatogatiess`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"

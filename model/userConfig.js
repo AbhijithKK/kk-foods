@@ -589,6 +589,17 @@ module.exports = {
                 }).catch((e) => reject(e))
             }
         })
+    },
+    cartCountGet:(id)=>{
+        return new Promise((resolve,reject)=>{
+        db.get().collection(collectionname.USER_COLLECTION).findOne({_id:objectid(id)}).then((data)=>{
+            if(data.cart!=null){
+                let length=data.cart.length
+                console.log(length);
+                resolve(length)
+            }
+        })
+    })
     }
 
 }             

@@ -74,7 +74,7 @@ let admincontrol = {
                     for (j = 0; j < order[i].orderhistory.length; j++) {
                         for (k = 0; k < order[i].orderhistory[j].productDetails.length; k++) {
                             orders.push({
-                                OrderDate: order[i].orderhistory[j].OrderDate,
+                                OrderDate:new Date(order[i].orderhistory[j].OrderDate).toLocaleDateString(),
                                 userName: order[i].name1,
                                 address: order[i].orderhistory[j].address,
                                 image: order[i].orderhistory[j].productDetails[k].image1[0].filename,
@@ -221,16 +221,16 @@ let admincontrol = {
     },
     postAdminDeleteProduct: (req, res) => {
         try {
-            let flaged = req.query.delet;
-            let flg;
-            if (flaged == "unflage" || flaged == '') {
-                flg = "flage";
-            } else {
-                flg = "unflage";
-            }
+            // let flaged = 
+            let flg=req.query.delet;
+            // if (flaged == "unflage" || flaged == '') {
+            //     flg = "flage";
+            // } else {
+            //     flg = "unflage";
+            // }
             db.deleteProduct(req.query.id, flg).then((resp) => {
 
-                res.redirect('/admin/productDetails')
+                res.json(resp)
             }).catch((err) => {
                 res.redirect('/404')
             })
@@ -351,7 +351,11 @@ let admincontrol = {
     coupenPage: (req, res) => {
         try {
             db.coopenFind().then((result) => {
-
+               
+                for (const i of result) {
+                    i.cpstartDateTime = new Date(i.cpstartDateTime).toLocaleDateString()
+                    i.cpEndDataTime = new Date(i.cpEndDataTime).toLocaleDateString()
+                }
                 res.render('admin/coupenManagement', {
                     css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                         "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], result
@@ -400,6 +404,11 @@ let admincontrol = {
         try {
             db.showProducts().then((product) => {
                 db.showOffers().then((offersPro) => {
+                    console.log(offersPro);
+                    for (const i of offersPro) {
+                        i.ofexpDate = new Date(i.ofexpDate).toLocaleDateString()
+                        i.ofstartDateTime = new Date(i.ofstartDateTime).toLocaleDateString()
+                    }
                     res.render('admin/offer', {
                         css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                             "https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css"], product, offersPro
@@ -438,6 +447,9 @@ let admincontrol = {
     },
     postSalesReport: (req, res) => {
         try {
+            req.session.fromDate=req.body.date1;
+            req.session.toDate=req.body.date2;
+            
             db.salesReport(req.body).then((allUsers) => {
                 let product = []
                 for (let i = 0; i < allUsers.length; i++) {
@@ -463,7 +475,7 @@ let admincontrol = {
                 }
                 req.session.salesData = product
                 req.session.salesRedirect = 1
-                res.redirect('/admin/salesReport')
+                res.json({product,fromDate:req.session.fromDate, toDate:req.session.toDate ,total:req.session.salesTotal})
             })
         } catch (e) {
             res.redirect('/404')
@@ -507,7 +519,8 @@ let admincontrol = {
                 res.render('admin/salesReport', {
                     users, total, css: ["/stylesheets/logintemp/css/font-awesome.min.css",
                         "/stylesheets/logintemp/css/responsive.css", "/stylesheets/logintemp/css/style.css"]
-                })
+                       ,fromDate:req.session.fromDate,
+                        toDate:req.session.toDate })
                 req.session.salesRedirect = 0
             })
         } catch (e) {
