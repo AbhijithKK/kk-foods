@@ -96,54 +96,6 @@ margin-top: rem;">
   </div>
 </div>
 
-<script>
-  
-
-  $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-
-  
-  function blocker(id){
-    
-    fetch(`http://localhost:3000/admin/unblock/${id}`,{
-      method:"get",
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-    }).then((data)=>data.json()).then((data)=>{
-     document.getElementById('staticBackdropLabel').innerHTML=`User Un Blocked Successfully`
-    document.getElementById('staticBackdrop').style.display='block'
-    setTimeout(function() {
-      document.getElementById('staticBackdrop').style.display = "none";
-      location.reload()
-    }, 900); 
-    
-    })
-    return false
-  }
-
-  function blocker2(id){
-    
-    fetch(`http://localhost:3000/admin/block/${id}`,{
-      method:"get",
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-    }).then((data)=>data.json()).then((data)=>{
-      document.getElementById('staticBackdropLabel').innerHTML=`User Blocked Successfully`
-    document.getElementById('staticBackdrop').style.display='block'
-    setTimeout(function() {
-      document.getElementById('staticBackdrop').style.display = "none";
-      location.reload()
-    }, 900); 
-    
-
-    })
-    return false
-  }
-  
+<script src="/javascripts/adminUserDetails.js">
   
 </script>
