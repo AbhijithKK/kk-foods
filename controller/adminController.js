@@ -160,7 +160,7 @@ let admincontrol = {
     blockuser: (req, res) => {
         try {
             db.blockUser(req.params.id).then((block) => {
-                res.redirect('/admin/userDetails')
+                res.json('success')
             }).catch((err) => {
                 res.redirect('/admin/')
             })
@@ -171,7 +171,7 @@ let admincontrol = {
     unblockUsers: (req, res) => {
         try {
             db.unblockUser(req.params.id).then((unblock) => {
-                res.redirect('/admin/userDetails')
+                res.json('success')
             }).catch((err) => {
                 res.redirect('/admin/')
             })

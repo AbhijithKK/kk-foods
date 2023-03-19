@@ -47,8 +47,6 @@
           <th scope="col">Name</th>
           <th scope="col">MobNumber</th>
           <th scope="col">Email</th>
-
-          <th scope="col">status</th>
           <th scope="col">action </th>
         </tr>
       </thead>
@@ -58,21 +56,21 @@
 
           <td>{{inc @index}}</td>
           <td>{{this.name1}}</td>
-          <td>{{this.mob}}</td>
+          <td>
+            {{#if this.mob}}
+            {{this.mob}}
+            {{else}}
+            (empty)
+            {{/if}}</td>
           <td>{{this.email}}</td>
-
-          <td>{{this.block}}</td>
           <td>
              {{#ifEqual this.block "Blocked"}}
-          <a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-block mb-4"
-              onclick="return confirm('Are you sure ?')">unBlock</a>
+          <a id="{{this._id}}" type="button"  onclick="blocker('{{this._id}}','{{this.block}}')" class="btn btn-success btn-block mb-4">Un Block</a>
               {{/ifEqual}}
               {{#ifEqual this.block "unBlock"}}
-        <a href="/admin/block/{{this._id}}" class="btn btn-danger btn-block mb-4"
-              onclick="return confirm('Are you sure ?')">block</a>
+        <a  id="{{this._id}}" type="button"  onclick="blocker2('{{this._id}}','{{this.block}}')" class="btn btn-danger btn-block mb-4" >Block</a>
            {{/ifEqual}}
-            
-            
+           
           </td>
         </tr>
         {{/each}}
@@ -83,11 +81,69 @@
   </div>
 </section>
 
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" 
+style="display: none;
+opacity: 2.0;
+background: rgba(0, 0, 0, 0.5);
+margin-top: rem;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="width: 20rem;">
+      <div class="modal-body">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>      
+      </div>     
+  </div>
+</div>
+
 <script>
   
 
   $(document).ready( function () {
     $('#myTable').DataTable();
 } );
+
+  
+  function blocker(id){
+    
+    fetch(`http://localhost:3000/admin/unblock/${id}`,{
+      method:"get",
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+    }).then((data)=>data.json()).then((data)=>{
+     document.getElementById('staticBackdropLabel').innerHTML=`User Un Blocked Successfully`
+    document.getElementById('staticBackdrop').style.display='block'
+    setTimeout(function() {
+      document.getElementById('staticBackdrop').style.display = "none";
+      location.reload()
+    }, 900); 
+    
+    })
+    return false
+  }
+
+  function blocker2(id){
+    
+    fetch(`http://localhost:3000/admin/block/${id}`,{
+      method:"get",
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+    }).then((data)=>data.json()).then((data)=>{
+      document.getElementById('staticBackdropLabel').innerHTML=`User Blocked Successfully`
+    document.getElementById('staticBackdrop').style.display='block'
+    setTimeout(function() {
+      document.getElementById('staticBackdrop').style.display = "none";
+      location.reload()
+    }, 900); 
+    
+
+    })
+    return false
+  }
+  
   
 </script>
