@@ -341,7 +341,7 @@ function verifypayment(responce, orderDetails) {
         body: JSON.stringify({ responce, orderDetails })
     }).then((data) => data.json()).then((data) => {
         if (data.pay == true) {
-            location.href = `${currentUrl}/success`
+            location.href = `${currentDomain}/success`
         } else {
             alet.style.display = 'block'
             alet.innerHTML = `<div class="" tabindex="-1">
