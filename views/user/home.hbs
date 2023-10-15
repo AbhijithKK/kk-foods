@@ -9,9 +9,15 @@
             visibility: hidden;
         }
     }
+    .styles{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 </style>
 
-<div class="loader" style="margin-left: 50%;
+<div class="loader styles" style="margin-left: 50%;
 margin-top: 20%;">
   <div class=" d-flex justify-content-center  spinner-border text-success" role="status">
   <span class="visually-hidden">Loading...</span>
@@ -29,7 +35,7 @@ margin-top: 20%;">
     <img src="/stylesheets/logintemp/images/hero-bg.jpg" alt="" onload="imageLoaded()">
   </div>
   <!-- header section strats -->
-  <header class="header_section">
+  <header class="header_section loaderMain">
     <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container " style="background-image: url(/stylesheets/logintemp/images/hero-bg.jpg);border-radius: 50px;">
         <a class="navbar-brand" href="/">
@@ -188,7 +194,7 @@ margin-top: 20%;">
 
 <!-- offer section -->
 
-<section class="offer_section layout_padding-bottom  loaderMain" >
+<section class="offer_section layout_padding-bottom" id="offer-loader" >
   <div class="offer_container">
     <div class="container ">
       <div class="row">
@@ -237,7 +243,7 @@ margin-top: 20%;">
 
 <!-- food section -->
 
-<section class="food_section layout_padding-bottom loaderMain" >
+<section class="food_section layout_padding-bottom loaderMain" id="fooddynamic-loader" >
   <div class="container">
     <div class="heading_container heading_center">
       <h2 id="foods">
@@ -395,7 +401,7 @@ margin-top: 20%;">
 
 
 <!-- footer section -->
-<footer class="footer_section  loaderMain" >
+<footer class="footer_section  loaderMain" id="about-loader" >
   <div class="container">
     <div class="row">
       <div class="col-md-4 footer-col">
@@ -467,9 +473,6 @@ margin-top: 20%;">
     <div class="footer-info">
       <p>
         &copy; <span id="displayYear"></span> All Rights Reserved
-
-
-
       </p>
     </div>
   </div>
@@ -490,7 +493,22 @@ margin-top: rem;">
       </div>     
   </div>
 </div>
-
+<script>
+  document.querySelector('.loaderMain').style.display = 'none';
+  document.querySelector('#offer-loader').style.display = 'none';
+  document.querySelector('#food-loader').style.display = 'none';
+  document.querySelector('#fooddynamic-loader').style.display = 'none';
+  document.querySelector('#about-loader').style.display = 'none';
+   
+   function imageLoaded() {
+    document.querySelector('.loader').style.display = 'none';
+    document.querySelector('.loaderMain').style.display = 'block';
+  document.querySelector('#offer-loader').style.display = 'block';
+  document.querySelector('#food-loader').style.display = 'block';
+  document.querySelector('#fooddynamic-loader').style.display = 'block';
+  document.querySelector('#about-loader').style.display = 'block';
+  }
+</script>
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
   integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
@@ -508,12 +526,3 @@ margin-top: rem;">
 </script>
 <script src="/javascripts/api.js"></script>
 
-<script>
-  document.querySelector('.loaderMain').style.display = 'none';
-   function imageLoaded() {
-    
-    
-    document.querySelector('.loader').style.display = 'none';
-    document.querySelector('.loaderMain').style.display = 'block';
-  }
-</script>

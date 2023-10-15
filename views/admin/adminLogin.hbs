@@ -1,31 +1,83 @@
-<section class="vh-100 gradient-custom"
-  style=" background: linear-gradient(to bottom right, #ff3300 3%, #ffccff 100%);">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card bg-white text-dark" style="border-radius: 1rem;">
-          <div class="card-body p-5 text-center">
-            <h2 class="fw-bold mb-2 text-uppercase">Admin Login</h2>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
 
+    <!-- Add your CSS and other head elements here -->
+    <style>
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-            <form action="/admin/Home" method="post" name="form">
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
 
-              <div class="form-outline form-white mb-4">
-                <input type="text" id="typeEmailX" name="name" class="form-control form-control-lg" />
-                <label class="form-label" for="typeEmailX">Name</label>
-              </div>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
 
-              <div class="form-outline form-white mb-4">
-                <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" />
-                <label class="form-label" for="typePasswordX">Password</label>
-              </div>
-
-              <button class="btn btn-outline-success btn-lg px-5" type="submit">Login</button>
-            </form>
-          </div>
-        </div>
-      </div>
+<body>
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loading-spinner"></div>
     </div>
-  </div>
-</section>
+
+    <section class="vh-100 gradient-custom"
+        style="background-image: url(/img/adminbg.jpg);background-size: cover;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card text-dark" style="border-radius: 1rem;background-color: #ffffff99;" id="loader1">
+                        <div class="card-body p-5 text-center">
+                            <h2 class="fw-bold mb-2 text-uppercase">Admin Login</h2>
+                            <form action="/admin/Home" method="post" name="form">
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="typeEmailX" name="name" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX">Name</label>
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typePasswordX">Password</label>
+                                </div>
+                                <button class="btn btn-outline-success btn-lg px-5" type="submit">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add your JavaScript at the end of the body or in a separate .js file -->
+    <script>
+        // Function to hide the loader when the page is fully loaded
+        document.querySelector('#loader1').style.display='none'
+        window.addEventListener('load', function() {
+            var loader = document.querySelector('.loader');
+            loader.style.display = 'none';
+        document.querySelector('#loader1').style.display='block'
+        });
+    </script>
+</body>
+
+</html>
