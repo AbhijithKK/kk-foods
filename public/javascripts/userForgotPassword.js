@@ -13,7 +13,7 @@ let otp = document.otpForm.otp
 let passw1 = document.passForm.pass1;
 let passw2 = document.passForm.pass2;
 function mailsubmit() {
-    console.log(mail.value)
+    
     fetch(`${userRoute}/forgotPasswordMailCheck`, {
         method: 'post',
         headers: {
@@ -21,8 +21,8 @@ function mailsubmit() {
         },
         body: JSON.stringify({ email: mail.value })
     }).then((data) => data.json()).then((data) => {
-
-        if (data == true) {
+        
+        if (data.data == true) {
             document.getElementById('errmsg').innerHTML = ''
             document.mailForm.style.display = 'none'
             document.otpForm.style.display = 'block'
@@ -42,7 +42,7 @@ function mailsubmit() {
             //countdown
             return false
         } else {
-            document.getElementById('errmsg').innerHTML = 'Plese Enter Linked Email Address'
+            document.getElementById('errmsg').innerHTML =data.msg!=false ?data.msg: 'Plese Enter Linked Email Address'
             return false
         }
         document.getElementById('errmsg').innerHTML = ''
@@ -81,7 +81,7 @@ function resendOtp() {
             "Content-Type": "application/json"
         },
     }).then((data) => data.json()).then((data) => {
-
+        
         //countdown
         document.getElementById("unhide").style.display = "none"
         var countDownTime = 60000;
@@ -123,7 +123,8 @@ function passEnter() {
             },
             body: JSON.stringify({ pass1: passw1.value, pass2: passw2.value })
         }).then((data) => data.json()).then((data) => {
-            console.log('hii')
+            // console.log(data,'usrrr');
+          
             location.href = `${userRoute}/login`
         })
         return false

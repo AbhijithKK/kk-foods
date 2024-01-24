@@ -779,9 +779,11 @@ let usercotrol = {
     },
     forgotMailCheck: (req, res) => {
         try{
+           
         db.forgotPassMailCheck(req.body.email).then((data) => {
+           
             req.session.resetPassword = req.body.email
-            if (data != null) {
+            if (data.data != null&&data.msg==false) {
                 let generateOTP = () => {
                     return otpGenerator.generate(6, {
                         digits: true,
@@ -792,7 +794,8 @@ let usercotrol = {
                 };
                 req.session.otp = generateOTP();
                 mailer(req.session.resetPassword, req.session.otp)
-                res.json(data = true)
+               
+                res.json({data : true})
                 // ##############
                 //countdown
                 countDownTime = 60000;
@@ -807,7 +810,7 @@ let usercotrol = {
                 //countdown
                 // ##############
             } else {
-                res.json(data = false)
+                res.json({data : false,msg:data.msg})
             }
         }).catch((err) => {
             res.redirect('/404')
@@ -856,8 +859,8 @@ let usercotrol = {
     },
     passwordReset: (req, res) => {
         try{
-        db.resetpass(req.session.resetPassword, req.body.pass1).then(() => {
-            res.json('success')
+        db.resetpass(req.session.resetPassword, req.body.pass1).then((data) => {
+            res.json(data)
         })
     }catch(e){
         res.redirect('/404')

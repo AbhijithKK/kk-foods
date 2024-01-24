@@ -541,8 +541,12 @@ module.exports = {
     },
     forgotPassMailCheck: (mail) => {
         return new Promise((resolve, reject) => {
+            if (mail=="test@kkfoods.online") {
+               resolve({data:false,msg:"Password update denied for this account."})
+                                       }
             db.get().collection(collectionname.USER_COLLECTION).findOne({ email: mail }).then((data) => {
-                resolve(data)
+
+                resolve({data:data,msg:false})
             }).catch((err) => {
                 reject(err)
             })
@@ -551,10 +555,13 @@ module.exports = {
     resetpass: (email, newpass) => {
         return new Promise(async (resolve, reject) => {
             try {
+                if (email=="test@kkfoods.online") {
+                    resolve({data:false,msg:"Password update denied for this account."})
+                                            }
                 let data = await db.get().collection(collectionname.USER_COLLECTION).findOne({ email: email })
                 data.password = await bcript.hash(newpass, 10)
                 await db.get().collection(collectionname.USER_COLLECTION).updateOne({ email: email }, { $set: { ...data } })
-                resolve()
+                resolve({data:true,msg:"success"})
             } catch (e) {
                 reject(e)
             }
