@@ -4,7 +4,7 @@ const state = {
     db: null
 }
 module.exports.connect = ((done) => {
-    var url = 'mongodb://127.0.0.1:27017'
+    var url = process.env.DB
     const dbName = "foods"
     mongoClient.connect(url, (err, data) => {
         if (err) {
